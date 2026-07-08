@@ -1,21 +1,5 @@
 import Image from "next/image";
-import { client } from "@/sanity/client";
-
-type SanityImageItem = {
-  _id: string;
-  title: string;
-  ingreNum?: {
-    _id: string;
-    title?: string;
-    ingreNum?: number;
-  };
-  image?: {
-    asset?: {
-      url?: string;
-    };
-    alt?: string;
-  };
-};
+import { getIngredientImages } from "@/sanity/queries";
 
 // Sanity 이미지 URL에 브라우저 화면 크기에 맞는 너비를 붙여서
 // 더 작은 이미지로 빠르게 로딩되도록 변환하는 헬퍼 함수
@@ -29,37 +13,7 @@ function getSanityImageSrc(url: string | undefined, width: number) {
 }
 
 export default async function Home() {
-  const images = await client.fetch<
-    SanityImageItem[]
-  >(`*[_type == "ingrePhotograph" && category == 0]{
-    _id,
-    title,
-    ingreNum->{_id, title, ingreNum},
-    image{
-      asset->{url},
-      alt
-    }
-  }`);
-
-  const uniqueImages = images
-    .slice()
-    .sort((a, b) => {
-      const aIngredientNumber = a.ingreNum?.ingreNum ?? Number.MAX_SAFE_INTEGER;
-      const bIngredientNumber = b.ingreNum?.ingreNum ?? Number.MAX_SAFE_INTEGER;
-
-      return aIngredientNumber - bIngredientNumber;
-    })
-    .filter((image, index, array) => {
-      const ingredientId = image.ingreNum?._id;
-
-      if (!ingredientId) {
-        return true;
-      }
-
-      return (
-        index === array.findIndex((item) => item.ingreNum?._id === ingredientId)
-      );
-    });
+  const uniqueImages = await getIngredientImages();
 
   return (
     <main className="min-h-screen bg-[#FFF3CD] py-8 text-center">
