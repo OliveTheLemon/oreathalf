@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { client } from "@/sanity/client";
 
 type SanityImageItem = {
@@ -80,14 +81,20 @@ export default async function Home() {
             }
 
             return (
-              <img
+              // Next/Image를 사용해 이미지 최적화, lazy loading, 반응형 크기 조절을 자동으로 처리합니다.
+              <div
                 key={image._id}
-                src={optimizedImageUrl}
-                alt={altText}
-                loading="lazy"
-                decoding="async"
-                className="w-full object-cover aspect-[9/16] sm:aspect-[9/8] md:aspect-[9/8] lg:aspect-[9/8]"
-              />
+                className="relative aspect-[9/16] w-full sm:aspect-[9/8] md:aspect-[9/8] lg:aspect-[9/8]"
+              >
+                <Image
+                  src={optimizedImageUrl}
+                  alt={altText}
+                  fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                  loading="lazy"
+                  className="object-cover"
+                />
+              </div>
             );
           })}
         </div>
