@@ -16,6 +16,17 @@ type SanityImageItem = {
   };
 };
 
+// Sanity 이미지 URL에 브라우저 화면 크기에 맞는 너비를 붙여서
+// 더 작은 이미지로 빠르게 로딩되도록 변환하는 헬퍼 함수
+function getSanityImageSrc(url: string | undefined, width: number) {
+  if (!url) {
+    return "";
+  }
+
+  const separator = url.includes("?") ? "&" : "?";
+  return `${url}${separator}auto=format&fit=max&w=${width}`;
+}
+
 export default async function Home() {
   const images = await client.fetch<
     SanityImageItem[]
@@ -62,17 +73,19 @@ export default async function Home() {
           {uniqueImages.map((image) => {
             const imageUrl = image.image?.asset?.url;
             const altText = image.image?.alt || image.title || "재료 이미지";
+            const optimizedImageUrl = getSanityImageSrc(imageUrl, 800);
 
-            if (!imageUrl) {
+            if (!optimizedImageUrl) {
               return null;
             }
 
             return (
               <img
                 key={image._id}
-                src={imageUrl}
+                src={optimizedImageUrl}
                 alt={altText}
                 loading="lazy"
+                decoding="async"
                 className="w-full object-cover aspect-[9/16] sm:aspect-[9/8] md:aspect-[9/8] lg:aspect-[9/8]"
               />
             );
