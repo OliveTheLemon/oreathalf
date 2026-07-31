@@ -79,6 +79,7 @@ export function HomePageContent({ ingredientGroups }: HomePageContentProps) {
             <InteractiveBigTitle
               englishText={"or.....EAT HALF!"}
               koreanText={"아니면.....절반만 먹기!"}
+              isPinned
             />
           </div>
         ) : null}
