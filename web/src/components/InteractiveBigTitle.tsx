@@ -36,7 +36,7 @@ export function InteractiveBigTitle({
       >
         {/* 영어 */}
         <span
-          className={`block transition-all duration-200 ease-out pt-8 ${
+          className={`block transition-all duration-200 ease-out py-4 ${
             isHovered ? "opacity-0" : "opacity-100"
           } font-iosevka-charon-mono`}
         >
@@ -45,7 +45,7 @@ export function InteractiveBigTitle({
 
         {/* 한국어 (마우스오버) */}
         <span
-          className={`absolute inset-0 block ransition-all duration-200 ease-out pt-8 ${
+          className={`absolute inset-0 block ransition-all duration-200 ease-out py-4 ${
             isHovered ? "opacity-100" : "opacity-0"
           } font-designhouse`}
         >

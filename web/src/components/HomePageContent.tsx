@@ -11,10 +11,14 @@ type HomePageContentProps = {
 };
 
 export function HomePageContent({ ingredientGroups }: HomePageContentProps) {
-  // 이미지 그리드 섹션이 화면 상단에 닿았는지 여부를 저장합니다.
+  // 마지막 타이틀 섹션이 화면에서 사라졌는지 여부를 저장합니다.
   const [shouldStick, setShouldStick] = useState(false);
-  // 이미지 그리드 섹션의 DOM 위치를 확인하기 위한 ref입니다.
+  // 마지막 타이틀 섹션의 DOM 위치를 확인하기 위한 ref입니다.
   const lastTitleSectionRef = useRef<HTMLElement | null>(null);
+  // 이미지 그리드 섹션이 화면 상단에 닿았는지 여부를 저장합니다.
+  const [imageGridTop, setImageGridTop] = useState(false);
+  // 이미지 그리드 섹션의 DOM 위치를 확인하기 위한 ref입니다.
+  const imageGridSectionRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     // 스크롤이나 화면 크기 변경 시, 이미지 섹션이 상단에 닿았는지 확인합니다.
@@ -23,12 +27,17 @@ export function HomePageContent({ ingredientGroups }: HomePageContentProps) {
       if (!lastTitleSectionRef.current) {
         return;
       }
+      if (!imageGridSectionRef.current) {
+        return;
+      }
 
       // 2. 해당 섹션의 현재 위치 파악하기
       const rect = lastTitleSectionRef.current.getBoundingClientRect();
+      const imageGridRect = imageGridSectionRef.current.getBoundingClientRect();
       // 섹션의 top 위치가 화면 상단(0) 이하로 넘어가면 고정 상태로 전환합니다.
       // 3. 마지막 타이틀이 사라졌는지 판별하여 상태 업데이트
-      setShouldStick(rect.bottom <= 0);
+      setShouldStick(rect.top <= 0);
+      setImageGridTop(imageGridRect.top <= 0);
     };
 
     handleScroll();
@@ -49,7 +58,7 @@ export function HomePageContent({ ingredientGroups }: HomePageContentProps) {
           <InteractiveBigTitle
             englishText={"or.....EAT HALF!"}
             koreanText={"아니면.....절반만 먹기!"}
-            isPinned={shouldStick}
+            isPinned={imageGridTop}
           />
         </div>
       ) : null}
@@ -77,15 +86,17 @@ export function HomePageContent({ ingredientGroups }: HomePageContentProps) {
           alignment="left-third"
         />
         <section ref={lastTitleSectionRef}>
-          <InteractiveBigTitle
-            englishText={"or.....EAT HALF!"}
-            koreanText={"아니면.....절반만 먹기!"}
-          />
+          {!shouldStick ? (
+            <InteractiveBigTitle
+              englishText={"or.....EAT HALF!"}
+              koreanText={"아니면.....절반만 먹기!"}
+            />
+          ) : null}
         </section>
       </section>
 
       {/* 이미지 그리드 영역: 이 섹션이 화면 상단에 닿으면 큰 제목이 고정됩니다. */}
-      <section className="mx-auto px-2 pb-12">
+      <section ref={imageGridSectionRef} className="mx-auto px-2 pb-12">
         {/* 재료 이미지 카드들을 격자 형태로 배치합니다. */}
         <div className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
           {ingredientGroups.map((group) => (
