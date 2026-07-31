@@ -52,16 +52,21 @@ export function HomePageContent({ ingredientGroups }: HomePageContentProps) {
 
   return (
     <main className="min-h-screen bg-background">
-      {shouldStick ? (
-        // 큰 제목이 화면 상단에 붙도록, 이미지 그리드 섹션 바깥에서 독립적으로 sticky 처리합니다.
-        <div className="sticky top-0 z-20 bg-background/90 py-2">
-          <InteractiveBigTitle
-            englishText={"or.....EAT HALF!"}
-            koreanText={"아니면.....절반만 먹기!"}
-            isPinned={imageGridTop}
-          />
-        </div>
-      ) : null}
+      {/* 
+        수정 1: sticky 대신 fixed를 사용하고, 항상 렌더링하되 투명도로 끄고 켭니다. 
+        이렇게 하면 갑자기 튀어나오지 않고 스르륵 부드럽게 나타납니다.
+      */}
+      <div
+        className={`fixed top-0 left-0 w-full z-20 bg-background/90 py-2 transition-opacity duration-200 ${
+          shouldStick ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <InteractiveBigTitle
+          englishText={"or.....EAT HALF!"}
+          koreanText={"아니면.....절반만 먹기!"}
+          isPinned={imageGridTop}
+        />
+      </div>
 
       {/* 상단 문구 영역: 여러 줄의 인터랙티브 제목을 보여줍니다. */}
       <section className="flex min-h-screen flex-col justify-center">
@@ -86,12 +91,16 @@ export function HomePageContent({ ingredientGroups }: HomePageContentProps) {
           alignment="left-third"
         />
         <section ref={lastTitleSectionRef}>
-          {!shouldStick ? (
+          {/* 
+            수정 2: null로 날려버리지 않고, invisible을 써서 눈에만 안 보이게 처리합니다. 
+            타이틀이 차지하던 '높이 공간'이 그대로 유지되어 덜컹거리지 않습니다. 
+          */}
+          <div className={shouldStick ? "invisible" : "visible"}>
             <InteractiveBigTitle
               englishText={"or.....EAT HALF!"}
               koreanText={"아니면.....절반만 먹기!"}
             />
-          ) : null}
+          </div>
         </section>
       </section>
 
