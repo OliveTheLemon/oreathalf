@@ -19,12 +19,15 @@ export function HomePageContent({ ingredientGroups }: HomePageContentProps) {
   useEffect(() => {
     // 스크롤이나 화면 크기 변경 시, 이미지 섹션이 상단에 닿았는지 확인합니다.
     const handleScroll = () => {
+      // 1. 태그가 화면에 잘 그려졌는지 확인 (방어 코드)
       if (!imageSectionRef.current) {
         return;
       }
 
+      // 2. 해당 섹션의 현재 위치 파악하기
       const rect = imageSectionRef.current.getBoundingClientRect();
       // 섹션의 top 위치가 화면 상단(0) 이하로 넘어가면 고정 상태로 전환합니다.
+      // 3. 화면 꼭대기에 닿았는지 판별하여 상태 업데이트
       setShouldStick(rect.top <= 0);
     };
 
@@ -62,13 +65,10 @@ export function HomePageContent({ ingredientGroups }: HomePageContentProps) {
           koreanText={"탄수화물 없는 저녁"}
           alignment="left-third"
         />
-        {/* 이미지 섹션이 아직 상단에 도달하지 않았다면, 기본 위치의 큰 제목을 보여줍니다. */}
-        {!shouldStick ? (
-          <InteractiveBigTitle
-            englishText={"or.....EAT HALF!"}
-            koreanText={"아니면.....절반만 먹기!"}
-          />
-        ) : null}
+        <InteractiveBigTitle
+          englishText={"or.....EAT HALF!"}
+          koreanText={"아니면.....절반만 먹기!"}
+        />
       </section>
 
       {/* 이미지 그리드 영역: 이 섹션이 화면 상단에 닿으면 큰 제목이 고정됩니다. */}
