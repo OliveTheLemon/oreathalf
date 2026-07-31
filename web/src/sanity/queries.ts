@@ -88,7 +88,7 @@ export async function getIngredientGroupById(
   const normalizedIngredientNumber = Number(ingredientNumber);
 
   const images = await client.fetch<SanityImageItem[]>(
-    `*[_type == "ingrePhotograph" && category == 0 && ingreNum->ingreNum == $ingredientNumber]{
+    `*[_type == "ingrePhotograph" && ingreNum->ingreNum == $ingredientNumber]{
       _id,
       title,
       ingreNum->{_id, name, ingreNum},
