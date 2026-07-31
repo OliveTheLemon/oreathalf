@@ -3,6 +3,7 @@ import { client } from "./client";
 export type SanityImageItem = {
   _id: string;
   title: string;
+  istgUrl?: string;
   ingreNum?: {
     _id: string;
     name?: string;
@@ -91,6 +92,7 @@ export async function getIngredientGroupById(
     `*[_type == "ingrePhotograph" && ingreNum->ingreNum == $ingredientNumber]{
       _id,
       title,
+      istgUrl,
       ingreNum->{_id, name, ingreNum},
       image{
         asset->{url},

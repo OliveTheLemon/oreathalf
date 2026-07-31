@@ -49,22 +49,37 @@ export default async function IngredientPage({
               const altText =
                 imageItem.image?.alt || imageItem.title || "재료 이미지";
 
+              const cardContent = (
+                <div className="relative aspect-[9/16] w-full">
+                  {optimizedUrl ? (
+                    <Image
+                      src={optimizedUrl}
+                      alt={altText}
+                      fill
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                      className="object-cover"
+                    />
+                  ) : null}
+                </div>
+              );
+
               return (
                 <div
                   key={imageItem._id}
                   className="overflow-hidden rounded-xl bg-white shadow-sm"
                 >
-                  <div className="relative aspect-[9/16] w-full">
-                    {optimizedUrl ? (
-                      <Image
-                        src={optimizedUrl}
-                        alt={altText}
-                        fill
-                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                        className="object-cover"
-                      />
-                    ) : null}
-                  </div>
+                  {imageItem.istgUrl ? (
+                    <a
+                      href={imageItem.istgUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block"
+                    >
+                      {cardContent}
+                    </a>
+                  ) : (
+                    cardContent
+                  )}
                 </div>
               );
             })}
