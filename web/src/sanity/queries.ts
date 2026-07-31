@@ -24,6 +24,47 @@ export type IngredientImageGroup = {
   images: SanityImageItem[];
 };
 
+function sortIngredientImages(images: SanityImageItem[]) {
+  return images.slice().sort((a, b) => {
+    const aIngredientNumber = a.ingreNum?.ingreNum ?? Number.MAX_SAFE_INTEGER;
+    const bIngredientNumber = b.ingreNum?.ingreNum ?? Number.MAX_SAFE_INTEGER;
+
+    return aIngredientNumber - bIngredientNumber;
+  });
+}
+
+function buildIngredientGroups(images: SanityImageItem[]) {
+  return sortIngredientImages(images).reduce<IngredientImageGroup[]>(
+    (groups, image) => {
+      const ingredientId = image.ingreNum?._id;
+
+      if (!ingredientId) {
+        return groups;
+      }
+
+      const existingGroup = groups.find(
+        (group) => group.ingredientId === ingredientId,
+      );
+
+      if (existingGroup) {
+        existingGroup.images.push(image);
+        return groups;
+      }
+
+      groups.push({
+        ingredientId,
+        ingredientNumber: image.ingreNum?.ingreNum,
+        ingredientName: image.ingreNum?.title,
+        images: [image],
+      });
+
+      return groups;
+    },
+    [],
+  );
+}
+
+// 메인 페이지에서 재료별 이미지 그룹 불러옴
 export async function getIngredientImages() {
   const images = await client.fetch<
     SanityImageItem[]
@@ -37,37 +78,29 @@ export async function getIngredientImages() {
     }
   }`);
 
-  // 재료 번호 기준으로 정렬한 뒤, 같은 ingreNum을 가진 이미지끼리 묶어줍니다.
-  const sortedImages = images.slice().sort((a, b) => {
-    const aIngredientNumber = a.ingreNum?.ingreNum ?? Number.MAX_SAFE_INTEGER;
-    const bIngredientNumber = b.ingreNum?.ingreNum ?? Number.MAX_SAFE_INTEGER;
+  return buildIngredientGroups(images);
+}
 
-    return aIngredientNumber - bIngredientNumber;
-  });
+// 각 재료 상세페이지 이동할 때,
+export async function getIngredientGroupById(
+  ingredientNumber: string | number,
+) {
+  const normalizedIngredientNumber = Number(ingredientNumber);
 
-  return sortedImages.reduce<IngredientImageGroup[]>((groups, image) => {
-    const ingredientId = image.ingreNum?._id;
+  const images = await client.fetch<SanityImageItem[]>(
+    `*[_type == "ingrePhotograph" && category == 0 && ingreNum->ingreNum == $ingredientNumber]{
+      _id,
+      title,
+      ingreNum->{_id, title, ingreNum},
+      image{
+        asset->{url},
+        alt
+      }
+    }`,
+    { ingredientNumber: normalizedIngredientNumber },
+  );
 
-    if (!ingredientId) {
-      return groups;
-    }
+  const groups = buildIngredientGroups(images);
 
-    const existingGroup = groups.find(
-      (group) => group.ingredientId === ingredientId,
-    );
-
-    if (existingGroup) {
-      existingGroup.images.push(image);
-      return groups;
-    }
-
-    groups.push({
-      ingredientId,
-      ingredientNumber: image.ingreNum?.ingreNum,
-      ingredientName: image.ingreNum?.title,
-      images: [image],
-    });
-
-    return groups;
-  }, []);
+  return groups[0] ?? null;
 }
