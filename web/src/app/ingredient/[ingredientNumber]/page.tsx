@@ -32,7 +32,7 @@ export default async function IngredientPage({
             ← 홈으로
           </Link>
           <h1 className="text-2xl font-bold">
-            {group.ingredientName ?? "재료 이미지"}
+            {group.ingredientName ?? "재료오 이미지"}
           </h1>
           <div className="w-16" />
         </div>

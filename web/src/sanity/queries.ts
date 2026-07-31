@@ -5,7 +5,7 @@ export type SanityImageItem = {
   title: string;
   ingreNum?: {
     _id: string;
-    title?: string;
+    name?: string;
     ingreNum?: number;
   };
   image?: {
@@ -54,7 +54,7 @@ function buildIngredientGroups(images: SanityImageItem[]) {
       groups.push({
         ingredientId,
         ingredientNumber: image.ingreNum?.ingreNum,
-        ingredientName: image.ingreNum?.title,
+        ingredientName: image.ingreNum?.name,
         images: [image],
       });
 
@@ -71,7 +71,7 @@ export async function getIngredientImages() {
   >(`*[_type == "ingrePhotograph" && category == 0]{
     _id,
     title,
-    ingreNum->{_id, title, ingreNum},
+    ingreNum->{_id, name, ingreNum},
     image{
       asset->{url},
       alt
@@ -91,7 +91,7 @@ export async function getIngredientGroupById(
     `*[_type == "ingrePhotograph" && category == 0 && ingreNum->ingreNum == $ingredientNumber]{
       _id,
       title,
-      ingreNum->{_id, title, ingreNum},
+      ingreNum->{_id, name, ingreNum},
       image{
         asset->{url},
         alt
