@@ -39,7 +39,7 @@ export function HomePageContent({ ingredientGroups }: HomePageContentProps) {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#FFF3CD]">
+    <main className="min-h-screen bg-background">
       {/* 상단 문구 영역: 여러 줄의 인터랙티브 제목을 보여줍니다. */}
       <section className="flex min-h-screen flex-col justify-center">
         <InteractiveTitle

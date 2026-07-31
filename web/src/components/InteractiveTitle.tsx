@@ -34,7 +34,7 @@ export function InteractiveTitle({
   return (
     <div className={`flex w-full ${alignmentClassMap[alignment]}`}>
       <h1
-        className="relative inline-block text-2xl font-semibold text-[#1f1f1f] md:text-5xl"
+        className="relative inline-block text-2xl font-semibold text-foreground md:text-5xl"
         onMouseEnter={() => setIsHovered(true)}
       >
         {/* 영어 */}

@@ -33,6 +33,18 @@ body {
 }
 
 @layer utilities {
+  .bg-background {
+    background-color: var(--background);
+  }
+
+  .text-background {
+    color: var(--background);
+  }
+
+  .text-foreground {
+    color: var(--foreground);
+  }
+
   .text-balance {
     text-wrap: balance;
   }

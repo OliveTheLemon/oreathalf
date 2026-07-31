@@ -25,7 +25,7 @@ export default async function IngredientPage({
   }
 
   return (
-    <main className="min-h-screen bg-[#FFF3CD] px-4 py-12 text-center text-[#3A2D1E]">
+    <main className="min-h-screen bg-background px-4 py-12 text-center text-[#3A2D1E]">
       <div className="mx-auto flex max-w-6xl flex-col gap-8">
         <div className="flex items-center justify-between gap-4">
           <Link href="/" className="text-sm font-semibold underline">
