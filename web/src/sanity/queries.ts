@@ -82,6 +82,20 @@ export async function getIngredientImages() {
   return buildIngredientGroups(images);
 }
 
+export async function getPopupImage() {
+  return await client.fetch<SanityImageItem | null>(
+    `*[_type == "ingrePhotograph" && category == 2 && ingreNum->ingreNum == 0][0]{
+      _id,
+      title,
+      ingreNum->{_id, name, ingreNum},
+      image{
+        asset->{url},
+        alt
+      }
+    }`,
+  );
+}
+
 // 각 재료 상세페이지 이동할 때,
 export async function getIngredientGroupById(
   ingredientNumber: string | number,
