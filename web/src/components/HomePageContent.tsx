@@ -30,7 +30,7 @@ export function HomePageContent({
   const [imageGridTop, setImageGridTop] = useState(false);
   const imageGridSectionRef = useRef<HTMLElement | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [dontShowAgain, setDontShowAgain] = useState(false);
+  const [hideForToday, setHideForToday] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -60,30 +60,37 @@ export function HomePageContent({
   useEffect(() => {
     if (!popupImage?.image?.asset?.url) {
       setIsPopupOpen(false);
+      setHideForToday(false);
       return;
     }
 
-    const storedPreference = window.localStorage.getItem(
-      "oreathalf-hide-popup",
-    );
-    const shouldHide = storedPreference === "true";
+    const hideUntilKey = "oreathalf-hide-popup-until";
+    const storedUntil = Number(window.localStorage.getItem(hideUntilKey));
+    const now = Date.now();
 
-    setDontShowAgain(shouldHide);
-    setIsPopupOpen(!shouldHide);
+    if (storedUntil > now) {
+      setHideForToday(true);
+      setIsPopupOpen(false);
+      return;
+    }
+
+    if (storedUntil && storedUntil <= now) {
+      window.localStorage.removeItem(hideUntilKey);
+    }
+
+    setHideForToday(false);
+    setIsPopupOpen(true);
   }, [popupImage]);
 
   const handleClosePopup = () => {
     setIsPopupOpen(false);
   };
 
-  const handleDontShowAgain = () => {
-    const nextValue = !dontShowAgain;
-    setDontShowAgain(nextValue);
-    window.localStorage.setItem("oreathalf-hide-popup", String(nextValue));
-
-    if (nextValue) {
-      setIsPopupOpen(false);
-    }
+  const handleHideForToday = () => {
+    const until = Date.now() + 24 * 60 * 60 * 1000;
+    window.localStorage.setItem("oreathalf-hide-popup-until", String(until));
+    setHideForToday(true);
+    setIsPopupOpen(false);
   };
 
   const popupImageUrl = getSanityImageSrc(popupImage?.image?.asset?.url, 1200);
@@ -155,23 +162,23 @@ export function HomePageContent({
               />
             </div>
 
-            <div className="flex items-center justify-between gap-3 p-4 text-sm text-white font-designhouse">
+            <div className="flex items-center justify-between gap-3 p-4 font-designhouse">
               <button
                 type="button"
-                onClick={handleDontShowAgain}
-                className={`flex-1 border px-3 py-2 font-medium transition-colors ${
-                  dontShowAgain
+                onClick={handleHideForToday}
+                className={`flex-1 border px-3 py-2 transition-colors ${
+                  hideForToday
                     ? "border-white bg-white text-[#1e1d1d]"
                     : "border-white/30 bg-white/5 text-white hover:bg-white/10"
                 }`}
               >
-                다시보지않기
+                하루동안보지않기
               </button>
 
               <button
                 type="button"
                 onClick={handleClosePopup}
-                className="flex-1 bg-white px-3 py-2 font-medium text-[#1e1d1d] transition-colors hover:bg-gray-200"
+                className="flex-1 bg-white px-3 py-2 text-[#1e1d1d] transition-colors hover:bg-gray-200"
               >
                 닫기
               </button>
