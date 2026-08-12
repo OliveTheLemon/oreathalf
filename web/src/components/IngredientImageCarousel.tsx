@@ -55,7 +55,7 @@ export function IngredientImageCarousel({
   return (
     <Link
       href={`/ingredient/${group.ingredientNumber ?? group.ingredientId}`}
-      className="relative block aspect-[9/16] w-full overflow-hidden sm:aspect-[9/8] md:aspect-[9/8] lg:aspect-[9/8]"
+      className="relative block aspect-[9/16] w-full sm:aspect-[9/8] md:aspect-[9/8] lg:aspect-[9/8]"
       aria-label={`${group.ingredientName ?? "재료"} 이미지 모아보기`}
     >
       <Image
@@ -64,7 +64,7 @@ export function IngredientImageCarousel({
         fill
         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
         loading="lazy"
-        className="object-cover transition-transform duration-300 hover:scale-105"
+        className="object-cover"
       />
     </Link>
   );

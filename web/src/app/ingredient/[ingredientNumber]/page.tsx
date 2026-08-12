@@ -42,7 +42,7 @@ export default async function IngredientPage({
             <div className="w-16" />
           </div>
 
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
             {group.images.map((imageItem) => {
               const imageUrl = imageItem.image?.asset?.url;
               const optimizedUrl = getSanityImageSrc(imageUrl, 800);
@@ -50,7 +50,7 @@ export default async function IngredientPage({
                 imageItem.image?.alt || imageItem.title || "재료 이미지";
 
               const cardContent = (
-                <div className="relative aspect-[9/16] w-full">
+                <div className="relative aspect-[9/16] w-full sm:aspect-[9/8] md:aspect-[9/8] lg:aspect-[9/8]">
                   {optimizedUrl ? (
                     <Image
                       src={optimizedUrl}
@@ -64,10 +64,7 @@ export default async function IngredientPage({
               );
 
               return (
-                <div
-                  key={imageItem._id}
-                  className="overflow-hidden rounded-xl bg-white shadow-sm"
-                >
+                <div key={imageItem._id}>
                   {imageItem.istgUrl ? (
                     <a
                       href={imageItem.istgUrl}
