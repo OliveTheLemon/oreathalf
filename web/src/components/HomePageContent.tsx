@@ -57,18 +57,45 @@ export function HomePageContent({
     };
   }, []);
 
+  // KST(대한민국 표준시) 기준 다음 23시의 타임스탬프를 계산하는 함수
+  const getNext23KstTimestamp = () => {
+    const now = Date.now();
+    const kstOffsetMs = 9 * 60 * 60 * 1000; // KST는 UTC+9
+
+    // 현재 UTC 시간에 KST 오프셋을 더해 가상의 KST 기준 Date 객체 생성
+    const kstDate = new Date(now + kstOffsetMs);
+
+    // 현재 KST 시간 추출
+    const currentKstHour = kstDate.getUTCHours();
+
+    // 목표 시간을 KST 23:00:00.000으로 설정
+    kstDate.setUTCHours(23, 0, 0, 0);
+
+    // 만약 현재 시간이 KST 기준 23시를 넘었다면, 다음 날 23시로 설정
+    if (currentKstHour >= 23) {
+      kstDate.setUTCDate(kstDate.getUTCDate() + 1);
+    }
+
+    // 계산된 가상의 KST 밀리초에서 오프셋을 다시 빼서 실제(UTC) 타임스탬프로 반환
+    return kstDate.getTime() - kstOffsetMs;
+  };
+
   useEffect(() => {
-    if (!popupImage?.image?.asset?.url) {
+    const imageUrl = popupImage?.image?.asset?.url;
+
+    if (!imageUrl) {
       setIsPopupOpen(false);
       setHideForToday(false);
       return;
     }
 
-    const hideUntilKey = "oreathalf-hide-popup-until";
+    // 사진을 업데이트하고 새로 배포 : 이미지 URL을 키값에 포함
+    // 이미지를 변경하여 새로 배포하면 URL이 달라지므로 새로운 키로 인식하여 팝업이 열립니다.
+    const hideUntilKey = `oreathalf-hide-popup-until-${imageUrl}`;
     const storedUntil = Number(window.localStorage.getItem(hideUntilKey));
     const now = Date.now();
 
-    if (storedUntil > now) {
+    if (storedUntil && storedUntil > now) {
       setHideForToday(true);
       setIsPopupOpen(false);
       return;
@@ -87,8 +114,14 @@ export function HomePageContent({
   };
 
   const handleHideForToday = () => {
-    const until = Date.now() + 24 * 60 * 60 * 1000;
-    window.localStorage.setItem("oreathalf-hide-popup-until", String(until));
+    const imageUrl = popupImage?.image?.asset?.url;
+    if (!imageUrl) return;
+
+    // 대한민국 시간으로 23시가 지났을 때 : KST 기준 다가오는 23시까지 숨김 처리
+    const until = getNext23KstTimestamp();
+    const hideUntilKey = `oreathalf-hide-popup-until-${imageUrl}`;
+
+    window.localStorage.setItem(hideUntilKey, String(until));
     setHideForToday(true);
     setIsPopupOpen(false);
   };
