@@ -64,7 +64,10 @@ export default async function IngredientPage({
               );
 
               return (
-                <div key={imageItem._id}>
+                <div
+                  key={imageItem._id}
+                  className="relative transition-transform duration-500 ease-in-out hover:z-10 hover:scale-[1.2]"
+                >
                   {imageItem.istgUrl ? (
                     <a
                       href={imageItem.istgUrl}
