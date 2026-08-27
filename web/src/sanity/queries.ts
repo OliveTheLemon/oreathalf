@@ -67,9 +67,8 @@ function buildIngredientGroups(images: SanityImageItem[]) {
 
 // 메인 페이지에서 재료별 이미지 그룹 불러옴
 export async function getIngredientImages() {
-  const images = await client.fetch<
-    SanityImageItem[]
-  >(`*[_type == "ingrePhotograph" && category == 0]{
+  const images = await client.fetch<SanityImageItem[]>(
+    `*[_type == "ingrePhotograph" && category == 0]{
     _id,
     title,
     ingreNum->{_id, name, ingreNum},
@@ -77,7 +76,11 @@ export async function getIngredientImages() {
       asset->{url},
       alt
     }
-  }`);
+  }`,
+    // 이미지 캐시 설정 - sanity 업데이트 적용 안 될때 사용
+    // {},
+    // { cache: "no-store" },
+  );
 
   return buildIngredientGroups(images);
 }
@@ -93,6 +96,8 @@ export async function getPopupImage() {
         alt
       }
     }`,
+    {},
+    { cache: "no-store" },
   );
 }
 
@@ -114,6 +119,7 @@ export async function getIngredientGroupById(
       }
     }`,
     { ingredientNumber: normalizedIngredientNumber },
+    { cache: "no-store" },
   );
 
   const groups = buildIngredientGroups(images);

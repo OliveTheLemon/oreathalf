@@ -44,3 +44,5 @@ next-env.d.ts
 # Local env files
 *.local
 .env*.local
+
+opengraph-image.png
