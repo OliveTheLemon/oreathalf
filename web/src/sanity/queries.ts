@@ -3,6 +3,7 @@ import { client } from "./client";
 export type SanityImageItem = {
   _id: string;
   title: string;
+  category?: number;
   istgUrl?: string;
   ingreNum?: {
     _id: string;
@@ -78,8 +79,8 @@ export async function getIngredientImages() {
     }
   }`,
     // 이미지 캐시 설정 - sanity 업데이트 적용 안 될때 사용
-    // {},
-    // { cache: "no-store" },
+    {},
+    { cache: "no-store" },
   );
 
   return buildIngredientGroups(images);
@@ -111,6 +112,7 @@ export async function getIngredientGroupById(
     `*[_type == "ingrePhotograph" && ingreNum->ingreNum == $ingredientNumber]{
       _id,
       title,
+      category,
       istgUrl,
       ingreNum->{_id, name, ingreNum},
       image{
