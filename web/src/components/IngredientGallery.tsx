@@ -18,12 +18,14 @@ export function IngredientGallery({ group }: { group: IngredientImageGroup }) {
 
   return (
     <>
-      <div className="flex items-center justify-between gap-4">
-        <Link href="/" className="text-sm font-semibold underline">
+      <div className="grid grid-cols-[4rem_minmax(0,1fr)_4rem] items-center gap-4">
+        <Link href="/" className="text-left text-sm font-semibold underline">
           ← 홈으로
         </Link>
-        <h1 className="text-2xl font-bold">{group.ingredientName ?? "재료"}</h1>
-        <div className="flex w-16 justify-end">
+        <h1 className="truncate text-center text-2xl font-bold">
+          {group.ingredientName ?? "재료"}
+        </h1>
+        <div className="flex justify-end">
           <IngredientFilterButton
             filterIndex={filterIndex}
             onClick={handleFilterClick}
