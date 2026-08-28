@@ -2,16 +2,16 @@
 
 import Image from "next/image";
 import type { IngredientImageGroup } from "@/sanity/queries";
-import diagram0 from "@/assets/icons/oval3.svg";
-import diagram3 from "@/assets/icons/oval4.svg";
-import diagram4 from "@/assets/icons/oval5.svg";
-import diagram5 from "@/assets/icons/oval6.svg";
+import oval4 from "@/assets/icons/oval4.svg";
+import oval5 from "@/assets/icons/oval5.svg";
+import oval6 from "@/assets/icons/oval6.svg";
+import oval7 from "@/assets/icons/oval7.svg";
 
 const filterModes = [
-  { label: "전체", category: null, icon: diagram0 },
-  { label: "재료", category: 0, icon: diagram3 },
-  { label: "요리", category: 1, icon: diagram4 },
-  { label: "디자인", category: 2, icon: diagram5 },
+  { label: "전체", category: null, icon: oval4 },
+  { label: "재료", category: 0, icon: oval5 },
+  { label: "요리", category: 1, icon: oval6 },
+  { label: "디자인", category: 2, icon: oval7 },
 ] as const;
 
 export function IngredientFilterButton({
