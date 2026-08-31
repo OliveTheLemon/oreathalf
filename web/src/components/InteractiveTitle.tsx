@@ -41,7 +41,7 @@ export function InteractiveTitle({
         <span
           className={`whitespace-nowrap block transition-all duration-200 ease-out py-6 ${
             isHovered ? "opacity-0" : "opacity-100"
-          } font-iosevka-charon-mono`}
+          } iosevka-charon-bold`}
         >
           {englishText}
         </span>
@@ -50,7 +50,7 @@ export function InteractiveTitle({
         <span
           className={`whitespace-nowrap absolute inset-0 block transition-all duration-200 ease-out py-6 ${
             isHovered ? "opacity-100" : "opacity-0"
-          } font-designhouse`}
+          } sunflower-bold`}
         >
           {koreanText}
         </span>

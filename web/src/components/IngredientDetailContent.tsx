@@ -34,7 +34,7 @@ export function IngredientDetailContent({
 
       {/* 커서 위치를 기준으로 이름을 표시하는 오버레이입니다. */}
       <div
-        className="truncate pointer-events-none fixed z-50 border border-black/20 bg-white/80 px-3 py-1 text-sm font-semibold shadow-sm backdrop-blur-sm font-designhouse"
+        className="truncate pointer-events-none fixed z-50 border border-black/20 bg-white/80 px-3 py-1 text-sm font-semibold shadow-sm backdrop-blur-sm sunflower-bold"
         style={{ left: cursorPosition.x, top: cursorPosition.y }}
       >
         {ingredientName}

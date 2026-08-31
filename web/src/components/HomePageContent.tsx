@@ -195,7 +195,7 @@ export function HomePageContent({
               />
             </div>
 
-            <div className="flex items-center justify-between gap-3 p-4 font-designhouse">
+            <div className="flex items-center justify-between gap-3 p-4 sunflower-bold">
               <button
                 type="button"
                 onClick={handleHideForToday}

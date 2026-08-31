@@ -81,7 +81,7 @@ export function IngredientImageGrid({
                       href={imageItem.istgUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="block h-full"
+                      className="relative block h-full"
                     >
                       <Image
                         src={optimizedUrl}
