@@ -62,7 +62,7 @@ export function KeywordSetting({
           </div>
 
           <div className="mt-4 space-y-4" role="tabpanel">
-            <div className="flex gap-2 justify-end">
+            <div className="flex gap-2 justify-end text-sm">
               <button
                 type="button"
                 className="bg-white text-black px-3 py-1 rounded"
@@ -94,7 +94,9 @@ export function KeywordSetting({
                   </label>
 
                   {group.keywords.length > 0 && (
-                    <p className="ml-6 mt-1 text-sm">
+                    <p
+                      className={`ml-6 mt-1 text-sm ${groupSelection.enabled ? "" : "text-neutral-400"}`}
+                    >
                       {group.keywords.join(", ")}
                     </p>
                   )}
@@ -114,7 +116,9 @@ export function KeywordSetting({
                         />{" "}
                         {subgroup.title}
                       </label>
-                      <p className="ml-6 mt-1 text-sm">
+                      <p
+                        className={`ml-6 mt-1 text-sm ${groupSelection.enabled && groupSelection.subgroups[subgroupIndex] ? "" : "text-neutral-400"}`}
+                      >
                         {subgroup.keywords.join(", ")}
                       </p>
                     </div>
@@ -122,6 +126,11 @@ export function KeywordSetting({
                 </div>
               );
             })}
+
+            <p className="py-4 text-sm text-neutral-500">
+              해당 데이터는 제가 작성한 키워드를 바탕으로 Gemini로 확장 및
+              정제한 자료입니다.
+            </p>
           </div>
         </div>
       )}

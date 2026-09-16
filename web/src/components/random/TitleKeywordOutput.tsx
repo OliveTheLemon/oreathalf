@@ -25,7 +25,7 @@ export function TitleKeywordOutput({
           ↻
         </button>
       </div>
-      <span className="w-64 min-h-10 bg-white text-black py-2 px-4 rounded">
+      <span className="w-48 h-24 bg-white text-black py-2 px-4 rounded mt-4 flex items-center justify-center text-center break-keep sunflower-medium text-lg">
         {value || placeholder}
       </span>
     </div>
