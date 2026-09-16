@@ -4,19 +4,38 @@ import { useState } from "react";
 import { KeywordSetting } from "@/components/random/KeywordSetting";
 import { TitleKeywordOutput } from "@/components/random/TitleKeywordOutput";
 
-interface KeywordGroups {
-  noun: string[];
-  verbAdjectiveAdverb: string[];
-  style: string[];
-  purpose: string[];
+export interface KeywordSubgroup {
+  title: string;
+  keywords: string[];
 }
+
+export interface KeywordGroup {
+  title: string;
+  keywords: string[];
+  subgroups: KeywordSubgroup[];
+}
+
+export interface KeywordCategory {
+  groups: KeywordGroup[];
+}
+
+export interface KeywordGroups {
+  noun: KeywordCategory;
+  verbAdjectiveAdverb: KeywordCategory;
+  style: KeywordCategory;
+  purpose: KeywordCategory;
+}
+
+export type KeywordKey = keyof KeywordGroups;
+export type SelectableKeywordKey = Exclude<KeywordKey, "purpose">;
+export type KeywordSelection = Record<
+  SelectableKeywordKey,
+  Array<{ enabled: boolean; subgroups: boolean[] }>
+>;
 
 interface RandomKeywordGeneratorProps {
   keywords: KeywordGroups;
 }
-
-type KeywordKey = keyof KeywordGroups;
-type EnabledKeywords = Record<Exclude<KeywordKey, "purpose">, boolean>;
 
 const outputs: Array<{
   key: KeywordKey;
@@ -37,14 +56,45 @@ function pickKeyword(keywords: string[]) {
   return keywords[Math.floor(Math.random() * keywords.length)] ?? "";
 }
 
+function getSelectedKeywords(
+  category: KeywordCategory,
+  selection?: KeywordSelection[SelectableKeywordKey],
+) {
+  return category.groups.flatMap((group, groupIndex) => {
+    const groupSelection = selection?.[groupIndex];
+    if (selection && !groupSelection?.enabled) return [];
+
+    return [
+      ...group.keywords,
+      ...group.subgroups.flatMap((subgroup, subgroupIndex) =>
+        selection && !groupSelection?.subgroups[subgroupIndex]
+          ? []
+          : subgroup.keywords,
+      ),
+    ];
+  });
+}
+
 export function RandomKeywordGenerator({
   keywords,
 }: RandomKeywordGeneratorProps) {
-  const [enabled, setEnabled] = useState<EnabledKeywords>({
-    noun: true,
-    verbAdjectiveAdverb: true,
-    style: true,
-  });
+  const selectableKeys: SelectableKeywordKey[] = [
+    "noun",
+    "verbAdjectiveAdverb",
+    "style",
+  ];
+  const [selection, setSelection] = useState<KeywordSelection>(
+    () =>
+      Object.fromEntries(
+        selectableKeys.map((key) => [
+          key,
+          keywords[key].groups.map((group) => ({
+            enabled: true,
+            subgroups: group.subgroups.map(() => true),
+          })),
+        ]),
+      ) as KeywordSelection,
+  );
   const [selected, setSelected] = useState<Record<KeywordKey, string>>({
     noun: "",
     verbAdjectiveAdverb: "",
@@ -56,11 +106,11 @@ export function RandomKeywordGenerator({
     const nextSelected = { ...selected };
 
     outputs.forEach(({ key }) => {
-      if (key === "purpose" || enabled[key]) {
-        nextSelected[key] = pickKeyword(keywords[key]);
-      } else {
-        nextSelected[key] = "";
-      }
+      const availableKeywords =
+        key === "purpose"
+          ? getSelectedKeywords(keywords[key])
+          : getSelectedKeywords(keywords[key], selection[key]);
+      nextSelected[key] = pickKeyword(availableKeywords);
     });
 
     setSelected(nextSelected);
@@ -70,8 +120,33 @@ export function RandomKeywordGenerator({
     setSelected({ noun: "", verbAdjectiveAdverb: "", style: "", purpose: "" });
   };
 
-  const toggleSetting = (key: keyof EnabledKeywords) => {
-    setEnabled((current) => ({ ...current, [key]: !current[key] }));
+  const toggleSetting = (
+    categoryKey: SelectableKeywordKey,
+    groupIndex: number,
+    subgroupIndex?: number,
+  ) => {
+    setSelection((current) => {
+      const categorySelection = current[categoryKey].map((group) => ({
+        enabled: group.enabled,
+        subgroups: [...group.subgroups],
+      }));
+      const groupSelection = categorySelection[groupIndex];
+
+      if (!groupSelection) return current;
+
+      if (subgroupIndex === undefined) {
+        const enabled = !groupSelection.enabled;
+        categorySelection[groupIndex] = {
+          enabled,
+          subgroups: groupSelection.subgroups.map(() => enabled),
+        };
+      } else {
+        groupSelection.subgroups[subgroupIndex] =
+          !groupSelection.subgroups[subgroupIndex];
+      }
+
+      return { ...current, [categoryKey]: categorySelection };
+    });
   };
 
   return (
@@ -104,7 +179,11 @@ export function RandomKeywordGenerator({
           </button>
         </div>
       </div>
-      <KeywordSetting enabled={enabled} onChange={toggleSetting} />
+      <KeywordSetting
+        keywords={keywords}
+        selection={selection}
+        onToggleGroup={toggleSetting}
+      />
     </>
   );
 }

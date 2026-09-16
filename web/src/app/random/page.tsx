@@ -1,21 +1,64 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { RandomKeywordGenerator } from "@/components/random/RandomKeywordGenerator";
+import {
+  RandomKeywordGenerator,
+  type KeywordCategory,
+  type KeywordGroup,
+} from "@/components/random/RandomKeywordGenerator";
 
-function readKeywords(fileName: string) {
+function readKeywords(fileName: string): KeywordCategory {
   const filePath = join(process.cwd(), "src", "assets", "keywords", fileName);
+  const groups: KeywordGroup[] = [];
+  let currentGroup: KeywordGroup | undefined;
+  let currentSubgroup: { title: string; keywords: string[] } | undefined;
 
-  return readFileSync(filePath, "utf8")
-    .split(/\r?\n/)
-    .filter(
-      (line) =>
-        line.trim() &&
-        !line.trim().startsWith("{") &&
-        !line.trim().startsWith("["),
-    )
-    .flatMap((line) => line.split(","))
-    .map((keyword) => keyword.trim())
-    .filter(Boolean);
+  for (const line of readFileSync(filePath, "utf8").split(/\r?\n/)) {
+    const trimmedLine = line.trim();
+
+    if (!trimmedLine) continue;
+
+    if (trimmedLine.startsWith("{") && trimmedLine.endsWith("}")) {
+      currentGroup = {
+        title: trimmedLine.slice(1, -1).trim(),
+        keywords: [],
+        subgroups: [],
+      };
+      groups.push(currentGroup);
+      currentSubgroup = undefined;
+      continue;
+    }
+
+    if (trimmedLine.startsWith("[") && trimmedLine.endsWith("]")) {
+      if (!currentGroup) {
+        currentGroup = { title: "기타", keywords: [], subgroups: [] };
+        groups.push(currentGroup);
+      }
+
+      currentSubgroup = {
+        title: trimmedLine.slice(1, -1).trim(),
+        keywords: [],
+      };
+      currentGroup.subgroups.push(currentSubgroup);
+      continue;
+    }
+
+    const parsedKeywords = trimmedLine
+      .split(",")
+      .map((keyword) => keyword.trim())
+      .filter(Boolean);
+
+    if (currentSubgroup) {
+      currentSubgroup.keywords.push(...parsedKeywords);
+    } else {
+      if (!currentGroup) {
+        currentGroup = { title: "기타", keywords: [], subgroups: [] };
+        groups.push(currentGroup);
+      }
+      currentGroup.keywords.push(...parsedKeywords);
+    }
+  }
+
+  return { groups };
 }
 
 export default async function RandomKeywordPage() {
