@@ -101,16 +101,39 @@ export function RandomKeywordGenerator({
     style: "",
     purpose: "",
   });
+  const [showSelectionModal, setShowSelectionModal] = useState(false);
+
+  const getAvailableKeywords = (key: KeywordKey) =>
+    key === "purpose"
+      ? getSelectedKeywords(keywords[key])
+      : getSelectedKeywords(keywords[key], selection[key]);
+
+  const hasSelectedKeywords = selectableKeys.some(
+    (key) => getAvailableKeywords(key).length > 0,
+  );
+
+  const refreshKeyword = (key: KeywordKey) => {
+    if (key !== "purpose" && getAvailableKeywords(key).length === 0) {
+      setShowSelectionModal(true);
+      return;
+    }
+
+    setSelected((current) => ({
+      ...current,
+      [key]: pickKeyword(getAvailableKeywords(key)),
+    }));
+  };
 
   const generateKeywords = () => {
+    if (!hasSelectedKeywords) {
+      setShowSelectionModal(true);
+      return;
+    }
+
     const nextSelected = { ...selected };
 
     outputs.forEach(({ key }) => {
-      const availableKeywords =
-        key === "purpose"
-          ? getSelectedKeywords(keywords[key])
-          : getSelectedKeywords(keywords[key], selection[key]);
-      nextSelected[key] = pickKeyword(availableKeywords);
+      nextSelected[key] = pickKeyword(getAvailableKeywords(key));
     });
 
     setSelected(nextSelected);
@@ -149,6 +172,16 @@ export function RandomKeywordGenerator({
     });
   };
 
+  const toggleAll = (categoryKey: SelectableKeywordKey, enabled: boolean) => {
+    setSelection((current) => ({
+      ...current,
+      [categoryKey]: current[categoryKey].map((group) => ({
+        enabled,
+        subgroups: group.subgroups.map(() => enabled),
+      })),
+    }));
+  };
+
   return (
     <>
       <div className="h-3/4 flex flex-col items-center justify-center">
@@ -159,10 +192,11 @@ export function RandomKeywordGenerator({
               title={title}
               placeholder={placeholder}
               value={selected[key]}
+              onRefresh={() => refreshKeyword(key)}
             />
           ))}
         </div>
-        <div>
+        <div className="flex gap-2">
           <button
             type="button"
             className="bg-white text-black py-2 px-4 rounded"
@@ -183,7 +217,37 @@ export function RandomKeywordGenerator({
         keywords={keywords}
         selection={selection}
         onToggleGroup={toggleSetting}
+        onToggleAll={toggleAll}
       />
+      {showSelectionModal && (
+        <div
+          className="fixed inset-0 z-10 flex items-center justify-center bg-black/40"
+          role="presentation"
+          onClick={() => setShowSelectionModal(false)}
+        >
+          <div
+            className="w-80 rounded bg-white p-6 text-black shadow-lg"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="selection-modal-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <h2 id="selection-modal-title" className="font-bold">
+              키워드를 선택해 주세요
+            </h2>
+            <p className="mt-2">
+              하나 이상의 대주제 또는 소주제를 선택해야 합니다.
+            </p>
+            <button
+              type="button"
+              className="mt-4 bg-black px-4 py-2 text-white rounded"
+              onClick={() => setShowSelectionModal(false)}
+            >
+              확인
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -13,6 +13,7 @@ interface KeywordSettingProps {
     groupIndex: number,
     subgroupIndex?: number,
   ) => void;
+  onToggleAll: (categoryKey: SelectableKeywordKey, enabled: boolean) => void;
 }
 
 const tabs = [
@@ -25,13 +26,14 @@ export function KeywordSetting({
   keywords,
   selection,
   onToggleGroup,
+  onToggleAll,
 }: KeywordSettingProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<SelectableKeywordKey>("noun");
   const activeCategory = keywords[activeTab];
 
   return (
-    <section className="w-full max-w-4xl mx-auto mt-8">
+    <section className="w-full max-w-4xl mx-auto mt-8 pb-20">
       <button
         type="button"
         className="flex items-center gap-2 font-bold"
@@ -60,6 +62,22 @@ export function KeywordSetting({
           </div>
 
           <div className="mt-4 space-y-4" role="tabpanel">
+            <div className="flex gap-2 justify-end">
+              <button
+                type="button"
+                className="bg-white text-black px-3 py-1 rounded"
+                onClick={() => onToggleAll(activeTab, true)}
+              >
+                전체선택
+              </button>
+              <button
+                type="button"
+                className="bg-white text-black px-3 py-1 rounded"
+                onClick={() => onToggleAll(activeTab, false)}
+              >
+                전체취소
+              </button>
+            </div>
             {activeCategory.groups.map((group, groupIndex) => {
               const groupSelection = selection[activeTab][groupIndex];
               if (!groupSelection) return null;
