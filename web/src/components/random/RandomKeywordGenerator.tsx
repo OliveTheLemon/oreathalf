@@ -185,7 +185,7 @@ export function RandomKeywordGenerator({
   return (
     <>
       <div className="lg:h-3/4 md:h-3/4 flex flex-col items-center justify-center">
-        <div className="grid w-full grid-cols-1 items-center justify-items-center sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid w-4/5 grid-cols-1 items-center justify-items-center sm:grid-cols-2 lg:grid-cols-4">
           {outputs.map(({ key, title, placeholder }) => (
             <TitleKeywordOutput
               key={key}
@@ -213,9 +213,9 @@ export function RandomKeywordGenerator({
           </button>
         </div>
       </div>
-      <p className="text-center text-sm text-neutral-500">
+      <p className="text-center text-sm text-neutral-500 mt-4">
         포스터 만들기 연습을 위한 랜덤 키워드 생성기 입니다.
-        <br /> "만들기" 버튼을 누르면 각 키워드가 생성되고, 개별로 새로고침도
+        <br /> [만들기]버튼을 누르면 각 키워드가 생성되고, 개별로 새로고침도
         가능합니다.
         <br /> 아래 설정에서 포함/제외하고 싶은 주제도 선택할 수 있습니다.
         <br /> 스타일 키워드는 Pinterest에 검색하여 레퍼런스를 참고해보세요!

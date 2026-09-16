@@ -12,7 +12,7 @@ export function TitleKeywordOutput({
   onRefresh,
 }: TitleKeywordOutputProps) {
   return (
-    <div className="flex flex-col justify-center p-4 m-2">
+    <div className="flex flex-col justify-center p-2 m-2">
       <div className="flex items-center gap-2">
         <span>{title}</span>
         <button
@@ -25,7 +25,7 @@ export function TitleKeywordOutput({
           ↻
         </button>
       </div>
-      <span className="w-48 h-24 bg-white text-black py-2 px-4 rounded mt-4 flex items-center justify-center text-center break-keep sunflower-medium text-lg">
+      <span className="w-48 h-[75px] bg-white text-black py-2 px-4 rounded mt-4 flex items-center justify-center text-center break-keep sunflower-medium text-lg">
         {value || placeholder}
       </span>
     </div>
