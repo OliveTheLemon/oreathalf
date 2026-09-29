@@ -119,6 +119,10 @@
   overscroll-behavior: contain;
 }
 
+.verticalScrollUnlocked .horizontalTrack {
+  overscroll-behavior-y: auto;
+}
+
 .horizontalPanel {
   padding: 92px 7vw 56px;
 }
@@ -145,6 +149,78 @@
 }
 .storyPanel {
   background: #e2d9bd;
+}
+
+.developmentButton {
+  position: absolute;
+  top: 50%;
+  right: clamp(18px, 4vw, 64px);
+  z-index: 3;
+  display: grid;
+  width: 56px;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid #20211b;
+  border-radius: 50%;
+  color: #20211b;
+  background: #f7f4e9;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.developmentButton span {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.developmentButton:hover {
+  color: #f7f4e9;
+  background: #20211b;
+  transform: translateY(calc(-50% - 3px));
+}
+
+.developmentButton:focus-visible {
+  outline: 2px solid #20211b;
+  outline-offset: 4px;
+}
+.developmentPanel {
+  background: #e2d9bd;
+}
+.developmentContent {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.developmentImage {
+  display: block;
+  width: min(72vw, 720px);
+  max-height: 52vh;
+  object-fit: contain;
+}
+.developmentCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+.developmentCopy .index {
+  position: static;
+}
+.developmentCopy h2 {
+  margin: 0;
+  font-family: "Sunflower", sans-serif;
+  font-size: 30px;
+  font-weight: 500;
+}
+.developmentCopy .caption {
+  margin-top: 0;
 }
 .panelHeading {
   position: absolute;
@@ -350,6 +426,17 @@
 
   .storyFrame {
     width: min(72vw, 38.25vh);
+  }
+  .developmentButton {
+    right: 14px;
+    width: 48px;
+  }
+  .developmentImage {
+    width: 88vw;
+    max-height: 42vh;
+  }
+  .developmentCopy h2 {
+    font-size: 24px;
   }
 }
 

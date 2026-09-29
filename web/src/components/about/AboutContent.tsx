@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import styles from "../../assets/css/AboutExperience.module.css";
-import AboutDevelopment from "./AboutDevelopment";
 
 const photographs = [
   "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1200&q=85",
@@ -25,7 +24,15 @@ const stories = [
   "다음 한 끼",
 ];
 
-export default function AboutContent() {
+interface AboutContentProps {
+  isVerticalScrollUnlocked: boolean;
+  onOpenDevelopment: () => void;
+}
+
+export default function AboutContent({
+  isVerticalScrollUnlocked,
+  onOpenDevelopment,
+}: AboutContentProps) {
   const storyTrack = useRef<HTMLDivElement>(null);
   const [activeStory, setActiveStory] = useState(0);
 
@@ -51,6 +58,7 @@ export default function AboutContent() {
   function moveDeck(event: React.WheelEvent<HTMLDivElement>) {
     const track = event.currentTarget;
     if (
+      isVerticalScrollUnlocked ||
       event.defaultPrevented ||
       Math.abs(event.deltaY) < Math.abs(event.deltaX)
     )
@@ -141,9 +149,15 @@ export default function AboutContent() {
               <h3>{stories[activeStory]}</h3>
             </div>
           </div>
+          <button
+            className={styles.developmentButton}
+            type="button"
+            aria-label="AboutDevelopment 영역으로 이동"
+            onClick={onOpenDevelopment}
+          >
+            <span aria-hidden="true">↓</span>
+          </button>
         </section>
-
-        <AboutDevelopment />
       </div>
     </section>
   );
