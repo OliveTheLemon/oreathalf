@@ -168,8 +168,9 @@
 
 .cardViewport {
   display: flex;
-  width: min(76vw, 940px);
-  height: min(62vh, 520px);
+  width: min(76vw, 416px, 49.6vh);
+  height: auto;
+  aspect-ratio: 4 / 5;
   gap: 24px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -235,10 +236,9 @@
 
 .storyFrame {
   position: relative;
-  width: min(34vw, 340px);
-  min-width: 250px;
-  height: min(72vh, 620px);
-  min-height: 390px;
+  width: min(34vw, 340px, 40.5vh);
+  height: auto;
+  aspect-ratio: 9 / 16;
   overflow: hidden;
   background: #544d3e;
   text-align: left;
@@ -340,8 +340,7 @@
     padding-left: 22px;
   }
   .cardViewport {
-    width: 86vw;
-    height: min(58vh, 470px);
+    width: min(86vw, 46.4vh);
   }
 
   .noteCopy h3,
@@ -350,8 +349,7 @@
   }
 
   .storyFrame {
-    width: min(72vw, 330px);
-    height: min(68vh, 580px);
+    width: min(72vw, 38.25vh);
   }
 }
 
