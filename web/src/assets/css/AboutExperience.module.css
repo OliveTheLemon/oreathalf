@@ -116,7 +116,7 @@
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
-  overscroll-behavior-x: contain;
+  overscroll-behavior: contain;
 }
 
 .horizontalPanel {

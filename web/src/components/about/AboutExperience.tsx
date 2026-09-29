@@ -1,4 +1,4 @@
-import styles from "../../assets/css/AboutExperience.module.css";
+import styles from "@/assets/css/AboutExperience.module.css";
 import AboutContent from "./AboutContent";
 import AboutWhyDiet from "./AboutWhyDiet";
 
