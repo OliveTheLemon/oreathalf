@@ -189,34 +189,6 @@ export default function AboutExperience() {
               </div>
             </div>
           </section>
-
-          <section className={`${styles.horizontalPanel} ${styles.orbitPanel}`}>
-            <div className={styles.panelHeading}>
-              <p className={styles.index}>03 — AROUND THE TABLE</p>
-              <h2>한 바퀴, 식탁의 풍경</h2>
-            </div>
-            <div className={styles.orbitStage}>
-              <div className={styles.orbitRing} />
-              {photographs.map((image, index) => (
-                <div
-                  className={`${styles.orbitItem} ${styles[`orbitItem${index + 1}`]}`}
-                  key={image}
-                >
-                  <div
-                    className={styles.orbitImage}
-                    style={{ backgroundImage: `url("${image}")` }}
-                    role="img"
-                    aria-label={`식탁 풍경 ${index + 1}`}
-                  />
-                </div>
-              ))}
-              <span className={styles.orbitCenter}>
-                食卓
-                <br />
-                TABLE
-              </span>
-            </div>
-          </section>
         </div>
       </section>
     </main>
