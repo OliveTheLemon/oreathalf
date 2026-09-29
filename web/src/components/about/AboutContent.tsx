@@ -63,7 +63,6 @@ export default function AboutContent({
       Math.abs(event.deltaY) < Math.abs(event.deltaX)
     )
       return;
-    event.preventDefault();
 
     const atStart = track.scrollLeft <= 0;
     const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
