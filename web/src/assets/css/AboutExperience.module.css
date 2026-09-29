@@ -187,9 +187,22 @@
   outline: 2px solid #20211b;
   outline-offset: 4px;
 }
-.developmentPanel {
+.developmentDeck {
+  position: relative;
   background: #e2d9bd;
 }
+
+.developmentDeck .horizontalTrack {
+  position: relative;
+  z-index: 2;
+}
+
+.developmentPanel {
+  justify-content: flex-end;
+  padding-bottom: clamp(36px, 9vh, 96px);
+  background: transparent;
+}
+
 .developmentContent {
   display: flex;
   width: 100%;
@@ -199,10 +212,27 @@
 }
 .developmentImage {
   display: block;
-  width: min(72vw, 720px);
-  max-height: 52vh;
+  width: min(42vw, 600px);
+  max-height: 38vh;
   object-fit: contain;
 }
+.LogoImage {
+  display: block;
+  width: min(42vw, 600px);
+  max-height: 38vh;
+  object-fit: contain;
+  margin-bottom: 20px;
+}
+
+.developmentImagePin {
+  position: absolute;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
 .developmentCopy {
   display: flex;
   flex-direction: column;
@@ -432,8 +462,8 @@
     width: 48px;
   }
   .developmentImage {
-    width: 88vw;
-    max-height: 42vh;
+    width: 78vw;
+    max-height: 32vh;
   }
   .developmentCopy h2 {
     font-size: 24px;

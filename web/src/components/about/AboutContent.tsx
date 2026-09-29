@@ -51,7 +51,6 @@ export default function AboutContent({
     const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
     if ((event.deltaY < 0 && atStart) || (event.deltaY > 0 && atEnd)) return;
 
-    event.preventDefault();
     track.scrollBy({ left: event.deltaY, behavior: "smooth" });
   }
 
