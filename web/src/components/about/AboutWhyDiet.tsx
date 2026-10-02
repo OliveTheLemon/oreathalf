@@ -19,7 +19,7 @@ export default function AboutWhyDiet() {
         {/* <p className={styles.caption}>콘텐츠를 만들어가는 소재로써의</p> */}
         <h2>
           콘텐츠의 소재로써의 <br />
-          '다이어트'
+          &apos;다이어트&apos;
         </h2>
       </section>
       <section className={`${styles.verticalPanel} ${styles.coral}`}>
