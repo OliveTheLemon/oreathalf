@@ -74,19 +74,18 @@ export default function AboutContent({
     <section className={styles.horizontalDeck} aria-label="oreathalf 이야기">
       <div className={styles.horizontalTrack} onWheel={moveDeck}>
         <section className={`${styles.horizontalPanel} ${styles.deckIntro}`}>
-          <p className={styles.eyebrow}>A LITTLE MORE</p>
+          <p className={styles.eyebrow}>'나도 다이어트 하고싶어'</p>
           <h2>
-            우리의 식탁을
-            <br />
-            조금 더 가까이.
+            누군가에게 <br />
+            계기가 될 수 있도록
           </h2>
-          <span className={styles.scrollMark}>← SWIPE TO EXPLORE →</span>
+          <span className={styles.scrollMark}>SWIPE TO EXPLORE →</span>
         </section>
 
         <section className={`${styles.horizontalPanel} ${styles.cardPanel}`}>
           <div className={styles.panelHeading}>
             <p className={styles.index}>01 — TABLE NOTES</p>
-            <h2>오늘의 한 장</h2>
+            <h2>레시피 정보를 나누고</h2>
           </div>
           <div
             className={styles.cardViewport}
@@ -123,7 +122,7 @@ export default function AboutContent({
         <section className={`${styles.horizontalPanel} ${styles.storyPanel}`}>
           <div className={styles.panelHeading}>
             <p className={styles.index}>02 — IN THE MOMENT</p>
-            <h2>식탁의 순간들</h2>
+            <h2>식단을 기록했습니다.</h2>
           </div>
           <div className={styles.storyFrame}>
             <div className={styles.storyProgress}>

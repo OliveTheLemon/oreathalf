@@ -37,9 +37,10 @@ export default function AboutDevelopment() {
             />
             <div className={styles.developmentCopy}>
               <p className={styles.index}>03 — DEVELOPMENT</p>
-              <h2>텍스트</h2>
+              <h2>하나의 웹 공간으로</h2>
+              <p className={styles.caption}>Instagram에 기록하던 콘텐츠를</p>
               <p className={styles.caption}>
-                먹는 순간을 더 다정하게 연결하는 방법을 만들어갑니다.
+                하나의 웹 공간에서 탐색할 수 있도록 만들었습니다.
               </p>
             </div>
           </div>
@@ -50,9 +51,10 @@ export default function AboutDevelopment() {
           <div className={styles.developmentContent}>
             <div className={styles.developmentCopy}>
               <p className={styles.index}>03 — DEVELOPMENT</p>
-              <h2>텍스트</h2>
+              <h2>기능</h2>
               <p className={styles.caption}>
-                먹는 순간을 더 다정하게 연결하는 방법을 만들어갑니다.
+                이미지 전환 - 재료별 콘텐츠 탐색 - 이미지 필터링 - 반응형
+                인터페이스
               </p>
             </div>
           </div>
@@ -63,10 +65,8 @@ export default function AboutDevelopment() {
           <div className={styles.developmentContent}>
             <div className={styles.developmentCopy}>
               <p className={styles.index}>03 — DEVELOPMENT</p>
-              <h2>텍스트</h2>
-              <p className={styles.caption}>
-                먹는 순간을 더 다정하게 연결하는 방법을 만들어갑니다.
-              </p>
+              <h2>oreathalf.com</h2>
+              <p className={styles.caption}>기술 스택 목록</p>
             </div>
           </div>
         </section>
@@ -76,9 +76,9 @@ export default function AboutDevelopment() {
           <div className={styles.developmentContent}>
             <div className={styles.developmentCopy}>
               <p className={styles.index}>03 — DEVELOPMENT</p>
-              <h2>텍스트</h2>
+              <h2>계획부터 개발까지</h2>
               <p className={styles.caption}>
-                먹는 순간을 더 다정하게 연결하는 방법을 만들어갑니다.
+                각 과정에서 직접 고민하고 만들었습니다.
               </p>
             </div>
           </div>
