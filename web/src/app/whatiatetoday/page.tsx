@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { WhatIAteToday } from "@/components/WhatIAteToday";
+import { WhatIAteToday } from "@/components/whatiatetoday/WhatIAteToday";
 
 export const metadata: Metadata = {
   title: "오늘 먹은 것 | oreathalf",

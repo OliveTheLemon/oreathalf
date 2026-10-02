@@ -8,7 +8,7 @@ import {
   mealTypes,
   type ImageSize,
   type MealType,
-} from "@/components/mealPoster";
+} from "@/components/whatiatetoday/mealPoster";
 
 type MealEntry = {
   id: string;
