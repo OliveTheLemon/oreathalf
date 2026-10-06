@@ -19,7 +19,7 @@ export default async function IngredientPage({
     // 재료 이름이 커서를 따라다니도록 공통 래퍼로 감싸서 렌더링합니다.
     <IngredientDetailContent ingredientName={group.ingredientName ?? "재료"}>
       <main className="min-h-screen bg-background text-center sunflower-bold">
-        <div className="flex w-full flex-col gap-8">
+        <div className="flex w-full flex-col">
           <IngredientGallery group={group} />
         </div>
       </main>

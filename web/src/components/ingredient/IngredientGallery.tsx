@@ -18,15 +18,16 @@ export function IngredientGallery({ group }: { group: IngredientImageGroup }) {
 
   return (
     <>
-      <div className="flex items-center justify-between gap-4 h-[50px] md:h-[100px] z-70">
-        <div className="w-16"></div>
-        <h1 className="text-2xl font-bold">{group.ingredientName ?? "재료"}</h1>
-        <div className="flex w-16 justify-end">
+      <div className="fixed top-0 left-1/2 transform -translate-x-1/2 flex items-center justify-between h-[50px] md:h-[100px] z-50">
+        <h1 className="text-2xl md:text-4xl font-bold">
+          {group.ingredientName ?? "재료"}
+        </h1>
+        {/* <div className="flex w-16 justify-end">
           <IngredientFilterButton
             filterIndex={filterIndex}
             onClick={handleFilterClick}
           />
-        </div>
+        </div> */}
       </div>
 
       <IngredientImageGrid group={group} filterIndex={filterIndex} />

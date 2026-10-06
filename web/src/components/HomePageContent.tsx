@@ -161,7 +161,7 @@ export function HomePageContent({
         </section>
       </section>
 
-      <section ref={imageGridSectionRef} className="mx-auto pb-12">
+      <section ref={imageGridSectionRef} className="mx-auto">
         <div className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
           {ingredientGroups.map((group) => (
             <IngredientImageCarousel key={group.ingredientId} group={group} />

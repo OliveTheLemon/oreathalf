@@ -62,7 +62,7 @@ export function IngredientImageGrid({
 
   return (
     <>
-      <div className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
+      <div className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 pt-[50px] md:pt-[100px]">
         {images.map((imageItem) => {
           const imageUrl = imageItem.image?.asset?.url;
           const optimizedUrl = getSanityImageSrc(imageUrl, 800);
