@@ -130,18 +130,6 @@ export function HomePageContent({
 
   return (
     <main className="min-h-screen bg-background">
-      <div
-        className={`fixed top-0 left-0 w-full z-20 bg-background/90 py-2 transition-opacity duration-200 ${
-          shouldStick ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
-      >
-        <InteractiveBigTitle
-          englishText={"or.....EAT HALF!"}
-          koreanText={"아니면.....절반만 먹기!"}
-          isPinned={imageGridTop}
-        />
-      </div>
-
       <section className="flex min-h-screen flex-col justify-center">
         <InteractiveTitle
           englishText={"Drink a lot of water"}
@@ -173,7 +161,7 @@ export function HomePageContent({
         </section>
       </section>
 
-      <section ref={imageGridSectionRef} className="mx-auto px-2 pb-12">
+      <section ref={imageGridSectionRef} className="mx-auto pb-12">
         <div className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
           {ingredientGroups.map((group) => (
             <IngredientImageCarousel key={group.ingredientId} group={group} />
@@ -182,7 +170,7 @@ export function HomePageContent({
       </section>
 
       {isPopupOpen && popupImage && popupImageUrl && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-4 backdrop-blur-sm">
+        <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/30 px-4 backdrop-blur-sm">
           <div className="relative w-[45vh] max-w-[90vw] overflow-hidden shadow-2xl">
             <div className="relative aspect-[9/16] w-full">
               <Image
@@ -205,7 +193,7 @@ export function HomePageContent({
                     : "border-white/30 bg-white/5 text-white hover:bg-white/10"
                 }`}
               >
-                하루동안보지않기
+                하루동안숨기기
               </button>
 
               <button

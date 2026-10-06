@@ -6,7 +6,7 @@ import type { IngredientImageGroup } from "@/sanity/queries";
 import {
   IngredientFilterButton,
   IngredientImageGrid,
-} from "@/components/IngredientImageGrid+Button";
+} from "@/components/ingredient/IngredientImageGrid+Button";
 
 const filterCount = 4;
 
@@ -18,10 +18,8 @@ export function IngredientGallery({ group }: { group: IngredientImageGroup }) {
 
   return (
     <>
-      <div className="flex items-center justify-between gap-4">
-        <Link href="/" className="text-sm font-semibold underline">
-          ← 홈으로
-        </Link>
+      <div className="flex items-center justify-between gap-4 h-[50px] md:h-[100px] z-70">
+        <div className="w-16"></div>
         <h1 className="text-2xl font-bold">{group.ingredientName ?? "재료"}</h1>
         <div className="flex w-16 justify-end">
           <IngredientFilterButton

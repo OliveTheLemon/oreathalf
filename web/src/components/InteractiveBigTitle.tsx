@@ -11,7 +11,6 @@ type InteractiveTitleProps = {
 export function InteractiveBigTitle({
   englishText,
   koreanText,
-  isPinned = false,
 }: InteractiveTitleProps) {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -28,10 +27,7 @@ export function InteractiveBigTitle({
   return (
     <div className="flex w-full justify-center">
       <h1
-        className={`relative inline-block text-3xl font-semibold transition-colors duration-200 md:text-6xl ${
-          // 고정 상태에서는 이미지 카드와 대비되도록 명시적인 밝은 색을 사용합니다.
-          isPinned ? "text-background" : "text-foreground"
-        }`}
+        className="relative inline-block text-3xl font-semibold transition-colors duration-200 md:text-6xl "
         onMouseEnter={() => setIsHovered(true)}
       >
         {/* 영어 */}

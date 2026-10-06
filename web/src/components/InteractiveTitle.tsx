@@ -9,8 +9,8 @@ type InteractiveTitleProps = {
 };
 
 const alignmentClassMap = {
-  "left-third": "justify-start pl-[45vw]",
-  "right-third": "justify-end pr-[33vw] md:pr-[40vw]",
+  "left-third": "justify-start pl-[47vw] md:pl-[45vw]",
+  "right-third": "justify-end pr-[47vw] md:pr-[40vw]",
   center: "justify-center",
 } as const;
 
@@ -34,7 +34,7 @@ export function InteractiveTitle({
   return (
     <div className={`flex w-full ${alignmentClassMap[alignment]}`}>
       <h1
-        className="relative inline-block text-2xl font-semibold text-foreground md:text-5xl"
+        className="relative inline-block text-xl font-semibold text-foreground md:text-5xl"
         onMouseEnter={() => setIsHovered(true)}
       >
         {/* 영어 */}
