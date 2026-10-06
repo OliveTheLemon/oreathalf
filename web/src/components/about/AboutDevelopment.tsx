@@ -83,6 +83,19 @@ export default function AboutDevelopment() {
             </div>
           </div>
         </section>
+        <section
+          className={`${styles.horizontalPanel} ${styles.developmentPanel} ${styles.developmentLastPanel}`}
+        >
+          <div className={styles.developmentContent}>
+            <div className={styles.developmentCopy}>
+              <p className={styles.index}>03 — DEVELOPMENT</p>
+              <h2>계획부터 개발까지</h2>
+              <p className={styles.caption}>
+                각 과정에서 직접 고민하고 만들었습니다.
+              </p>
+            </div>
+          </div>
+        </section>
       </div>
       <div className={styles.developmentImagePin}>
         <Image
