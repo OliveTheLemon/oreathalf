@@ -10,7 +10,7 @@ export default function SubMenuItem({ title, href }: SubMenuItemProps) {
     <div className="group relative">
       <Link
         href={href}
-        className="relative z-10 block px-8 py-2 text-4xl font-bold text-neutral-700 transition-colors duration-200 group-hover:text-neutral-50"
+        className="relative z-10 block px-8 py-2 text-4xl font-bold text-neutral-500 transition-colors duration-200 group-hover:text-neutral-100"
       >
         {title}
       </Link>
