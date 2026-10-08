@@ -79,8 +79,8 @@ export async function getIngredientImages() {
     }
   }`,
     // 이미지 캐시 설정 - sanity 업데이트 적용 안 될때 사용
-    {},
-    { cache: "no-store" },
+    // {},
+    // { cache: "no-store" },
   );
 
   return buildIngredientGroups(images);
@@ -97,8 +97,8 @@ export async function getPopupImage() {
         alt
       }
     }`,
-    {},
-    { cache: "no-store" },
+    // {},
+    // { cache: "no-store" },
   );
 }
 
@@ -121,7 +121,7 @@ export async function getIngredientGroupById(
       }
     }`,
     { ingredientNumber: normalizedIngredientNumber },
-    { cache: "no-store" },
+    // { cache: "no-store" },
   );
 
   const groups = buildIngredientGroups(images);
