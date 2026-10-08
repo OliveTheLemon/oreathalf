@@ -27,7 +27,7 @@ export function HomePageContent({
 }: HomePageContentProps) {
   const [shouldStick, setShouldStick] = useState(false);
   const lastTitleSectionRef = useRef<HTMLElement | null>(null);
-  const [imageGridTop, setImageGridTop] = useState(false);
+  // const [imageGridTop, setImageGridTop] = useState(false);
   const imageGridSectionRef = useRef<HTMLElement | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [hideForToday, setHideForToday] = useState(false);
@@ -42,9 +42,9 @@ export function HomePageContent({
       }
 
       const rect = lastTitleSectionRef.current.getBoundingClientRect();
-      const imageGridRect = imageGridSectionRef.current.getBoundingClientRect();
+      // const imageGridRect = imageGridSectionRef.current.getBoundingClientRect();
       setShouldStick(rect.top <= 0);
-      setImageGridTop(imageGridRect.top <= 0);
+      // setImageGridTop(imageGridRect.top <= 0);
     };
 
     handleScroll();

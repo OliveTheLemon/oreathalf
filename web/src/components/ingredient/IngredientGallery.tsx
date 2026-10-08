@@ -1,20 +1,19 @@
 "use client";
 
-import Link from "next/link";
-import { useState } from "react";
+// import { useState } from "react";
 import type { IngredientImageGroup } from "@/sanity/queries";
 import {
-  IngredientFilterButton,
+  // IngredientFilterButton,
   IngredientImageGrid,
 } from "@/components/ingredient/IngredientImageGrid+Button";
 
-const filterCount = 4;
+// const filterCount = 4;
 
 export function IngredientGallery({ group }: { group: IngredientImageGroup }) {
-  const [filterIndex, setFilterIndex] = useState(0);
-  const handleFilterClick = () => {
-    setFilterIndex((currentIndex) => (currentIndex + 1) % filterCount);
-  };
+  // const [filterIndex, setFilterIndex] = useState(0);
+  // const handleFilterClick = () => {
+  //   setFilterIndex((currentIndex) => (currentIndex + 1) % filterCount);
+  // };
 
   return (
     <>
@@ -30,7 +29,8 @@ export function IngredientGallery({ group }: { group: IngredientImageGroup }) {
         </div> */}
       </div>
 
-      <IngredientImageGrid group={group} filterIndex={filterIndex} />
+      {/* <IngredientImageGrid group={group} filterIndex={filterIndex} /> */}
+      <IngredientImageGrid group={group} filterIndex={0} />
     </>
   );
 }
