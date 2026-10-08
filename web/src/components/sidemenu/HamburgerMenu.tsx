@@ -23,14 +23,18 @@ export default function HamburgerMenu({ isOpen, onClose }: HamburgerMenuProps) {
         >
           ×
         </button>
-        <MenuItem title="Home" href="/" />
-        <MenuItem title="Ingredient" href="/Ingredient" />
-        <MenuItem title="About" href="/about" />
+        <MenuItem title="Home" href="/" onSelect={onClose} />
+        <MenuItem title="Ingredient" href="/Ingredient" onSelect={onClose} />
+        <MenuItem title="About" href="/about" onSelect={onClose} />
         <div className="block px-4 py-2 text-5xl font-bold text-neutral-500">
           Lab
         </div>
-        <SubMenuItem title="whatiatetoday" href="/whatiatetoday" />
-        <SubMenuItem title="random" href="/random" />
+        <SubMenuItem
+          title="whatiatetoday"
+          href="/whatiatetoday"
+          onSelect={onClose}
+        />
+        <SubMenuItem title="random" href="/random" onSelect={onClose} />
       </div>
       <button
         type="button"

@@ -3,13 +3,15 @@ import Link from "next/link";
 type SubMenuItemProps = {
   title: string;
   href: string;
+  onSelect: () => void;
 };
 
-export default function SubMenuItem({ title, href }: SubMenuItemProps) {
+export default function SubMenuItem({ title, href, onSelect }: SubMenuItemProps) {
   return (
     <div className="group relative">
       <Link
         href={href}
+        onClick={onSelect}
         className="relative z-10 block px-8 py-2 text-4xl font-bold text-neutral-500 transition-colors duration-200 group-hover:text-neutral-100"
       >
         {title}
