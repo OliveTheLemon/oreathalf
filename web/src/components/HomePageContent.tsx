@@ -170,7 +170,7 @@ export function HomePageContent({
       </section>
 
       {isPopupOpen && popupImage && popupImageUrl && (
-        <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/30 px-4 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-4 backdrop-blur-sm">
           <div className="relative w-[45vh] max-w-[90vw] overflow-hidden shadow-2xl">
             <div className="relative aspect-[9/16] w-full">
               <Image

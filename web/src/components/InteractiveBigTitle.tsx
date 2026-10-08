@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 type InteractiveTitleProps = {
   englishText: string;
   koreanText: string;
-  isPinned?: boolean;
 };
 
 export function InteractiveBigTitle({

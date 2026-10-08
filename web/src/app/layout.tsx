@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Image from "next/image";
 import Link from "next/link";
+import HamburgerMenu from "@/components/sidemenu/HamburgerMenu";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -33,6 +34,7 @@ export default function RootLayout({
           </div>
           <div></div>
         </div>
+        <HamburgerMenu />
         {children}
         <div className="pb-12"></div>
       </body>
