@@ -1,5 +1,9 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import MenuItem from "./MenuItem";
 import SubMenuItem from "./SubMenuItem";
+import type { MouseEvent } from "react";
 
 type HamburgerMenuProps = {
   isOpen: boolean;
@@ -7,6 +11,17 @@ type HamburgerMenuProps = {
 };
 
 export default function HamburgerMenu({ isOpen, onClose }: HamburgerMenuProps) {
+  const router = useRouter();
+
+  const navigateToRandomIngredient = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    const ingredientNumber = Math.floor(Math.random() * 25) + 2;
+    router.push(`/ingredient/${ingredientNumber}`);
+    onClose();
+  };
+
+  const closeMenu = () => onClose();
+
   return (
     <>
       <div
@@ -23,18 +38,22 @@ export default function HamburgerMenu({ isOpen, onClose }: HamburgerMenuProps) {
         >
           ×
         </button>
-        <MenuItem title="Home" href="/" onSelect={onClose} />
-        <MenuItem title="Ingredient" href="/Ingredient" onSelect={onClose} />
-        <MenuItem title="About" href="/about" onSelect={onClose} />
+        <MenuItem title="Home" href="/" onSelect={closeMenu} />
+        <MenuItem
+          title="Ingredient"
+          href="/ingredient/2"
+          onSelect={navigateToRandomIngredient}
+        />
+        <MenuItem title="About" href="/about" onSelect={closeMenu} />
         <div className="block px-4 py-2 text-5xl font-bold text-neutral-500">
           Lab
         </div>
         <SubMenuItem
           title="whatiatetoday"
           href="/whatiatetoday"
-          onSelect={onClose}
+          onSelect={closeMenu}
         />
-        <SubMenuItem title="random" href="/random" onSelect={onClose} />
+        <SubMenuItem title="random" href="/random" onSelect={closeMenu} />
       </div>
       <button
         type="button"

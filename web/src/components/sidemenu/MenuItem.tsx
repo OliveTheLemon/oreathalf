@@ -1,9 +1,10 @@
 import Link from "next/link";
+import type { MouseEvent } from "react";
 
 type MenuItemProps = {
   title: string;
   href: string;
-  onSelect: () => void;
+  onSelect: (event: MouseEvent<HTMLAnchorElement>) => void;
 };
 
 export default function MenuItem({ title, href, onSelect }: MenuItemProps) {
