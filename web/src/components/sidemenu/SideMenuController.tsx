@@ -1,17 +1,24 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import HamburgerMenu from "./HamburgerMenu";
 
 export default function SideMenuController() {
   const [isOpen, setIsOpen] = useState(false);
+  const logoButtonRef = useRef<HTMLButtonElement>(null);
+
+  const closeMenu = () => {
+    logoButtonRef.current?.focus({ preventScroll: true });
+    setIsOpen(false);
+  };
 
   return (
     <>
       <div className="fixed top-0 left-0 z-40 flex h-[50px] w-full items-center justify-between px-6 text-2xl backdrop-blur-sm md:h-[100px] md:px-8 md:text-4xl">
         <button
           type="button"
+          ref={logoButtonRef}
           aria-label="메뉴 열기"
           aria-expanded={isOpen}
           onClick={() => setIsOpen(true)}
@@ -27,7 +34,7 @@ export default function SideMenuController() {
       </div>
       <HamburgerMenu
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onClose={closeMenu}
       />
     </>
   );

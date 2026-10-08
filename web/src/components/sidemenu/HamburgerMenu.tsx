@@ -26,6 +26,7 @@ export default function HamburgerMenu({ isOpen, onClose }: HamburgerMenuProps) {
     <>
       <div
         aria-hidden={!isOpen}
+        inert={!isOpen}
         className={`fixed top-0 left-0 z-50 h-full w-[400px] bg-amber-50 p-6 transition-transform duration-500 ease-in-out md:p-8 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
