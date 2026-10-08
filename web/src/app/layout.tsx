@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import SideMenuController from "@/components/sidemenu/SideMenuController";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -16,7 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body>{children}</body>
+      <body>
+        <SideMenuController />
+        {children}
+        <div className="pb-12"></div>
+      </body>
     </html>
   );
 }

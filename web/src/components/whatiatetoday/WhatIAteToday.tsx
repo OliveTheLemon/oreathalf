@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
 import {
   downloadMealPoster,
@@ -164,11 +163,9 @@ export function WhatIAteToday() {
   };
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="min-h-screen bg-background text-foreground pt-[50px] md:pt-[100px]">
       <header className="flex items-center justify-between border-b border-black/15 px-5 py-4 sm:px-10">
-        <Link href="/" className="sunflower-bold text-sm sm:text-base">
-          or.....EAT HALF!
-        </Link>
+        <div></div>
         <span className="text-xs uppercase tracking-[0.12em] text-black/55">
           food journal / 01
         </span>

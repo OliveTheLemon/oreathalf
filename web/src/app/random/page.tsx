@@ -71,7 +71,7 @@ export default async function RandomKeywordPage() {
 
   return (
     <>
-      <div className="container mx-auto py-8 h-screen sunflower-light">
+      <div className="container mx-auto py-8 h-screen sunflower-light pt-[50px] md:pt-[100px]">
         <h1 className="text-3xl font-bold mb-4 text-center">
           랜덤 키워드 생성기
         </h1>

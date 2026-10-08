@@ -74,7 +74,7 @@ export default function AboutContent({
     <section className={styles.horizontalDeck} aria-label="oreathalf 이야기">
       <div className={styles.horizontalTrack} onWheel={moveDeck}>
         <section className={`${styles.horizontalPanel} ${styles.deckIntro}`}>
-          <p className={styles.eyebrow}>'나도 다이어트 하고싶어'</p>
+          <p className={styles.eyebrow}>&apos;나도 다이어트 하고싶어&apos;</p>
           <h2>
             누군가에게 <br />
             계기가 될 수 있도록

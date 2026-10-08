@@ -252,6 +252,9 @@
 .developmentCopy .caption {
   margin-top: 0;
 }
+.developmentLastPanel {
+  background: #000;
+}
 .panelHeading {
   position: absolute;
   top: 38px;
