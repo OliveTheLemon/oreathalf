@@ -25,7 +25,10 @@ export default function SideMenuController() {
           />
         </button>
       </div>
-      {isOpen && <HamburgerMenu onClose={() => setIsOpen(false)} />}
+      <HamburgerMenu
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      />
     </>
   );
 }

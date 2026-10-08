@@ -2,13 +2,19 @@ import MenuItem from "./MenuItem";
 import SubMenuItem from "./SubMenuItem";
 
 type HamburgerMenuProps = {
+  isOpen: boolean;
   onClose: () => void;
 };
 
-export default function HamburgerMenu({ onClose }: HamburgerMenuProps) {
+export default function HamburgerMenu({ isOpen, onClose }: HamburgerMenuProps) {
   return (
     <>
-      <div className="fixed top-0 left-0 z-50 h-full w-[400px] bg-amber-50 p-6 md:p-8">
+      <div
+        aria-hidden={!isOpen}
+        className={`fixed top-0 left-0 z-50 h-full w-[400px] bg-amber-50 p-6 transition-transform duration-500 ease-in-out md:p-8 ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
         <button
           type="button"
           aria-label="메뉴 닫기"
@@ -30,7 +36,11 @@ export default function HamburgerMenu({ onClose }: HamburgerMenuProps) {
         type="button"
         aria-label="메뉴 닫기"
         onClick={onClose}
-        className="fixed inset-0 z-40 h-full w-full bg-gray-800/30"
+        aria-hidden={!isOpen}
+        tabIndex={isOpen ? 0 : -1}
+        className={`fixed inset-0 z-40 h-full w-full bg-gray-800/30 transition-opacity duration-500 ease-in-out ${
+          isOpen ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
       />
     </>
   );
