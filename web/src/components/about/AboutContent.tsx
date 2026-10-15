@@ -82,10 +82,9 @@ export default function AboutContent({
           <span className={styles.scrollMark}>SWIPE TO EXPLORE →</span>
         </section>
 
-        <section className={`${styles.horizontalPanel} ${styles.cardPanel}`}>
+        <section className={`${styles.horizontalPanel}`}>
           <div className={styles.panelHeading}>
-            <p className={styles.index}>01 — TABLE NOTES</p>
-            <h2>레시피 정보를 나누고</h2>
+            <h2>레시피를 나누고</h2>
           </div>
           <div
             className={styles.cardViewport}
@@ -101,29 +100,15 @@ export default function AboutContent({
                   aria-label={`오늘의 식탁 사진 ${index + 1}`}
                 />
                 <div className={styles.noteCopy}>
-                  <span>TABLE NOTE / {String(index + 1).padStart(2, "0")}</span>
-                  <h3>
-                    {
-                      [
-                        "초록을 담은 점심",
-                        "천천히 익어가는 맛",
-                        "오늘의 작은 수확",
-                        "다정한 한 그릇",
-                      ][index]
-                    }
-                  </h3>
+                  <span>{String(index + 1)} / 4</span>
                 </div>
               </article>
             ))}
           </div>
-          <p className={styles.hint}>마우스 휠을 움직여 다음 장을 만나보세요</p>
+          <p className={styles.hint}>사진을 넘겨 다음 장을 만나보세요</p>
         </section>
 
         <section className={`${styles.horizontalPanel} ${styles.storyPanel}`}>
-          <div className={styles.panelHeading}>
-            <p className={styles.index}>02 — IN THE MOMENT</p>
-            <h2>식단을 기록했습니다.</h2>
-          </div>
           <div className={styles.storyFrame}>
             <div className={styles.storyProgress}>
               {storyImages.map((image, index) => (
@@ -146,6 +131,16 @@ export default function AboutContent({
               <h3>{stories[activeStory]}</h3>
             </div>
           </div>
+          <div className={styles.panelHeadingRight}>
+            <h2>식단을 기록했습니다.</h2>
+          </div>
+        </section>
+
+        <section
+          className={`${styles.horizontalPanel} ${styles.deckIntro} ${styles.coral}`}
+        >
+          <p className={styles.eyebrow}>한 곳에서, 더 다채롭게</p>
+          <h2>이제, 웹으로</h2>
           <button
             className={styles.developmentButton}
             type="button"

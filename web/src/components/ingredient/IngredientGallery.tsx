@@ -24,7 +24,7 @@ export function IngredientGallery({ group }: { group: IngredientImageGroup }) {
       </div>
 
       <IngredientImageGrid group={group} filterIndex={filterIndex} />
-      <div className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-lg">
+      <div className="fixed bottom-6 right-6 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-lg">
         <IngredientFilterButton
           filterIndex={filterIndex}
           onClick={handleFilterClick}
