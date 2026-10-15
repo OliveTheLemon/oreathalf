@@ -46,7 +46,7 @@
   background: #f5d54e;
 } */
 .coral {
-  background: #e97b62;
+  background: #e9937f;
 }
 .green {
   background: #c4d4a4;
@@ -126,9 +126,6 @@
 .horizontalPanel {
   padding: 92px 7vw 56px;
 }
-.deckIntro {
-  /* background: #f7f4e9; */
-}
 
 .deckIntro .eyebrow {
   top: 35%;
@@ -202,23 +199,24 @@
   align-items: center;
   gap: 18px;
 }
-.developmentImage {
-  display: block;
-  width: min(42vw, 600px);
-  max-height: 38vh;
-  object-fit: contain;
-}
+.developmentImage,
 .LogoImage {
   display: block;
   width: min(42vw, 600px);
-  max-height: 38vh;
+  height: 38vh;
   object-fit: contain;
-  margin-bottom: 20px;
+}
+.LogoImage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  transform: translate(-50%, -50%);
 }
 
 .developmentImagePin {
   position: absolute;
-  z-index: 100;
+  z-index: 40;
   inset: 0;
   display: grid;
   place-items: center;
@@ -475,9 +473,10 @@
   .developmentButton {
     width: 48px;
   }
-  .developmentImage {
+  .developmentImage,
+  .LogoImage {
     width: 78vw;
-    max-height: 32vh;
+    height: 32vh;
   }
   .developmentCopy h2 {
     font-size: 24px;
