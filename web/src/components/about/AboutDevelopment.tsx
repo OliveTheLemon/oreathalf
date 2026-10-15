@@ -30,21 +30,19 @@ export default function AboutDevelopment() {
           <div className={styles.developmentContent}>
             <Image
               className={styles.LogoImage}
-              src="https://cdn.sanity.io/images/ph340op5/production/6e9eb30a9e5c4e32d9bbdd662772396858bd5c83-1351x1191.png"
+              src="https://cdn.sanity.io/images/ph340op5/production/259eced2db356d777172a2c06be4d3bc53127d2a-1351x1191.png"
               alt="oreathalf 로고 이미지"
               width={1351}
               height={1191}
             />
             <div className={styles.developmentCopy}>
               <h2>하나의 웹 공간으로</h2>
-              <p className={styles.caption}>Instagram에 기록하던 콘텐츠를</p>
-              <p className={styles.caption}>
-                하나의 웹 공간에서 탐색할 수 있도록 만들었습니다.
-              </p>
+              <p className={styles.caption}>Instagram 속 콘텐츠를</p>
+              <p className={styles.caption}>웹 그리고 모바일로</p>
             </div>
           </div>
         </section>
-        <section
+        {/* <section
           className={`${styles.horizontalPanel} ${styles.developmentPanel}`}
         >
           <div className={styles.developmentContent}>
@@ -56,14 +54,30 @@ export default function AboutDevelopment() {
               </p>
             </div>
           </div>
-        </section>
+        </section> */}
         <section
           className={`${styles.horizontalPanel} ${styles.developmentPanel}`}
         >
           <div className={styles.developmentContent}>
-            <div className={styles.developmentCopy}>
+            <Image
+              className={styles.LogoImage}
+              src="https://cdn.sanity.io/images/ph340op5/production/259eced2db356d777172a2c06be4d3bc53127d2a-1351x1191.png"
+              alt="oreathalf 로고 이미지"
+              width={1351}
+              height={1191}
+            />
+            <div
+              className={`${styles.developmentCopy} ${styles.developmentDragPosition}`}
+            >
               <h2>oreathalf.com</h2>
-              <p className={styles.caption}>기술 스택 목록</p>
+              <div className={styles.developmentDrag}></div>
+              <div className={styles.developmentDragLeftLine}></div>
+              <div className={styles.developmentDragRightLine}></div>
+              <div className={styles.developmentDragLeftCircle}></div>
+              <div className={styles.developmentDragRightCircle}></div>
+              <p className={styles.caption}>
+                <br />
+              </p>
             </div>
           </div>
         </section>
@@ -71,11 +85,16 @@ export default function AboutDevelopment() {
           className={`${styles.horizontalPanel} ${styles.developmentPanel}`}
         >
           <div className={styles.developmentContent}>
+            <Image
+              className={styles.LogoImage}
+              src="https://cdn.sanity.io/images/ph340op5/production/259eced2db356d777172a2c06be4d3bc53127d2a-1351x1191.png"
+              alt="oreathalf 로고 이미지"
+              width={1351}
+              height={1191}
+            />
             <div className={styles.developmentCopy}>
-              <h2>계획부터 개발까지</h2>
-              <p className={styles.caption}>
-                각 과정에서 직접 고민하고 만들었습니다.
-              </p>
+              <h2>기획부터 개발까지</h2>
+              <p className={styles.caption}>직접 고민했습니다.</p>
             </div>
           </div>
         </section>
@@ -83,10 +102,19 @@ export default function AboutDevelopment() {
           className={`${styles.horizontalPanel} ${styles.developmentPanel} ${styles.developmentLastPanel}`}
         >
           <div className={styles.developmentContent}>
-            <div className={styles.developmentCopy}>
-              <h2>계획부터 개발까지</h2>
-              <p className={`${styles.caption} `}>
-                각 과정에서 직접 고민하고 만들었습니다.
+            <Image
+              className={styles.LogoImage}
+              src="https://cdn.sanity.io/images/ph340op5/production/33aae154eeb419b6e3ad7d2d7440229fd78ab8ac-1351x1191.png"
+              alt="oreathalf 로고 이미지"
+              width={1351}
+              height={1191}
+            />
+            <div
+              className={`${styles.developmentCopy} ${styles.developmentCopyLast}`}
+            >
+              <h2>is still in progress.....</h2>
+              <p className={styles.caption}>
+                <br />
               </p>
             </div>
           </div>
