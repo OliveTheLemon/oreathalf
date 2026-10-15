@@ -30,13 +30,12 @@ export default function AboutDevelopment() {
           <div className={styles.developmentContent}>
             <Image
               className={styles.LogoImage}
-              src="https://cdn.sanity.io/images/ph340op5/production/6345d9e2ebef8185ec88406bf319596e8335a991-2038x780.png"
+              src="https://cdn.sanity.io/images/ph340op5/production/6e9eb30a9e5c4e32d9bbdd662772396858bd5c83-1351x1191.png"
               alt="oreathalf 로고 이미지"
-              width={2038}
-              height={780}
+              width={1351}
+              height={1191}
             />
             <div className={styles.developmentCopy}>
-              <p className={styles.index}>03 — DEVELOPMENT</p>
               <h2>하나의 웹 공간으로</h2>
               <p className={styles.caption}>Instagram에 기록하던 콘텐츠를</p>
               <p className={styles.caption}>
@@ -50,7 +49,6 @@ export default function AboutDevelopment() {
         >
           <div className={styles.developmentContent}>
             <div className={styles.developmentCopy}>
-              <p className={styles.index}>03 — DEVELOPMENT</p>
               <h2>기능</h2>
               <p className={styles.caption}>
                 이미지 전환 - 재료별 콘텐츠 탐색 - 이미지 필터링 - 반응형
@@ -64,7 +62,6 @@ export default function AboutDevelopment() {
         >
           <div className={styles.developmentContent}>
             <div className={styles.developmentCopy}>
-              <p className={styles.index}>03 — DEVELOPMENT</p>
               <h2>oreathalf.com</h2>
               <p className={styles.caption}>기술 스택 목록</p>
             </div>
@@ -75,7 +72,6 @@ export default function AboutDevelopment() {
         >
           <div className={styles.developmentContent}>
             <div className={styles.developmentCopy}>
-              <p className={styles.index}>03 — DEVELOPMENT</p>
               <h2>계획부터 개발까지</h2>
               <p className={styles.caption}>
                 각 과정에서 직접 고민하고 만들었습니다.
@@ -88,9 +84,8 @@ export default function AboutDevelopment() {
         >
           <div className={styles.developmentContent}>
             <div className={styles.developmentCopy}>
-              <p className={styles.index}>03 — DEVELOPMENT</p>
               <h2>계획부터 개발까지</h2>
-              <p className={styles.caption}>
+              <p className={`${styles.caption} `}>
                 각 과정에서 직접 고민하고 만들었습니다.
               </p>
             </div>

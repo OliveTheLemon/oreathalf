@@ -3,8 +3,7 @@ import styles from "../../assets/css/AboutExperience.module.css";
 export default function AboutWhyDiet() {
   return (
     <div className={styles.verticalTrack}>
-      <section className={`${styles.verticalPanel} ${styles.intro}`}>
-        <p className={styles.eyebrow}>OREATHALF / ABOUT</p>
+      <section className={`${styles.verticalPanel} `}>
         <h1>
           From diet
           <br />
@@ -13,8 +12,7 @@ export default function AboutWhyDiet() {
         {/* <p className={styles.caption}>아주 평범한 식탁에서 시작합니다.</p> */}
         <span className={styles.scrollMark}>SCROLL TO MEET US ↓</span>
       </section>
-      <section className={`${styles.verticalPanel} ${styles.yellow}`}>
-        <p className={styles.eyebrow}>OREATHALF / ABOUT</p>
+      <section className={`${styles.verticalPanel}`}>
         <p className={styles.caption}>단순한 기록을 넘어</p>
         {/* <p className={styles.caption}>콘텐츠를 만들어가는 소재로써의</p> */}
         <h2>
@@ -23,7 +21,6 @@ export default function AboutWhyDiet() {
         </h2>
       </section>
       <section className={`${styles.verticalPanel} ${styles.green}`}>
-        <p className={styles.eyebrow}>OREATHALF / ABOUT</p>
         <p className={styles.caption}>왜 하필 다이어트였을까?</p>
         <h2>모두의 관심사</h2>
         <p className={styles.caption}>

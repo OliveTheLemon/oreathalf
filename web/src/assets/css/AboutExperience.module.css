@@ -3,7 +3,7 @@
   overflow-x: hidden;
   overflow-y: auto;
   color: #20211b;
-  background: #f7f4e9;
+  /* background: #f7f4e9; */
   scroll-snap-type: y mandatory;
   scrollbar-width: none;
 }
@@ -39,14 +39,14 @@
   text-align: center;
 }
 
-.intro {
+/* .intro {
   background: #f7f4e9;
 }
 .yellow {
   background: #f5d54e;
-}
+} */
 .coral {
-  background: #e97b62;
+  background: #e9937f;
 }
 .green {
   background: #c4d4a4;
@@ -126,9 +126,6 @@
 .horizontalPanel {
   padding: 92px 7vw 56px;
 }
-.deckIntro {
-  background: #f7f4e9;
-}
 
 .deckIntro .eyebrow {
   top: 35%;
@@ -144,20 +141,13 @@
 .deckIntro .scrollMark {
   bottom: 15%;
 }
-.cardPanel {
-  background: #e9a58b;
-}
-.storyPanel {
-  background: #e2d9bd;
-}
 
 .developmentButton {
-  position: absolute;
-  top: 50%;
-  right: clamp(18px, 4vw, 64px);
+  position: relative;
   z-index: 3;
   display: grid;
   width: 56px;
+  margin-top: 20px;
   aspect-ratio: 1;
   place-items: center;
   border: 1px solid #20211b;
@@ -165,7 +155,6 @@
   color: #20211b;
   background: #f7f4e9;
   cursor: pointer;
-  transform: translateY(-50%);
   transition:
     color 180ms ease,
     background-color 180ms ease,
@@ -180,7 +169,7 @@
 .developmentButton:hover {
   color: #f7f4e9;
   background: #20211b;
-  transform: translateY(calc(-50% - 3px));
+  transform: translateY(-3px);
 }
 
 .developmentButton:focus-visible {
@@ -189,7 +178,7 @@
 }
 .developmentDeck {
   position: relative;
-  background: #e2d9bd;
+  background: #f7f4e9;
 }
 
 .developmentDeck .horizontalTrack {
@@ -210,23 +199,24 @@
   align-items: center;
   gap: 18px;
 }
-.developmentImage {
-  display: block;
-  width: min(42vw, 600px);
-  max-height: 38vh;
-  object-fit: contain;
-}
+.developmentImage,
 .LogoImage {
   display: block;
   width: min(42vw, 600px);
-  max-height: 38vh;
+  height: 38vh;
   object-fit: contain;
-  margin-bottom: 20px;
+}
+.LogoImage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  transform: translate(-50%, -50%);
 }
 
 .developmentImagePin {
   position: absolute;
-  z-index: 100;
+  z-index: 40;
   inset: 0;
   display: grid;
   place-items: center;
@@ -255,20 +245,28 @@
 .developmentLastPanel {
   background: #000;
 }
+
 .panelHeading {
   position: absolute;
-  top: 38px;
-  left: 40px;
+  top: 45vh;
+  left: 33vh;
   z-index: 2;
   text-align: left;
 }
-
-.panelHeading .index {
-  position: static;
-  margin-bottom: 7px;
-}
-
 .panelHeading h2 {
+  margin: 0;
+  font-family: "Sunflower", sans-serif;
+  font-size: 26px;
+  font-weight: 500;
+}
+.panelHeadingRight {
+  position: absolute;
+  top: 45vh;
+  right: 33vh;
+  z-index: 2;
+  text-align: left;
+}
+.panelHeadingRight h2 {
   margin: 0;
   font-family: "Sunflower", sans-serif;
   font-size: 26px;
@@ -438,10 +436,22 @@
     line-height: 1.7;
   }
   .panelHeading {
-    top: 26px;
-    left: 22px;
+    top: 80px;
+    left: 50vw;
+    transform: translateX(-50%);
   }
   .panelHeading h2 {
+    font-size: 22px;
+  }
+  .panelHeadingRight {
+    position: static;
+    transform: none;
+    text-align: center;
+  }
+  .storyPanel {
+    gap: 20px;
+  }
+  .panelHeadingRight h2 {
     font-size: 22px;
   }
   .horizontalPanel {
@@ -461,12 +471,12 @@
     width: min(72vw, 38.25vh);
   }
   .developmentButton {
-    right: 14px;
     width: 48px;
   }
-  .developmentImage {
+  .developmentImage,
+  .LogoImage {
     width: 78vw;
-    max-height: 32vh;
+    height: 32vh;
   }
   .developmentCopy h2 {
     font-size: 24px;
