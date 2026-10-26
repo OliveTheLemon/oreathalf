@@ -7,6 +7,10 @@ import {
 import { HomePageContent } from "@/components/HomePageContent";
 
 const carouselIngredientNumbers = [2, 3, 4, 5, 6, 17, 18, 19, 26];
+const homeIngredientOrder = [
+  2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+  23, 24, 25, 26,
+];
 
 const hoverImageSelections: IngredientHoverImageSelection[] = [
   {
@@ -74,7 +78,10 @@ const hoverImageSelections: IngredientHoverImageSelection[] = [
   },
   {
     ingredientNumber: 21,
-    imageIds: ["3e2c5b86-2320-474d-8359-b14c7aaa1bcd"],
+    imageIds: [
+      "3e2c5b86-2320-474d-8359-b14c7aaa1bcd",
+      "3e2c5b86-2320-474d-8359-b14c7aaa1bcd",
+    ],
   },
   {
     ingredientNumber: 14,
@@ -85,7 +92,10 @@ const hoverImageSelections: IngredientHoverImageSelection[] = [
   },
   {
     ingredientNumber: 20,
-    imageIds: ["90d6ba21-422b-4507-907d-7cb24f68dcb7"],
+    imageIds: [
+      "90d6ba21-422b-4507-907d-7cb24f68dcb7",
+      "90d6ba21-422b-4507-907d-7cb24f68dcb7",
+    ],
   },
   {
     ingredientNumber: 15,
@@ -139,6 +149,7 @@ export default async function Home() {
       ingredientGroups={ingredientGroups}
       popupImage={popupImage}
       hoverImageGroups={hoverGroups}
+      ingredientOrder={homeIngredientOrder}
     />
   );
 }
