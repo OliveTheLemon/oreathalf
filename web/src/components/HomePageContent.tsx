@@ -2,13 +2,20 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import type { IngredientImageGroup, SanityImageItem } from "@/sanity/queries";
+import type {
+  IngredientHoverImageGroup,
+  IngredientImageGroup,
+  SanityImageItem,
+} from "@/sanity/queries";
 import { IngredientImageCarousel } from "@/components/IngredientImageCarousel";
+import { IngredientImageHover } from "@/components/IngredientImageHover";
 import { InteractiveBigTitle } from "@/components/InteractiveBigTitle";
 import { InteractiveTitle } from "@/components/InteractiveTitle";
 
 type HomePageContentProps = {
   ingredientGroups: IngredientImageGroup[];
+  hoverImageGroups: IngredientHoverImageGroup[];
+  ingredientOrder: number[];
   popupImage?: SanityImageItem | null;
 };
 
@@ -23,6 +30,8 @@ function getSanityImageSrc(url: string | undefined, width: number) {
 
 export function HomePageContent({
   ingredientGroups,
+  hoverImageGroups,
+  ingredientOrder,
   popupImage,
 }: HomePageContentProps) {
   const [shouldStick, setShouldStick] = useState(false);
@@ -127,6 +136,30 @@ export function HomePageContent({
   };
 
   const popupImageUrl = getSanityImageSrc(popupImage?.image?.asset?.url, 1200);
+  const ingredientOrderIndex = new Map(
+    ingredientOrder.map((ingredientNumber, index) => [ingredientNumber, index]),
+  );
+  const imageItems = [
+    ...hoverImageGroups.map((group) => ({
+      type: "hover" as const,
+      ingredientNumber: group.ingredientNumber,
+      group,
+    })),
+    ...ingredientGroups.map((group) => ({
+      type: "carousel" as const,
+      ingredientNumber: group.ingredientNumber ?? Number.MAX_SAFE_INTEGER,
+      group,
+    })),
+  ].sort((first, second) => {
+    const firstOrder =
+      ingredientOrderIndex.get(first.ingredientNumber) ??
+      Number.MAX_SAFE_INTEGER;
+    const secondOrder =
+      ingredientOrderIndex.get(second.ingredientNumber) ??
+      Number.MAX_SAFE_INTEGER;
+
+    return firstOrder - secondOrder;
+  });
 
   return (
     <main className="min-h-screen bg-background">
@@ -161,11 +194,22 @@ export function HomePageContent({
         </section>
       </section>
 
+      {/* 여기를 손볼테야 */}
       <section ref={imageGridSectionRef} className="mx-auto">
         <div className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
-          {ingredientGroups.map((group) => (
-            <IngredientImageCarousel key={group.ingredientId} group={group} />
-          ))}
+          {imageItems.map((item) =>
+            item.type === "hover" ? (
+              <IngredientImageHover
+                key={`hover-${item.group.ingredientNumber}`}
+                group={item.group}
+              />
+            ) : (
+              <IngredientImageCarousel
+                key={`carousel-${item.group.ingredientId}`}
+                group={item.group}
+              />
+            ),
+          )}
         </div>
       </section>
 

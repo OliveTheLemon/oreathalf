@@ -47,3 +47,6 @@ next-env.d.ts
 
 opengraph-image.png
 .env*
+
+# upload image folder
+/uploads

@@ -26,6 +26,15 @@ export type IngredientImageGroup = {
   images: SanityImageItem[];
 };
 
+export type IngredientHoverImageSelection = {
+  ingredientNumber: number;
+  imageIds: [string, string?];
+};
+
+export type IngredientHoverImageGroup = IngredientHoverImageSelection & {
+  images: SanityImageItem[];
+};
+
 function sortIngredientImages(images: SanityImageItem[]) {
   return images.slice().sort((a, b) => {
     const aIngredientNumber = a.ingreNum?.ingreNum ?? Number.MAX_SAFE_INTEGER;
@@ -66,10 +75,10 @@ function buildIngredientGroups(images: SanityImageItem[]) {
   );
 }
 
-// 메인 페이지에서 재료별 이미지 그룹 불러옴
-export async function getIngredientImages() {
+// 메인 페이지에서 지정한 재료 번호의 이미지 그룹만 불러옴
+export async function getIngredientImages(ingredientNumbers: number[]) {
   const images = await client.fetch<SanityImageItem[]>(
-    `*[_type == "ingrePhotograph" && category == 0]{
+    `*[_type == "ingrePhotograph" && category == 0 && ingreNum->ingreNum in $ingredientNumbers]{
     _id,
     title,
     ingreNum->{_id, name, ingreNum},
@@ -78,15 +87,32 @@ export async function getIngredientImages() {
       alt
     }
   }`,
-    // 이미지 캐시 설정 - sanity 업데이트 적용 안 될때 사용
-    {},
+    { ingredientNumbers },
     {
-      // 캐시 옵션을 지정하여 매번 불필요하게 소켓을 새로 맺지 않도록 유도
       next: { revalidate: 60 },
     },
   );
 
   return buildIngredientGroups(images);
+}
+
+export async function getImagesByIds(imageIds: string[]) {
+  if (imageIds.length === 0) {
+    return [];
+  }
+
+  return client.fetch<SanityImageItem[]>(
+    `*[_type == "ingrePhotograph" && _id in $imageIds]{
+      _id,
+      title,
+      image{
+        asset->{url},
+        alt
+      }
+    }`,
+    { imageIds },
+    { next: { revalidate: 60 } },
+  );
 }
 
 export async function getPopupImage() {

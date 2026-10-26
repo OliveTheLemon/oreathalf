@@ -61,6 +61,7 @@
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0;
+  /* white-space: nowrap; */
 }
 
 .eyebrow {
@@ -244,6 +245,50 @@
 }
 .developmentLastPanel {
   background: #000;
+}
+
+.developmentCopyLast {
+  color: #70d010;
+}
+.developmentDragPosition {
+  position: relative;
+}
+.developmentDrag {
+  position: absolute;
+  width: 250px;
+  height: 45px;
+  background: rgb(51, 109, 217, 30%);
+}
+.developmentDragLeftLine {
+  position: absolute;
+  top: -5px;
+  width: 250px;
+  height: 50px;
+  border-left: 2.3px solid #336dd9;
+}
+.developmentDragRightLine {
+  position: absolute;
+  width: 250px;
+  height: 50px;
+  border-right: 2.3px solid #336dd9;
+}
+.developmentDragLeftCircle {
+  position: absolute;
+  top: -12px;
+  left: -40px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #336dd9;
+}
+.developmentDragRightCircle {
+  position: absolute;
+  bottom: 12px;
+  right: -40px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #336dd9;
 }
 
 .panelHeading {
@@ -480,6 +525,28 @@
   }
   .developmentCopy h2 {
     font-size: 24px;
+  }
+
+  .developmentDrag {
+    width: 200px;
+    height: 36px;
+  }
+  .developmentDragLeftLine {
+    width: 200px;
+    height: 45px;
+    top: -9px;
+  }
+  .developmentDragRightLine {
+    width: 200px;
+    height: 45px;
+  }
+  .developmentDragLeftCircle {
+    top: -15px;
+    left: -33px;
+  }
+  .developmentDragRightCircle {
+    bottom: 13px;
+    right: -33px;
   }
 }
 
