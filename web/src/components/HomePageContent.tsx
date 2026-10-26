@@ -171,11 +171,11 @@ export function HomePageContent({
       {/* 여기를 손볼테야 */}
       <section ref={imageGridSectionRef} className="mx-auto">
         <div className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
-          {ingredientGroups.map((group) => (
-            <IngredientImageCarousel key={group.ingredientId} group={group} />
-          ))}
           {hoverImageGroups.map((group) => (
             <IngredientImageHover key={group.ingredientNumber} group={group} />
+          ))}
+          {ingredientGroups.map((group) => (
+            <IngredientImageCarousel key={group.ingredientId} group={group} />
           ))}
         </div>
       </section>
