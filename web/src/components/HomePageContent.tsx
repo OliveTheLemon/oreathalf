@@ -2,13 +2,19 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import type { IngredientImageGroup, SanityImageItem } from "@/sanity/queries";
+import type {
+  IngredientHoverImageGroup,
+  IngredientImageGroup,
+  SanityImageItem,
+} from "@/sanity/queries";
 import { IngredientImageCarousel } from "@/components/IngredientImageCarousel";
+import { IngredientImageHover } from "@/components/IngredientImageHover";
 import { InteractiveBigTitle } from "@/components/InteractiveBigTitle";
 import { InteractiveTitle } from "@/components/InteractiveTitle";
 
 type HomePageContentProps = {
   ingredientGroups: IngredientImageGroup[];
+  hoverImageGroups: IngredientHoverImageGroup[];
   popupImage?: SanityImageItem | null;
 };
 
@@ -23,6 +29,7 @@ function getSanityImageSrc(url: string | undefined, width: number) {
 
 export function HomePageContent({
   ingredientGroups,
+  hoverImageGroups,
   popupImage,
 }: HomePageContentProps) {
   const [shouldStick, setShouldStick] = useState(false);
@@ -161,10 +168,14 @@ export function HomePageContent({
         </section>
       </section>
 
+      {/* 여기를 손볼테야 */}
       <section ref={imageGridSectionRef} className="mx-auto">
         <div className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
           {ingredientGroups.map((group) => (
             <IngredientImageCarousel key={group.ingredientId} group={group} />
+          ))}
+          {hoverImageGroups.map((group) => (
+            <IngredientImageHover key={group.ingredientNumber} group={group} />
           ))}
         </div>
       </section>
