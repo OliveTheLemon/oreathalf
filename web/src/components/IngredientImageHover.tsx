@@ -32,7 +32,7 @@ export function IngredientImageHover({
   return (
     <Link
       href={`/ingredient/${group.ingredientNumber}`}
-      className="group relative block aspect-[9/16] w-full overflow-hidden sm:aspect-[9/8] md:aspect-[9/8] lg:aspect-[9/8]"
+      className="group relative block aspect-[9/16] w-full overflow-hidden sm:aspect-square md:aspect-square lg:aspect-square"
       aria-label={`${firstImage.title ?? "재료"} 이미지 모아보기`}
     >
       <Image
@@ -41,7 +41,7 @@ export function IngredientImageHover({
         fill
         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
         loading="lazy"
-        className="object-cover transition-opacity duration-300 group-hover:opacity-0 group-focus-visible:opacity-0"
+        className="object-cover"
       />
       {secondImageUrl && (
         <Image

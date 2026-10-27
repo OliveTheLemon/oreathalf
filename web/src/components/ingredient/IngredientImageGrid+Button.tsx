@@ -75,7 +75,7 @@ export function IngredientImageGrid({
               className="relative transition-transform duration-500 ease-in-out hover:z-10 hover:scale-[1.2]"
             >
               {optimizedUrl ? (
-                <div className="relative aspect-[9/16] w-full sm:aspect-[9/8] md:aspect-[9/8] lg:aspect-[9/8]">
+                <div className="relative aspect-[9/16] w-full sm:aspect-square md:aspect-square lg:aspect-square">
                   {imageItem.istgUrl ? (
                     <a
                       href={imageItem.istgUrl}

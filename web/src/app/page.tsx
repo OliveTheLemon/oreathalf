@@ -72,58 +72,49 @@ const hoverImageSelections: IngredientHoverImageSelection[] = [
   {
     ingredientNumber: 22,
     imageIds: [
-      "537f5625-9860-418b-9dfd-90e4d18b7fc6",
-      "5808458e-204a-48fb-b377-c90556bcf127",
+      "e2e9480c-57da-4370-bceb-dbaec4808956",
+      "jQWf2sxFjrM4OgCYcaHdMV",
     ],
   },
   {
     ingredientNumber: 21,
-    imageIds: [
-      "3e2c5b86-2320-474d-8359-b14c7aaa1bcd",
-      "3e2c5b86-2320-474d-8359-b14c7aaa1bcd",
-    ],
+    imageIds: ["gTHDDQd2Spc0QHfHShnv9A", "cO5UITnAMNJhRlGSJ4DRKl"],
   },
   {
     ingredientNumber: 14,
     imageIds: [
-      "62eb9a72-f117-4a43-a4f6-f5026ce0b5d9",
-      "7626f514-6ba9-4dc8-b257-07ef8475b988",
+      "jQWf2sxFjrM4OgCYcaI5oA",
+      "97a06795-0de5-40d8-8c96-1273bc2c81bd",
     ],
   },
   {
     ingredientNumber: 20,
-    imageIds: [
-      "90d6ba21-422b-4507-907d-7cb24f68dcb7",
-      "90d6ba21-422b-4507-907d-7cb24f68dcb7",
-    ],
+    imageIds: ["jQWf2sxFjrM4OgCYcaI0xH", "jQWf2sxFjrM4OgCYcaHer5"],
   },
   {
     ingredientNumber: 15,
     imageIds: [
-      "36da1b27-7830-4c8d-ba92-6ce5ad9674bd",
+      "cO5UITnAMNJhRlGSJ4DM9L",
       "d16d6905-e7e7-40dc-a488-1311c59138b4",
     ],
   },
   {
     ingredientNumber: 23,
     imageIds: [
-      "a94bc460-e793-45d8-a991-ec9545f85561",
-      "c85e4b2f-ea7e-4a87-8266-1a6746cdee0b",
+      "jQWf2sxFjrM4OgCYcaHyn2",
+      "f7bedd11-4812-4c22-9191-740b96a48c6e",
     ],
   },
   {
     ingredientNumber: 24,
     imageIds: [
-      "71f76075-ad80-4650-b66c-63a395802530",
-      "a4305452-509f-4c8c-9fa6-3af98c50f250",
+      "gTHDDQd2Spc0QHfHShnyGh",
+      "d78ae306-3f1c-4733-aef7-c15b356fca79",
     ],
   },
   {
     ingredientNumber: 25,
-    imageIds: [
-      "075a604b-d164-4840-bb33-c6ba4189716f",
-      "1e25f017-6b41-4d49-8afd-591244c5aa13",
-    ],
+    imageIds: ["gTHDDQd2Spc0QHfHShngrx", "jQWf2sxFjrM4OgCYcaHSuR"],
   },
 ];
 
