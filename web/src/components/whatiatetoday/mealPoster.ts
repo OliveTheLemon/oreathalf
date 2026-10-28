@@ -74,11 +74,11 @@ function drawReceiptPaper(
   context.fillRect(x, y, width, height);
 }
 
-export async function downloadMealPoster(
+export async function createMealPoster(
   dateKey: string,
   entries: MealPosterEntry[],
   imageSize: ImageSize,
-) {
+): Promise<Blob> {
   await document.fonts.ready;
 
   const [width, height] = imageSize.split("x").map(Number);
@@ -261,10 +261,20 @@ export async function downloadMealPoster(
       else reject(new Error("이미지 파일을 만들지 못했습니다."));
     }, "image/png");
   });
+  return imageBlob;
+}
+
+export function downloadMealPoster(
+  imageBlob: Blob,
+  dateKey: string,
+  imageSize: ImageSize,
+) {
+  const [width, height] = imageSize.split("x");
   const imageUrl = URL.createObjectURL(imageBlob);
   const downloadLink = document.createElement("a");
   downloadLink.href = imageUrl;
   downloadLink.download = `oreathalf-${dateKey}-${width}x${height}.png`;
   downloadLink.click();
   URL.revokeObjectURL(imageUrl);
+  return imageBlob;
 }

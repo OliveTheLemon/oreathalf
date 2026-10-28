@@ -103,6 +103,33 @@ body {
   font-style: normal;
 }
 
+@keyframes receipt-print {
+  0% {
+    clip-path: inset(0 0 100% 0);
+    opacity: 0.6;
+    transform: translateY(-16px) scaleY(0.98);
+  }
+  75% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+    transform: translateY(0) scaleY(1.01);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+.receipt-print-animation {
+  animation: receipt-print 1.35s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .receipt-print-animation {
+    animation-duration: 1ms;
+  }
+}
+
 @layer utilities {
   .bg-background {
     background-color: var(--background);
