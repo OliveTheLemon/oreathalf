@@ -109,6 +109,7 @@ export default function AboutContent() {
         >
           <p className={styles.eyebrow}>한 곳에서, 더 다채롭게</p>
           <h2>이제, 웹으로</h2>
+          <span className={styles.hint}>SCROLL DOWN ↓</span>
         </section>
       </div>
     </section>

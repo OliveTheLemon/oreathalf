@@ -3,9 +3,24 @@ import Image from "next/image";
 import styles from "../../assets/css/AboutExperience.module.css";
 import { useHorizontalWheelScroll } from "./scrollHelpers";
 
-export default function AboutDevelopment() {
+interface AboutDevelopmentProps {
+  onBackToTop: () => void;
+}
+
+export default function AboutDevelopment({
+  onBackToTop,
+}: AboutDevelopmentProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   useHorizontalWheelScroll(trackRef);
+
+  function returnToTop() {
+    const behavior = window.matchMedia("(prefers-reduced-motion: reduce)")
+      .matches
+      ? "auto"
+      : "smooth";
+    trackRef.current?.scrollTo({ left: 0, behavior });
+    onBackToTop();
+  }
 
   return (
     <section
@@ -17,6 +32,7 @@ export default function AboutDevelopment() {
         <section
           className={`${styles.horizontalPanel} ${styles.developmentPanel}`}
         >
+          <span className={styles.scrollMark}>SCROLL RIGHT TO EXPLORE →</span>
           <div className={styles.developmentContent}>
             <Image
               className={styles.LogoImage}
@@ -106,6 +122,13 @@ export default function AboutDevelopment() {
               <p className={styles.caption}>
                 <br />
               </p>
+              <button
+                type="button"
+                className={styles.backToTopButton}
+                onClick={returnToTop}
+              >
+                ↑ 맨 위로
+              </button>
             </div>
           </div>
         </section>

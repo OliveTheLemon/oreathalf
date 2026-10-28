@@ -216,6 +216,33 @@
 .developmentCopyLast {
   color: #70d010;
 }
+
+.backToTopButton {
+  position: absolute;
+  z-index: 5;
+  right: clamp(20px, 4vw, 48px);
+  bottom: clamp(20px, 4vh, 40px);
+  margin: 0;
+  padding: 10px 16px;
+  border: 1px solid var(--foreground);
+  color: var(--foreground);
+  background: var(--background);
+  font-size: 12px;
+  cursor: pointer;
+  transition:
+    color 180ms ease,
+    background-color 180ms ease;
+}
+
+.backToTopButton:hover {
+  color: var(--background);
+  background: var(--foreground);
+}
+
+.backToTopButton:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
 .developmentDragPosition {
   position: relative;
 }
@@ -526,6 +553,10 @@
   }
 
   .noteImage {
+    transition-duration: 0.01ms;
+  }
+
+  .backToTopButton {
     transition-duration: 0.01ms;
   }
 }
