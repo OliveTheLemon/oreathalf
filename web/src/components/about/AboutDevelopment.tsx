@@ -1,21 +1,11 @@
+import { useRef } from "react";
 import Image from "next/image";
 import styles from "../../assets/css/AboutExperience.module.css";
+import { useHorizontalWheelScroll } from "./scrollHelpers";
 
 export default function AboutDevelopment() {
-  function moveDeck(event: React.WheelEvent<HTMLDivElement>) {
-    const track = event.currentTarget;
-    if (
-      event.defaultPrevented ||
-      Math.abs(event.deltaY) < Math.abs(event.deltaX)
-    )
-      return;
-
-    const atStart = track.scrollLeft <= 0;
-    const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
-    if ((event.deltaY < 0 && atStart) || (event.deltaY > 0 && atEnd)) return;
-
-    track.scrollBy({ left: event.deltaY, behavior: "smooth" });
-  }
+  const trackRef = useRef<HTMLDivElement>(null);
+  useHorizontalWheelScroll(trackRef);
 
   return (
     <section
@@ -23,7 +13,7 @@ export default function AboutDevelopment() {
       className={`${styles.horizontalDeck} ${styles.developmentDeck}`}
       aria-label="oreathalf 개발 이야기"
     >
-      <div className={styles.horizontalTrack} onWheel={moveDeck}>
+      <div className={styles.horizontalTrack} ref={trackRef}>
         <section
           className={`${styles.horizontalPanel} ${styles.developmentPanel}`}
         >

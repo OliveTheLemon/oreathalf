@@ -18,13 +18,30 @@ export default function AboutExperience() {
     const development = document.getElementById("about-development");
     if (!page || !development) return;
 
+    if (!("IntersectionObserver" in window)) {
+      const unlockWhenVisible = () => {
+        const pageBounds = page.getBoundingClientRect();
+        const developmentBounds = development.getBoundingClientRect();
+        if (
+          developmentBounds.top >= pageBounds.top - 1 &&
+          developmentBounds.bottom <= pageBounds.bottom + 1
+        ) {
+          setIsVerticalScrollUnlocked(false);
+        }
+      };
+
+      page.addEventListener("scroll", unlockWhenVisible, { passive: true });
+      unlockWhenVisible();
+      return () => page.removeEventListener("scroll", unlockWhenVisible);
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.intersectionRatio >= 0.95) {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.9) {
           setIsVerticalScrollUnlocked(false);
         }
       },
-      { root: page, threshold: 0.95 },
+      { root: page, threshold: 0.9 },
     );
 
     observer.observe(development);
@@ -34,8 +51,11 @@ export default function AboutExperience() {
   function openDevelopment() {
     setIsVerticalScrollUnlocked(true);
     document.getElementById("about-development")?.scrollIntoView({
-      behavior: "smooth",
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth",
       block: "start",
+      inline: "nearest",
     });
   }
 

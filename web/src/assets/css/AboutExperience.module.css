@@ -1,4 +1,5 @@
 .page {
+  height: 100vh;
   height: 100dvh;
   overflow-x: hidden;
   overflow-y: auto;
@@ -27,6 +28,7 @@
   position: relative;
   display: flex;
   width: 100%;
+  height: 100vh;
   height: 100dvh;
   min-height: 560px;
   flex: 0 0 100%;
@@ -102,6 +104,7 @@
 
 .horizontalDeck {
   width: 100%;
+  height: 100vh;
   height: 100dvh;
   flex: 0 0 100%;
   overflow: hidden;
@@ -257,7 +260,7 @@
   position: absolute;
   width: 250px;
   height: 45px;
-  background: rgb(51, 109, 217, 30%);
+  background: rgba(51, 109, 217, 0.3);
 }
 .developmentDragLeftLine {
   position: absolute;
@@ -293,10 +296,11 @@
 
 .panelHeading {
   position: absolute;
-  top: 45vh;
-  left: 33vh;
+  top: 50%;
+  left: clamp(40px, 12vw, 180px);
   z-index: 2;
   text-align: left;
+  transform: translateY(-50%);
 }
 .panelHeading h2 {
   margin: 0;
@@ -306,10 +310,11 @@
 }
 .panelHeadingRight {
   position: absolute;
-  top: 45vh;
-  right: 33vh;
+  top: 50%;
+  right: clamp(40px, 12vw, 180px);
   z-index: 2;
-  text-align: left;
+  text-align: right;
+  transform: translateY(-50%);
 }
 .panelHeadingRight h2 {
   margin: 0;
@@ -462,6 +467,7 @@
 @media (max-width: 640px) {
   .verticalPanel,
   .horizontalPanel {
+    min-height: 100vh;
     min-height: 100dvh;
   }
 
@@ -473,7 +479,8 @@
 
   .verticalPanel h1,
   .verticalPanel h2 {
-    font-size: 48px;
+    max-width: calc(100% - 44px);
+    font-size: clamp(32px, 9vw, 48px);
   }
 
   .caption {
@@ -482,7 +489,7 @@
   }
   .panelHeading {
     top: 80px;
-    left: 50vw;
+    left: 50%;
     transform: translateX(-50%);
   }
   .panelHeading h2 {
@@ -555,5 +562,10 @@
   .storyImage {
     animation-duration: 0.01ms;
     animation-iteration-count: 1;
+  }
+
+  .developmentButton,
+  .noteImage {
+    transition-duration: 0.01ms;
   }
 }

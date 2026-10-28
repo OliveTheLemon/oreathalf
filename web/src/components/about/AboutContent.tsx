@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import styles from "../../assets/css/AboutExperience.module.css";
+import { useHorizontalWheelScroll } from "./scrollHelpers";
 
 const photographs = [
   "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1200&q=85",
@@ -34,9 +35,14 @@ export default function AboutContent({
   onOpenDevelopment,
 }: AboutContentProps) {
   const storyTrack = useRef<HTMLDivElement>(null);
+  const deckTrack = useRef<HTMLDivElement>(null);
   const [activeStory, setActiveStory] = useState(0);
+  useHorizontalWheelScroll(storyTrack);
+  useHorizontalWheelScroll(deckTrack, !isVerticalScrollUnlocked);
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     const timer = window.setInterval(() => {
       setActiveStory((current) => (current + 1) % storyImages.length);
     }, 4000);
@@ -44,35 +50,9 @@ export default function AboutContent({
     return () => window.clearInterval(timer);
   }, []);
 
-  function moveStoryTrack(event: React.WheelEvent<HTMLDivElement>) {
-    const track = storyTrack.current;
-    if (!track || Math.abs(event.deltaY) < Math.abs(event.deltaX)) return;
-    const atStart = track.scrollLeft <= 0;
-    const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
-    if ((event.deltaY < 0 && atStart) || (event.deltaY > 0 && atEnd)) return;
-
-    track.scrollBy({ left: event.deltaY, behavior: "smooth" });
-  }
-
-  function moveDeck(event: React.WheelEvent<HTMLDivElement>) {
-    const track = event.currentTarget;
-    if (
-      isVerticalScrollUnlocked ||
-      event.defaultPrevented ||
-      Math.abs(event.deltaY) < Math.abs(event.deltaX)
-    )
-      return;
-
-    const atStart = track.scrollLeft <= 0;
-    const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
-    if ((event.deltaY < 0 && atStart) || (event.deltaY > 0 && atEnd)) return;
-
-    track.scrollBy({ left: event.deltaY, behavior: "smooth" });
-  }
-
   return (
     <section className={styles.horizontalDeck} aria-label="oreathalf 이야기">
-      <div className={styles.horizontalTrack} onWheel={moveDeck}>
+      <div className={styles.horizontalTrack} ref={deckTrack}>
         <section className={`${styles.horizontalPanel} ${styles.deckIntro}`}>
           <p className={styles.eyebrow}>&apos;나도 다이어트 하고싶어&apos;</p>
           <h2>
@@ -89,7 +69,6 @@ export default function AboutContent({
           <div
             className={styles.cardViewport}
             ref={storyTrack}
-            onWheel={moveStoryTrack}
           >
             {photographs.map((image, index) => (
               <article className={styles.noteCard} key={image}>
