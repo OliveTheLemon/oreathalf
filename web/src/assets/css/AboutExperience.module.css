@@ -166,6 +166,66 @@
   align-items: center;
   gap: 18px;
 }
+
+.technologyLabels {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  pointer-events: none;
+}
+
+.technologyTypeScript {
+  top: 22%;
+  left: 24%;
+}
+
+.technologyResponsive {
+  top: 22%;
+  right: 25%;
+}
+
+.technologyNext {
+  top: 43%;
+  left: 16%;
+}
+
+.technologyVercel {
+  top: 43%;
+  right: 16%;
+}
+
+.technologySanity {
+  top: 65%;
+  right: 18%;
+}
+
+@media (max-width: 800px) {
+  .technologyTypeScript {
+    top: 15%;
+    left: 20%;
+  }
+
+  .technologyResponsive {
+    top: 15%;
+    right: 20%;
+  }
+
+  .technologyNext {
+    top: 28%;
+    left: 5%;
+  }
+
+  .technologyVercel {
+    top: 28%;
+    right: 5%;
+  }
+
+  .technologySanity {
+    top: 69%;
+    right: 8%;
+  }
+}
+
 .developmentImage,
 .LogoImage {
   display: block;

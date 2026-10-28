@@ -1,0 +1,24 @@
+.label {
+  position: absolute;
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 14px;
+  border: 1px solid #111;
+  color: #111;
+  background: #fff;
+  font-family: "Iosevka Charon Mono", "Malgun Gothic", monospace;
+  font-size: clamp(12px, 1.8vw, 22px);
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .label {
+    min-height: 34px;
+    padding: 5px 9px;
+    font-size: clamp(11px, 3.2vw, 14px);
+  }
+}

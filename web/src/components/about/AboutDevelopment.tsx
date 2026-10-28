@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import Image from "next/image";
 import styles from "../../assets/css/AboutExperience.module.css";
+import TechnologyLabel from "./TechnologyLabel";
 import { useHorizontalWheelScroll } from "./scrollHelpers";
 
 interface AboutDevelopmentProps {
@@ -64,6 +65,29 @@ export default function AboutDevelopment({
         <section
           className={`${styles.horizontalPanel} ${styles.developmentPanel}`}
         >
+          <div
+            className={styles.technologyLabels}
+            role="group"
+            aria-label="사용한 기술"
+          >
+            <TechnologyLabel
+              text="TypeScript"
+              className={styles.technologyTypeScript}
+            />
+            <TechnologyLabel
+              text="반응형 웹"
+              className={styles.technologyResponsive}
+            />
+            <TechnologyLabel text="Next.js" className={styles.technologyNext} />
+            <TechnologyLabel
+              text="Vercel"
+              className={styles.technologyVercel}
+            />
+            <TechnologyLabel
+              text="sanity"
+              className={styles.technologySanity}
+            />
+          </div>
           <div className={styles.developmentContent}>
             <Image
               className={styles.LogoImage}
@@ -90,6 +114,32 @@ export default function AboutDevelopment({
         <section
           className={`${styles.horizontalPanel} ${styles.developmentPanel}`}
         >
+          <div
+            className={styles.technologyLabels}
+            role="group"
+            aria-label="사용한 기술"
+          >
+            <TechnologyLabel
+              text="Content"
+              className={styles.technologyTypeScript}
+            />
+            <TechnologyLabel
+              text="Marketing"
+              className={styles.technologyResponsive}
+            />
+            <TechnologyLabel
+              text="Planning"
+              className={styles.technologyNext}
+            />
+            <TechnologyLabel
+              text="Design"
+              className={styles.technologyVercel}
+            />
+            <TechnologyLabel
+              text="Development"
+              className={styles.technologySanity}
+            />
+          </div>
           <div className={styles.developmentContent}>
             <Image
               className={styles.LogoImage}
