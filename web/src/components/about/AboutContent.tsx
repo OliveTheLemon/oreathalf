@@ -25,20 +25,12 @@ const stories = [
   "다음 한 끼",
 ];
 
-interface AboutContentProps {
-  isVerticalScrollUnlocked: boolean;
-  onOpenDevelopment: () => void;
-}
-
-export default function AboutContent({
-  isVerticalScrollUnlocked,
-  onOpenDevelopment,
-}: AboutContentProps) {
+export default function AboutContent() {
   const storyTrack = useRef<HTMLDivElement>(null);
   const deckTrack = useRef<HTMLDivElement>(null);
   const [activeStory, setActiveStory] = useState(0);
   useHorizontalWheelScroll(storyTrack);
-  useHorizontalWheelScroll(deckTrack, !isVerticalScrollUnlocked);
+  useHorizontalWheelScroll(deckTrack);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -120,14 +112,6 @@ export default function AboutContent({
         >
           <p className={styles.eyebrow}>한 곳에서, 더 다채롭게</p>
           <h2>이제, 웹으로</h2>
-          <button
-            className={styles.developmentButton}
-            type="button"
-            aria-label="AboutDevelopment 영역으로 이동"
-            onClick={onOpenDevelopment}
-          >
-            <span aria-hidden="true">↓</span>
-          </button>
         </section>
       </div>
     </section>

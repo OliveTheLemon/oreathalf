@@ -120,10 +120,7 @@
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
-  overscroll-behavior: contain;
-}
-
-.verticalScrollUnlocked .horizontalTrack {
+  overscroll-behavior-x: contain;
   overscroll-behavior-y: auto;
 }
 
@@ -146,40 +143,6 @@
   bottom: 15%;
 }
 
-.developmentButton {
-  position: relative;
-  z-index: 3;
-  display: grid;
-  width: 56px;
-  margin-top: 20px;
-  aspect-ratio: 1;
-  place-items: center;
-  border: 1px solid #20211b;
-  border-radius: 50%;
-  color: #20211b;
-  background: #f7f4e9;
-  cursor: pointer;
-  transition:
-    color 180ms ease,
-    background-color 180ms ease,
-    transform 180ms ease;
-}
-
-.developmentButton span {
-  font-size: 24px;
-  line-height: 1;
-}
-
-.developmentButton:hover {
-  color: #f7f4e9;
-  background: #20211b;
-  transform: translateY(-3px);
-}
-
-.developmentButton:focus-visible {
-  outline: 2px solid #20211b;
-  outline-offset: 4px;
-}
 .developmentDeck {
   position: relative;
   background: #f7f4e9;
@@ -522,9 +485,6 @@
   .storyFrame {
     width: min(72vw, 38.25vh);
   }
-  .developmentButton {
-    width: 48px;
-  }
   .developmentImage,
   .LogoImage {
     width: 78vw;
@@ -564,7 +524,6 @@
     animation-iteration-count: 1;
   }
 
-  .developmentButton,
   .noteImage {
     transition-duration: 0.01ms;
   }
