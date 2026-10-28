@@ -58,10 +58,7 @@ export default function AboutContent() {
           <div className={styles.panelHeading}>
             <h2>레시피를 나누고</h2>
           </div>
-          <div
-            className={styles.cardViewport}
-            ref={storyTrack}
-          >
+          <div className={styles.cardViewport} ref={storyTrack}>
             {photographs.map((image, index) => (
               <article className={styles.noteCard} key={image}>
                 <div

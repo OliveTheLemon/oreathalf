@@ -9,12 +9,10 @@ export default function AboutWhyDiet() {
           <br />
           To content
         </h1>
-        {/* <p className={styles.caption}>아주 평범한 식탁에서 시작합니다.</p> */}
         <span className={styles.scrollMark}>SCROLL TO MEET US ↓</span>
       </section>
       <section className={`${styles.verticalPanel}`}>
         <p className={styles.caption}>단순한 기록을 넘어</p>
-        {/* <p className={styles.caption}>콘텐츠를 만들어가는 소재로써의</p> */}
         <h2>
           콘텐츠의 소재로써의 <br />
           &apos;다이어트&apos;

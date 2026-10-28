@@ -441,7 +441,8 @@
   }
 
   .verticalPanel h1,
-  .verticalPanel h2 {
+  .verticalPanel h2,
+  .deckIntro h2 {
     max-width: calc(100% - 44px);
     font-size: clamp(32px, 9vw, 48px);
   }
