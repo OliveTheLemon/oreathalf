@@ -55,7 +55,7 @@ export function IngredientImageCarousel({
   return (
     <Link
       href={`/ingredient/${group.ingredientNumber ?? group.ingredientId}`}
-      className="relative z-1 block aspect-[9/16] w-full overflow-hidden rounded-full sm:aspect-[9/8] md:aspect-[9/8] lg:aspect-[9/8]"
+      className="relative z-1 block aspect-[9/16] w-full overflow-hidden rounded-full sm:aspect-square md:aspect-square lg:aspect-square"
       aria-label={`${group.ingredientName ?? "재료"} 이미지 모아보기`}
     >
       <Image

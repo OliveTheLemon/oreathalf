@@ -1,4 +1,5 @@
 .page {
+  height: 100vh;
   height: 100dvh;
   overflow-x: hidden;
   overflow-y: auto;
@@ -27,6 +28,7 @@
   position: relative;
   display: flex;
   width: 100%;
+  height: 100vh;
   height: 100dvh;
   min-height: 560px;
   flex: 0 0 100%;
@@ -102,6 +104,7 @@
 
 .horizontalDeck {
   width: 100%;
+  height: 100vh;
   height: 100dvh;
   flex: 0 0 100%;
   overflow: hidden;
@@ -117,10 +120,7 @@
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
-  overscroll-behavior: contain;
-}
-
-.verticalScrollUnlocked .horizontalTrack {
+  overscroll-behavior-x: contain;
   overscroll-behavior-y: auto;
 }
 
@@ -143,40 +143,6 @@
   bottom: 15%;
 }
 
-.developmentButton {
-  position: relative;
-  z-index: 3;
-  display: grid;
-  width: 56px;
-  margin-top: 20px;
-  aspect-ratio: 1;
-  place-items: center;
-  border: 1px solid #20211b;
-  border-radius: 50%;
-  color: #20211b;
-  background: #f7f4e9;
-  cursor: pointer;
-  transition:
-    color 180ms ease,
-    background-color 180ms ease,
-    transform 180ms ease;
-}
-
-.developmentButton span {
-  font-size: 24px;
-  line-height: 1;
-}
-
-.developmentButton:hover {
-  color: #f7f4e9;
-  background: #20211b;
-  transform: translateY(-3px);
-}
-
-.developmentButton:focus-visible {
-  outline: 2px solid #20211b;
-  outline-offset: 4px;
-}
 .developmentDeck {
   position: relative;
   background: #f7f4e9;
@@ -200,6 +166,66 @@
   align-items: center;
   gap: 18px;
 }
+
+.technologyLabels {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  pointer-events: none;
+}
+
+.technologyTypeScript {
+  top: 22%;
+  left: 24%;
+}
+
+.technologyResponsive {
+  top: 22%;
+  right: 25%;
+}
+
+.technologyNext {
+  top: 43%;
+  left: 16%;
+}
+
+.technologyVercel {
+  top: 43%;
+  right: 16%;
+}
+
+.technologySanity {
+  top: 65%;
+  right: 18%;
+}
+
+@media (max-width: 800px) {
+  .technologyTypeScript {
+    top: 15%;
+    left: 20%;
+  }
+
+  .technologyResponsive {
+    top: 15%;
+    right: 20%;
+  }
+
+  .technologyNext {
+    top: 28%;
+    left: 5%;
+  }
+
+  .technologyVercel {
+    top: 28%;
+    right: 5%;
+  }
+
+  .technologySanity {
+    top: 69%;
+    right: 8%;
+  }
+}
+
 .developmentImage,
 .LogoImage {
   display: block;
@@ -250,6 +276,33 @@
 .developmentCopyLast {
   color: #70d010;
 }
+
+.backToTopButton {
+  position: absolute;
+  z-index: 5;
+  right: clamp(20px, 4vw, 48px);
+  bottom: clamp(20px, 4vh, 40px);
+  margin: 0;
+  padding: 10px 16px;
+  border: 1px solid var(--foreground);
+  color: var(--foreground);
+  background: var(--background);
+  font-size: 12px;
+  cursor: pointer;
+  transition:
+    color 180ms ease,
+    background-color 180ms ease;
+}
+
+.backToTopButton:hover {
+  color: var(--background);
+  background: var(--foreground);
+}
+
+.backToTopButton:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
 .developmentDragPosition {
   position: relative;
 }
@@ -257,7 +310,7 @@
   position: absolute;
   width: 250px;
   height: 45px;
-  background: rgb(51, 109, 217, 30%);
+  background: rgba(51, 109, 217, 0.3);
 }
 .developmentDragLeftLine {
   position: absolute;
@@ -293,10 +346,11 @@
 
 .panelHeading {
   position: absolute;
-  top: 45vh;
-  left: 33vh;
+  top: 50%;
+  left: clamp(40px, 12vw, 180px);
   z-index: 2;
   text-align: left;
+  transform: translateY(-50%);
 }
 .panelHeading h2 {
   margin: 0;
@@ -306,10 +360,11 @@
 }
 .panelHeadingRight {
   position: absolute;
-  top: 45vh;
-  right: 33vh;
+  top: 50%;
+  right: clamp(40px, 12vw, 180px);
   z-index: 2;
-  text-align: left;
+  text-align: right;
+  transform: translateY(-50%);
 }
 .panelHeadingRight h2 {
   margin: 0;
@@ -462,6 +517,7 @@
 @media (max-width: 640px) {
   .verticalPanel,
   .horizontalPanel {
+    min-height: 100vh;
     min-height: 100dvh;
   }
 
@@ -472,8 +528,10 @@
   }
 
   .verticalPanel h1,
-  .verticalPanel h2 {
-    font-size: 48px;
+  .verticalPanel h2,
+  .deckIntro h2 {
+    max-width: calc(100% - 44px);
+    font-size: clamp(32px, 9vw, 48px);
   }
 
   .caption {
@@ -482,7 +540,7 @@
   }
   .panelHeading {
     top: 80px;
-    left: 50vw;
+    left: 50%;
     transform: translateX(-50%);
   }
   .panelHeading h2 {
@@ -514,9 +572,6 @@
 
   .storyFrame {
     width: min(72vw, 38.25vh);
-  }
-  .developmentButton {
-    width: 48px;
   }
   .developmentImage,
   .LogoImage {
@@ -555,5 +610,13 @@
   .storyImage {
     animation-duration: 0.01ms;
     animation-iteration-count: 1;
+  }
+
+  .noteImage {
+    transition-duration: 0.01ms;
+  }
+
+  .backToTopButton {
+    transition-duration: 0.01ms;
   }
 }

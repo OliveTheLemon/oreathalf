@@ -20,7 +20,7 @@ export default function RootLayout({
       <body>
         <SideMenuController />
         {children}
-        <div className="pb-12"></div>
+        {/* <div className="pb-12"></div> */}
       </body>
     </html>
   );

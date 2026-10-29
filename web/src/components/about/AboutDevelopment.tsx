@@ -1,20 +1,26 @@
+import { useRef } from "react";
 import Image from "next/image";
 import styles from "../../assets/css/AboutExperience.module.css";
+import TechnologyLabel from "./TechnologyLabel";
+import { useHorizontalWheelScroll } from "./scrollHelpers";
 
-export default function AboutDevelopment() {
-  function moveDeck(event: React.WheelEvent<HTMLDivElement>) {
-    const track = event.currentTarget;
-    if (
-      event.defaultPrevented ||
-      Math.abs(event.deltaY) < Math.abs(event.deltaX)
-    )
-      return;
+interface AboutDevelopmentProps {
+  onBackToTop: () => void;
+}
 
-    const atStart = track.scrollLeft <= 0;
-    const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
-    if ((event.deltaY < 0 && atStart) || (event.deltaY > 0 && atEnd)) return;
+export default function AboutDevelopment({
+  onBackToTop,
+}: AboutDevelopmentProps) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  useHorizontalWheelScroll(trackRef);
 
-    track.scrollBy({ left: event.deltaY, behavior: "smooth" });
+  function returnToTop() {
+    const behavior = window.matchMedia("(prefers-reduced-motion: reduce)")
+      .matches
+      ? "auto"
+      : "smooth";
+    trackRef.current?.scrollTo({ left: 0, behavior });
+    onBackToTop();
   }
 
   return (
@@ -23,10 +29,11 @@ export default function AboutDevelopment() {
       className={`${styles.horizontalDeck} ${styles.developmentDeck}`}
       aria-label="oreathalf 개발 이야기"
     >
-      <div className={styles.horizontalTrack} onWheel={moveDeck}>
+      <div className={styles.horizontalTrack} ref={trackRef}>
         <section
           className={`${styles.horizontalPanel} ${styles.developmentPanel}`}
         >
+          <span className={styles.scrollMark}>SCROLL RIGHT TO EXPLORE →</span>
           <div className={styles.developmentContent}>
             <Image
               className={styles.LogoImage}
@@ -58,6 +65,29 @@ export default function AboutDevelopment() {
         <section
           className={`${styles.horizontalPanel} ${styles.developmentPanel}`}
         >
+          <div
+            className={styles.technologyLabels}
+            role="group"
+            aria-label="사용한 기술"
+          >
+            <TechnologyLabel
+              text="TypeScript"
+              className={styles.technologyTypeScript}
+            />
+            <TechnologyLabel
+              text="반응형 웹"
+              className={styles.technologyResponsive}
+            />
+            <TechnologyLabel text="Next.js" className={styles.technologyNext} />
+            <TechnologyLabel
+              text="Vercel"
+              className={styles.technologyVercel}
+            />
+            <TechnologyLabel
+              text="sanity"
+              className={styles.technologySanity}
+            />
+          </div>
           <div className={styles.developmentContent}>
             <Image
               className={styles.LogoImage}
@@ -84,6 +114,32 @@ export default function AboutDevelopment() {
         <section
           className={`${styles.horizontalPanel} ${styles.developmentPanel}`}
         >
+          <div
+            className={styles.technologyLabels}
+            role="group"
+            aria-label="사용한 기술"
+          >
+            <TechnologyLabel
+              text="Content"
+              className={styles.technologyTypeScript}
+            />
+            <TechnologyLabel
+              text="Marketing"
+              className={styles.technologyResponsive}
+            />
+            <TechnologyLabel
+              text="Planning"
+              className={styles.technologyNext}
+            />
+            <TechnologyLabel
+              text="Design"
+              className={styles.technologyVercel}
+            />
+            <TechnologyLabel
+              text="Development"
+              className={styles.technologySanity}
+            />
+          </div>
           <div className={styles.developmentContent}>
             <Image
               className={styles.LogoImage}
@@ -116,6 +172,13 @@ export default function AboutDevelopment() {
               <p className={styles.caption}>
                 <br />
               </p>
+              <button
+                type="button"
+                className={styles.backToTopButton}
+                onClick={returnToTop}
+              >
+                ↑ 맨 위로
+              </button>
             </div>
           </div>
         </section>

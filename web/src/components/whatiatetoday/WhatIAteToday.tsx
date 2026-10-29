@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import {
+  createMealPoster,
   downloadMealPoster,
   imageSizes,
   mealTypes,
@@ -69,6 +70,12 @@ export function WhatIAteToday() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [imageSize, setImageSize] = useState<ImageSize>("1080x1350");
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+  const [receiptPreview, setReceiptPreview] = useState<{
+    url: string;
+    blob: Blob;
+    dateKey: string;
+    imageSize: ImageSize;
+  } | null>(null);
   const [imageMessage, setImageMessage] = useState("");
 
   useEffect(() => {
@@ -96,20 +103,43 @@ export function WhatIAteToday() {
     }
   }, [entriesByDate, isReady]);
 
+  useEffect(() => {
+    if (!receiptPreview) return;
+    return () => URL.revokeObjectURL(receiptPreview.url);
+  }, [receiptPreview]);
+
   const entries = entriesByDate[selectedDate] ?? [];
   const todayKey = isReady ? getLocalDateKey(new Date()) : "";
 
   const createImage = async () => {
     setIsGeneratingImage(true);
+    setReceiptPreview(null);
     setImageMessage("");
     try {
-      await downloadMealPoster(selectedDate, entries, imageSize);
-      setImageMessage("식단 이미지가 다운로드되었습니다.");
+      const imageBlob = await createMealPoster(selectedDate, entries, imageSize);
+      setReceiptPreview({
+        url: URL.createObjectURL(imageBlob),
+        blob: imageBlob,
+        dateKey: selectedDate,
+        imageSize,
+      });
+      setImageMessage("영수증 아래 버튼을 눌러 이미지를 저장하세요.");
     } catch {
       setImageMessage("이미지를 만들지 못했습니다. 다시 시도해 주세요.");
     } finally {
       setIsGeneratingImage(false);
     }
+  };
+
+  const saveReceiptImage = () => {
+    if (!receiptPreview) return;
+    downloadMealPoster(
+      receiptPreview.blob,
+      receiptPreview.dateKey,
+      receiptPreview.imageSize,
+    );
+    setReceiptPreview(null);
+    setImageMessage("식단 이미지가 다운로드되었습니다.");
   };
 
   const openNewEntry = (meal: MealType) => {
@@ -313,7 +343,7 @@ export function WhatIAteToday() {
 
         <section
           className="mt-12 border-t-2 border-black pt-7"
-          aria-label="식단 이미지 만들기"
+          aria-label="식단 프린트하기"
         >
           <div className="flex flex-wrap items-end justify-between gap-5">
             <div>
@@ -345,9 +375,7 @@ export function WhatIAteToday() {
               disabled={isGeneratingImage || entries.length === 0}
               className="bg-[#df583f] px-5 py-3 text-sm text-white transition-colors hover:bg-[#bd402a] disabled:cursor-not-allowed disabled:opacity-40"
             >
-              {isGeneratingImage
-                ? "이미지 만드는 중..."
-                : "식단 이미지 만들기 ↓"}
+              {isGeneratingImage ? "영수증 준비 중..." : "식단 프린트하기 ↓"}
             </button>
             <p aria-live="polite" className="text-xs text-black/55">
               {imageMessage || `${imageSize.replace("x", " × ")} px · PNG`}
@@ -360,6 +388,37 @@ export function WhatIAteToday() {
           <p>{entries.length}개의 식사 기록</p>
         </footer>
       </div>
+
+      {receiptPreview && (
+        <div
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-5 overflow-y-auto bg-black/55 px-5 py-8"
+          role="dialog"
+          aria-modal="true"
+          aria-label="식단 영수증 미리보기"
+        >
+          <img
+            src={receiptPreview.url}
+            alt="오늘의 식단 영수증"
+            className="receipt-print-animation max-h-[72vh] max-w-[min(82vw,440px)] object-contain shadow-2xl"
+          />
+          <div className="flex flex-wrap justify-center gap-3">
+            <button
+              type="button"
+              onClick={saveReceiptImage}
+              className="bg-[#df583f] px-5 py-3 text-sm text-white transition-colors hover:bg-[#bd402a]"
+            >
+              이미지 저장하기 ↓
+            </button>
+            <button
+              type="button"
+              onClick={() => setReceiptPreview(null)}
+              className="border border-white/60 px-5 py-3 text-sm text-white transition-colors hover:bg-white/10"
+            >
+              닫기
+            </button>
+          </div>
+        </div>
+      )}
 
       {draft && (
         <div
