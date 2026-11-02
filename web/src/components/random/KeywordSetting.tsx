@@ -87,7 +87,14 @@ export function KeywordSetting({
               if (!groupSelection) return null;
 
               return (
-                <div key={`${group.title}-${groupIndex}`}>
+                <div
+                  key={`${group.title}-${groupIndex}`}
+                  data-testid={`keyword-group-${activeTab}-${groupIndex}`}
+                  data-keywords={[
+                    ...group.keywords,
+                    ...group.subgroups.flatMap((subgroup) => subgroup.keywords),
+                  ].join("|")}
+                >
                   <label className="font-bold">
                     <input
                       type="checkbox"

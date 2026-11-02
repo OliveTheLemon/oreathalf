@@ -13,6 +13,7 @@ const filterModes = [
   { label: "요리", category: 1, icon: oval6 },
   { label: "디자인", category: 2, icon: oval7 },
 ] as const;
+const filterStateNames = ["all", "ingredient", "dish", "design"] as const;
 
 export function IngredientFilterButton({
   filterIndex,
@@ -27,6 +28,7 @@ export function IngredientFilterButton({
     <button
       type="button"
       data-testid="ingredient-filter-toggle"
+      data-filter-state={filterStateNames[filterIndex]}
       onClick={onClick}
       className="relative h-10 w-10 transition-transform hover:scale-110"
       aria-label={`${activeMode.label} 필터, 다음 필터로 변경`}
@@ -63,7 +65,10 @@ export function IngredientImageGrid({
 
   return (
     <>
-      <div className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 pt-[50px] md:pt-[100px]">
+      <div
+        data-testid="ingredient-image-grid"
+        className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 pt-[50px] md:pt-[100px]"
+      >
         {images.map((imageItem) => {
           const imageUrl = imageItem.image?.asset?.url;
           const optimizedUrl = getSanityImageSrc(imageUrl, 800);
@@ -73,6 +78,8 @@ export function IngredientImageGrid({
           return (
             <div
               key={imageItem._id}
+              data-testid="ingredient-image"
+              data-category={imageItem.category ?? ""}
               className="relative transition-transform duration-500 ease-in-out hover:z-10 hover:scale-[1.2]"
             >
               {optimizedUrl ? (

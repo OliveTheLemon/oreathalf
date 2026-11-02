@@ -32,6 +32,7 @@ export function IngredientImageHover({
   return (
     <Link
       href={`/ingredient/${group.ingredientNumber}`}
+      data-ingredient-name={firstImage.ingreNum?.name ?? ""}
       className="group relative block aspect-[9/16] w-full overflow-hidden sm:aspect-square md:aspect-square lg:aspect-square"
       aria-label={`${firstImage.title ?? "재료"} 이미지 모아보기`}
     >

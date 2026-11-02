@@ -193,6 +193,7 @@ export function RandomKeywordGenerator({
               placeholder={placeholder}
               value={selected[key]}
               refreshTestId={`keyword-refresh-${key}`}
+              resultTestId={`keyword-result-${key}`}
               onRefresh={() => refreshKeyword(key)}
             />
           ))}

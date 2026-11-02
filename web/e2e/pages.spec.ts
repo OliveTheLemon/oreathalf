@@ -1,32 +1,52 @@
 import { expect, test, type Page } from "@playwright/test";
 
 const routes = ["/", "/about", "/random", "/whatiatetoday", "/ingredient/2"];
+const applicationOrigin = new URL(
+  process.env.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:3000",
+).origin;
 
 async function watchPageHealth(page: Page) {
   const consoleErrors: string[] = [];
   const pageErrors: string[] = [];
-  const httpErrors: string[] = [];
-  const failedImages: string[] = [];
+  const applicationHttpErrors: string[] = [];
+  const externalHttpErrors: string[] = [];
+  const applicationImageFailures: string[] = [];
+  const externalImageFailures: string[] = [];
 
   page.on("console", (message) => {
     if (message.type() === "error") consoleErrors.push(message.text());
   });
   page.on("pageerror", (error) => pageErrors.push(error.message));
   page.on("response", (response) => {
+    const isExternal = new URL(response.url()).origin !== applicationOrigin;
     if (response.status() >= 400) {
-      httpErrors.push(`${response.status()} ${response.url()}`);
+      (isExternal ? externalHttpErrors : applicationHttpErrors).push(
+        `${response.status()} ${response.url()}`,
+      );
     }
     if (response.request().resourceType() === "image" && !response.ok()) {
-      failedImages.push(`${response.status()} ${response.url()}`);
+      (isExternal ? externalImageFailures : applicationImageFailures).push(
+        `${response.status()} ${response.url()}`,
+      );
     }
   });
   page.on("requestfailed", (request) => {
     if (request.resourceType() === "image") {
-      failedImages.push(`${request.failure()?.errorText} ${request.url()}`);
+      const isExternal = new URL(request.url()).origin !== applicationOrigin;
+      (isExternal ? externalImageFailures : applicationImageFailures).push(
+        `${request.failure()?.errorText} ${request.url()}`,
+      );
     }
   });
 
-  return { consoleErrors, pageErrors, httpErrors, failedImages };
+  return {
+    consoleErrors,
+    pageErrors,
+    applicationHttpErrors,
+    externalHttpErrors,
+    applicationImageFailures,
+    externalImageFailures,
+  };
 }
 
 for (const route of routes) {
@@ -35,6 +55,8 @@ for (const route of routes) {
     const response = await page.goto(route);
 
     expect(response?.status(), `initial response for ${route}`).toBeLessThan(400);
+    expect(new URL(page.url()).pathname).toBe(route);
+    await expect(page.locator(route === "/random" ? "h1" : "main")).toBeVisible();
     await page.locator("img").evaluateAll((images) => {
       images.forEach((image) => {
         image.loading = "eager";
@@ -50,10 +72,12 @@ for (const route of routes) {
       )
       .toBe(true);
 
-    expect(health.httpErrors, "HTTP responses with error status").toEqual([]);
+    expect(health.applicationHttpErrors, "application HTTP errors").toEqual([]);
+    expect(health.externalHttpErrors, "external service HTTP errors").toEqual([]);
     expect(health.consoleErrors, "browser console errors").toEqual([]);
     expect(health.pageErrors, "uncaught browser exceptions").toEqual([]);
-    expect(health.failedImages, "failed image requests").toEqual([]);
+    expect(health.applicationImageFailures, "application image failures").toEqual([]);
+    expect(health.externalImageFailures, "external service image failures").toEqual([]);
   });
 
   test(`mobile layout and navigation: ${route}`, async ({ page }) => {
@@ -76,7 +100,10 @@ for (const route of routes) {
       "aria-expanded",
       "true",
     );
-    await expect(page.getByTestId("site-menu").getByRole("link").first()).toBeVisible();
+    const homeLink = page.getByTestId("site-menu").getByRole("link", { name: "Home" });
+    await expect(homeLink).toBeVisible();
+    await homeLink.click();
+    await expect(page).toHaveURL(/\/$/);
   });
 }
 
