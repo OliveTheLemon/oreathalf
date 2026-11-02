@@ -79,10 +79,16 @@ Common checks run for `/`, `/about`, `/random`, `/whatiatetoday`, and `/ingredie
 - Ingredient integration tests use the existing Sanity ingredient number `2`. An outage or content removal at Sanity/CDN will be reported separately from application-origin HTTP errors, but still fails the integration check because the requested page content would not be available.
 - `npm run lint` succeeds with one existing Next.js warning: the generated poster preview uses a raw `<img>` for a Blob URL in `WhatIAteToday.tsx`. It does not cause a test or runtime failure; optimizing a generated Blob preview can be considered separately.
 
-## 5. Future improvements
+## 5. GitHub Actions automation
+
+- [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) runs on pull requests and pushes to `main`: `npm ci`, ESLint, Next.js build, and the Chromium E2E suite. The workflow uploads the HTML report and test traces as a 14-day artifact.
+- [`.github/workflows/production-smoke.yml`](../.github/workflows/production-smoke.yml) checks `https://www.oreathalf.com` after a successful production deployment event, every day at 09:23 KST, and on manual dispatch. It runs the full E2E suite against the live URL; journal and popup checks use isolated browser storage and do not mutate Sanity content.
+- Production smoke failures are marked as failed workflow runs and include a summary and downloadable Playwright report. GitHub delivers email or web notifications according to each user's Actions notification preferences; select **Only notify for failed workflows** in GitHub notification settings to receive failure-only alerts. Scheduled notifications go to the account that last changed the schedule.
+- Vercel's GitHub integration must emit a successful `deployment_status` event with `production_environment: true` for the post-deployment trigger. The scheduled and manual checks work independently of that integration.
+
+## 6. Future improvements
 
 - Add a controlled Sanity fixture or API mock for popup and ingredient data if tests need to run without external services.
 - Add Firefox and WebKit projects after the Chromium suite is stable in CI.
 - Expand mobile coverage to browser device emulation and actual touch gestures; current checks use a narrow viewport and programmatic horizontal scrolling.
-- Add a GitHub Actions workflow to install Chromium, run `npm ci`, execute `npm run test:e2e`, and upload `playwright-report/` on failure.
 - Add tests for invalid ingredient routes and expected 404 handling once those error-page behaviors are explicitly defined.
