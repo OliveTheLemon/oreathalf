@@ -2,6 +2,7 @@ interface TitleKeywordOutputProps {
   title: string;
   placeholder: string;
   value?: string;
+  refreshTestId?: string;
   onRefresh: () => void;
 }
 
@@ -9,6 +10,7 @@ export function TitleKeywordOutput({
   title,
   placeholder,
   value,
+  refreshTestId,
   onRefresh,
 }: TitleKeywordOutputProps) {
   return (
@@ -17,6 +19,7 @@ export function TitleKeywordOutput({
         <span>{title}</span>
         <button
           type="button"
+          data-testid={refreshTestId}
           aria-label={`${title} 새로고침`}
           title={`${title} 새로고침`}
           className="text-lg leading-none"

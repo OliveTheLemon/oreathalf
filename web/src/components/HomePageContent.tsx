@@ -242,6 +242,7 @@ export function HomePageContent({
 
               <button
                 type="button"
+                data-testid="home-popup-close"
                 onClick={handleClosePopup}
                 className="flex-1 bg-white px-3 py-2 text-[#1e1d1d] transition-colors hover:bg-gray-200"
               >

@@ -26,6 +26,7 @@ export function IngredientFilterButton({
   return (
     <button
       type="button"
+      data-testid="ingredient-filter-toggle"
       onClick={onClick}
       className="relative h-10 w-10 transition-transform hover:scale-110"
       aria-label={`${activeMode.label} 필터, 다음 필터로 변경`}

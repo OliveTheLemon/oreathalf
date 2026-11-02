@@ -37,6 +37,7 @@ export function KeywordSetting({
       <button
         type="button"
         className="flex items-center gap-2 font-bold"
+        data-testid="keyword-settings-toggle"
         aria-expanded={isOpen}
         onClick={() => setIsOpen((current) => !current)}
       >
@@ -52,6 +53,7 @@ export function KeywordSetting({
                 key={key}
                 type="button"
                 role="tab"
+                data-testid={`keyword-tab-${key}`}
                 aria-selected={activeTab === key}
                 className={`px-4 py-2 ${activeTab === key ? "font-bold border-b-2 border-black" : ""}`}
                 onClick={() => setActiveTab(key)}
@@ -65,6 +67,7 @@ export function KeywordSetting({
             <div className="flex gap-2 justify-end text-sm">
               <button
                 type="button"
+                data-testid="keyword-toggle-all-on"
                 className="bg-white text-black px-3 py-1 rounded"
                 onClick={() => onToggleAll(activeTab, true)}
               >
@@ -73,6 +76,7 @@ export function KeywordSetting({
               <button
                 type="button"
                 className="bg-white text-black px-3 py-1 rounded"
+                data-testid="keyword-toggle-all-off"
                 onClick={() => onToggleAll(activeTab, false)}
               >
                 전체취소

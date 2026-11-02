@@ -330,6 +330,7 @@ export function WhatIAteToday() {
                   )}
                   <button
                     type="button"
+                    data-testid="meal-add-entry"
                     onClick={() => openNewEntry(meal)}
                     className="mt-3 border-b border-black/40 pb-1 text-xs transition-colors hover:border-black hover:text-black/60"
                   >
@@ -483,6 +484,7 @@ export function WhatIAteToday() {
             <label className="mt-5 block text-xs text-black/60">
               먹은 음식
               <input
+                data-testid="meal-food-input"
                 autoFocus
                 required
                 maxLength={120}
@@ -536,6 +538,7 @@ export function WhatIAteToday() {
               </button>
               <button
                 type="submit"
+                data-testid="meal-save-entry"
                 className="bg-black px-6 py-3 text-sm text-white transition-colors hover:bg-black/75"
               >
                 저장
