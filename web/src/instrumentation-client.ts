@@ -7,18 +7,20 @@ import * as Sentry from "@sentry/nextjs";
 Sentry.init({
   dsn: "https://0c44ab0159a632b5fa655e24262d4ede@o4512362386620416.ingest.us.sentry.io/4512362391404544",
 
-  // Add optional integrations for additional features
-  integrations: [Sentry.replayIntegration()],
+  integrations: [
+    Sentry.replayIntegration({
+      maskAllText: true,
+      blockAllMedia: true,
+    }),
+  ],
 
-  // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
-  tracesSampleRate: 1,
+  // Sample 10% of performance traces.
+  tracesSampleRate: 0.1,
 
-  // Define how likely Replay events are sampled.
-  // This sets the sample rate to be 10%. You may want this to be 100% while
-  // in development and sample at a lower rate in production
-  replaysSessionSampleRate: 0.1,
+  // Record only sessions that encounter an error.
+  replaysSessionSampleRate: 0.0,
 
-  // Define how likely Replay events are sampled when an error occurs.
+  // Keep a replay for every session in which an error occurs.
   replaysOnErrorSampleRate: 1.0,
 
   // Turns off collection of data that could identify users. Adjust per category:
