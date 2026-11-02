@@ -192,6 +192,8 @@ export function RandomKeywordGenerator({
               title={title}
               placeholder={placeholder}
               value={selected[key]}
+              refreshTestId={`keyword-refresh-${key}`}
+              resultTestId={`keyword-result-${key}`}
               onRefresh={() => refreshKeyword(key)}
             />
           ))}
@@ -207,6 +209,7 @@ export function RandomKeywordGenerator({
           <button
             type="button"
             className="bg-amber-500 text-white py-2 px-4 rounded"
+            data-testid="random-generate"
             onClick={generateKeywords}
           >
             만들기

@@ -20,6 +20,7 @@ export default function SideMenuController() {
           type="button"
           ref={logoButtonRef}
           aria-label="메뉴 열기"
+          data-testid="site-menu-open"
           aria-expanded={isOpen}
           onClick={() => setIsOpen(true)}
         >

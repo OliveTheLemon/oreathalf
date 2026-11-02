@@ -288,6 +288,8 @@ export function WhatIAteToday() {
                       {mealEntries.map((entry) => (
                         <li
                           key={entry.id}
+                          data-testid="meal-entry"
+                          data-food={entry.food}
                           className="flex items-start justify-between gap-4 py-3 first:pt-0"
                         >
                           <div className="min-w-0">
@@ -330,6 +332,7 @@ export function WhatIAteToday() {
                   )}
                   <button
                     type="button"
+                    data-testid="meal-add-entry"
                     onClick={() => openNewEntry(meal)}
                     className="mt-3 border-b border-black/40 pb-1 text-xs transition-colors hover:border-black hover:text-black/60"
                   >
@@ -371,6 +374,7 @@ export function WhatIAteToday() {
           <div className="mt-5 flex flex-wrap items-center gap-4">
             <button
               type="button"
+              data-testid="meal-create-poster"
               onClick={createImage}
               disabled={isGeneratingImage || entries.length === 0}
               className="bg-[#df583f] px-5 py-3 text-sm text-white transition-colors hover:bg-[#bd402a] disabled:cursor-not-allowed disabled:opacity-40"
@@ -393,17 +397,20 @@ export function WhatIAteToday() {
         <div
           className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-5 overflow-y-auto bg-black/55 px-5 py-8"
           role="dialog"
+          data-testid="meal-poster-preview"
           aria-modal="true"
           aria-label="식단 영수증 미리보기"
         >
           <img
             src={receiptPreview.url}
+            data-testid="meal-poster-image"
             alt="오늘의 식단 영수증"
             className="receipt-print-animation max-h-[72vh] max-w-[min(82vw,440px)] object-contain shadow-2xl"
           />
           <div className="flex flex-wrap justify-center gap-3">
             <button
               type="button"
+              data-testid="meal-poster-download"
               onClick={saveReceiptImage}
               className="bg-[#df583f] px-5 py-3 text-sm text-white transition-colors hover:bg-[#bd402a]"
             >
@@ -483,6 +490,7 @@ export function WhatIAteToday() {
             <label className="mt-5 block text-xs text-black/60">
               먹은 음식
               <input
+                data-testid="meal-food-input"
                 autoFocus
                 required
                 maxLength={120}
@@ -536,6 +544,7 @@ export function WhatIAteToday() {
               </button>
               <button
                 type="submit"
+                data-testid="meal-save-entry"
                 className="bg-black px-6 py-3 text-sm text-white transition-colors hover:bg-black/75"
               >
                 저장

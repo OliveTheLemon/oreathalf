@@ -17,7 +17,7 @@ export default function AboutExperience() {
   }
 
   return (
-    <main ref={pageRef} className={styles.page}>
+    <main ref={pageRef} className={styles.page} data-testid="about-scroll-container">
       <AboutWhyDiet />
       <AboutContent />
       <AboutDevelopment onBackToTop={backToTop} />

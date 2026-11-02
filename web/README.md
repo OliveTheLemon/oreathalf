@@ -16,6 +16,26 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## End-to-end tests
+
+Install the Playwright Chromium browser once, then run the end-to-end tests:
+
+```bash
+npx playwright install chromium
+npm run test:e2e
+```
+
+Playwright starts the Next.js development server automatically for local URLs. Use `npm run test:e2e:ui` for the interactive UI, `npm run test:e2e:debug` for the inspector, and `npm run test:e2e:report` to open the saved HTML report.
+
+Set `PLAYWRIGHT_BASE_URL` to test another site. Remote URLs are used as-is and do not start a local server. In PowerShell:
+
+```bash
+$env:PLAYWRIGHT_BASE_URL = "https://example.com"
+npm run test:e2e
+```
+
+In Bash, use `PLAYWRIGHT_BASE_URL=https://example.com npm run test:e2e`.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
