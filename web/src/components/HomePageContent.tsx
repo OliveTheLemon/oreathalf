@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type {
   IngredientHoverImageGroup,
@@ -195,6 +196,23 @@ export function HomePageContent({
       </section>
 
       {/* 여기를 손볼테야 */}
+      <section className="mx-auto max-w-3xl px-6 py-16 text-center sunflower-medium md:py-24">
+        <p className="border-t border-neutral-500">
+          <br />
+        </p>
+        <p className="text-xl leading-relaxed md:text-2xl">
+          완벽한 식단이 버거운 당신을 위한, &apos;아니면.....절반만 먹기!&apos;
+        </p>
+        <p className="border-b border-neutral-500">
+          <br />
+        </p>
+        <p className="text-base leading-relaxed md:text-lg">
+          <br />
+          다이어트는 해야하는데 어떤 재료, 어떤 요리를 해야할지 고민된다면,
+          oreathalf를 둘러보세요.
+        </p>
+      </section>
+
       <section
         ref={imageGridSectionRef}
         className="mx-auto"
@@ -216,6 +234,30 @@ export function HomePageContent({
           )}
         </div>
       </section>
+
+      <nav
+        aria-label="서비스 바로가기"
+        className="mx-auto flex max-w-3xl flex-col items-center justify-center gap-3 px-6 py-12 sm:flex-row sm:gap-4 md:py-16"
+      >
+        <Link
+          href="/whatiatetoday"
+          className="w-full border border-foreground px-6 py-3 text-center sunflower-medium transition-colors hover:bg-foreground hover:text-background sm:w-auto"
+        >
+          오늘 먹은 것 기록하기 ↗
+        </Link>
+        <Link
+          href="/random"
+          className="w-full border border-foreground px-6 py-3 text-center sunflower-medium transition-colors hover:bg-foreground hover:text-background sm:w-auto"
+        >
+          랜덤 키워드 생성기 ↗
+        </Link>
+      </nav>
+
+      <p className="mx-auto max-w-3xl pb-12 text-center text-xs leading-relaxed text-foreground/50 md:text-sm sunflower-light text-neutral-400">
+        본 서비스는 개인의 다이어트 경험을 바탕으로 기획되었으며, 전문적이고
+        의학적인 결과를 보장하지 않습니다. <br />
+        실제 효과는 개인의 체질, 생활 습관, 운동량 등에 따라 다를 수 있습니다.
+      </p>
 
       {isPopupOpen && popupImage && popupImageUrl && (
         <div

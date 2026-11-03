@@ -70,13 +70,21 @@ export default async function RandomKeywordPage() {
   };
 
   return (
-    <>
-      <div className="container mx-auto py-8 h-screen sunflower-light pt-[50px] md:pt-[100px]">
-        <h1 className="text-3xl font-bold mb-4 text-center">
-          랜덤 키워드 생성기
-        </h1>
+    <main className="min-h-screen bg-background text-foreground pt-[30px] md:pt-[50px]">
+      <div className="mx-auto max-w-5xl px-5 pb-20 pt-10 sunflower-light sm:px-10 sm:pt-16">
+        <header className="mb-8 border-b-2 border-black pb-7">
+          <p className="sunflower-medium mb-3 text-sm text-black/55">
+            RANDOM KEYWORD GENERATOR
+          </p>
+          <h1 className="sunflower-bold text-4xl leading-tight sm:text-6xl">
+            랜덤 키워드 생성기
+          </h1>
+          <p className="mt-3 text-sm text-black/60">
+            포스터 만들기 연습을 위한 랜덤 키워드 생성기 입니다.
+          </p>
+        </header>
         <RandomKeywordGenerator keywords={keywords} />
       </div>
-    </>
+    </main>
   );
 }

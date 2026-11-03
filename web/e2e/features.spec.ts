@@ -43,23 +43,43 @@ async function addMealEntry(page: Page, food: string) {
   await page.getByTestId("meal-add-entry").first().click();
   await page.getByTestId("meal-food-input").fill(food);
   await page.getByTestId("meal-save-entry").click();
-  await expect(page.locator('[data-testid="meal-entry"]').filter({ hasText: food })).toBeVisible();
+  await expect(
+    page.locator('[data-testid="meal-entry"]').filter({ hasText: food }),
+  ).toBeVisible();
 }
 
 async function clearMealJournal(page: Page) {
-  await page.evaluate((key) => window.localStorage.removeItem(key), mealStorageKey);
+  await page.evaluate(
+    (key) => window.localStorage.removeItem(key),
+    mealStorageKey,
+  );
 }
 
 test.describe("Home page", () => {
-  test("first visit shows the main message and navigation", async ({ page }) => {
+  test("first visit shows the main message and navigation", async ({
+    page,
+  }) => {
     await goToHome(page);
 
-    await expect(page.getByText("Drink a lot of water", { exact: true })).toBeVisible();
+    await expect(
+      page.getByText("Drink a lot of water", { exact: true }),
+    ).toBeVisible();
     await expect(page.getByTestId("home-image-grid")).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "오늘 먹은 것 기록하기" }),
+    ).toHaveAttribute("href", "/whatiatetoday");
+    await expect(
+      page.getByRole("link", { name: "랜덤 키워드 생성기" }),
+    ).toHaveAttribute("href", "/random");
+    await expect(
+      page.getByText(/본 서비스는 개인의 다이어트 경험을 바탕으로/),
+    ).toBeVisible();
     await expect(page.getByTestId("site-menu-open")).toBeVisible();
   });
 
-  test("ingredient image grid contains loaded images with valid URLs", async ({ page }) => {
+  test("ingredient image grid contains loaded images with valid URLs", async ({
+    page,
+  }) => {
     await goToHome(page);
     await closeHomePopup(page);
 
@@ -71,25 +91,33 @@ test.describe("Home page", () => {
     await assertLoadedImages(images);
   });
 
-  test("ingredient image navigates to its matching detail page", async ({ page }) => {
+  test("ingredient image navigates to its matching detail page", async ({
+    page,
+  }) => {
     await goToHome(page);
     await closeHomePopup(page);
 
     const ingredientLink = page.locator('main a[href^="/ingredient/"]').first();
     await expect(ingredientLink).toBeVisible();
     const destination = await ingredientLink.getAttribute("href");
-    const expectedName = await ingredientLink.getAttribute("data-ingredient-name");
+    const expectedName = await ingredientLink.getAttribute(
+      "data-ingredient-name",
+    );
     expect(destination).toMatch(/^\/ingredient\/\d+$/);
     expect(expectedName).toBeTruthy();
 
     await ingredientLink.click();
     await expect(page).toHaveURL(new RegExp(`${destination}$`));
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText(expectedName!);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+      expectedName!,
+    );
     await assertLoadedImages(page.locator("main img"));
   });
 
-  test("popup close is temporary and hide-for-today persists after reload", async ({ page }) => {
+  test("popup close is temporary and hide-for-today persists after reload", async ({
+    page,
+  }) => {
     await goToHome(page);
 
     const popup = page.getByTestId("home-popup");
@@ -116,7 +144,9 @@ test.describe("Home page", () => {
 });
 
 test.describe("Ingredient page", () => {
-  test("registered ingredient 2 displays its name and loaded images", async ({ page }) => {
+  test("registered ingredient 2 displays its name and loaded images", async ({
+    page,
+  }) => {
     const expectedName = String.fromCodePoint(0xc544, 0xce68);
     const response = await page.goto("/ingredient/2");
     expect(response?.status()).toBe(200);
@@ -129,7 +159,9 @@ test.describe("Ingredient page", () => {
     await assertLoadedImages(images);
   });
 
-  test("filter cycles through all, ingredient, dish, design, then all", async ({ page }) => {
+  test("expanded filter menu selects each category and highlights the active option", async ({
+    page,
+  }) => {
     await page.goto("/ingredient/2");
 
     const filter = page.getByTestId("ingredient-filter-toggle");
@@ -145,20 +177,47 @@ test.describe("Ingredient page", () => {
       ["design", "2"],
     ]) {
       await filter.click();
+      const option = page.getByTestId(`ingredient-filter-option-${state}`);
+      await expect(option).toBeVisible();
+      await option.click();
       await expect(filter).toHaveAttribute("data-filter-state", state);
+      await filter.click();
+      await expect(
+        page.getByTestId(`ingredient-filter-option-${state}`),
+      ).toHaveClass(/bg-amber-500/);
+      await filter.click();
       const categories = await imageCards.evaluateAll((cards) =>
         cards.map((card) => card.getAttribute("data-category")),
       );
-      expect(categories.every((value) => value === category)).toBe(true);
+      if (categories.length === 0) {
+        await expect(grid.getByText("이미지 없음")).toBeVisible();
+      } else {
+        expect(categories.every((value) => value === category)).toBe(true);
+      }
     }
 
     await filter.click();
+    await page.getByTestId("ingredient-filter-option-all").click();
     await expect(filter).toHaveAttribute("data-filter-state", "all");
     await expect(imageCards).toHaveCount(allCount);
   });
+
+  test("external-link images show the link icon", async ({ page }) => {
+    await page.goto("/ingredient/2");
+    const linkedImages = page.locator(
+      '[data-testid="ingredient-image-grid"] a[href^="http"]',
+    );
+    const linkedImageCount = await linkedImages.count();
+
+    if (linkedImageCount > 0) {
+      await expect(linkedImages.first().locator("svg")).toBeVisible();
+    }
+  });
 });
 
-test("About page scrolls through content and its background images load", async ({ page }) => {
+test("About page scrolls through content and its background images load", async ({
+  page,
+}) => {
   const response = await page.goto("/about");
   expect(response?.status()).toBe(200);
   await expect(page.getByTestId("about-scroll-container")).toBeVisible();
@@ -167,8 +226,9 @@ test("About page scrolls through content and its background images load", async 
   const imageRoles = page.getByRole("img");
   const backgroundSources = await imageRoles.evaluateAll((elements) =>
     elements.flatMap((element) => {
-      const match = getComputedStyle(element)
-        .backgroundImage.match(/url\(["']?(.*?)["']?\)/);
+      const match = getComputedStyle(element).backgroundImage.match(
+        /url\(["']?(.*?)["']?\)/,
+      );
       return match?.[1] ? [match[1]] : [];
     }),
   );
@@ -227,22 +287,34 @@ test.describe("whatIatetoday journal", () => {
     await expect(updatedEntry).toHaveCount(0);
   });
 
-  test("meal entry remains visible after reload and matches localStorage", async ({ page }) => {
+  test("meal entry remains visible after reload and matches localStorage", async ({
+    page,
+  }) => {
     await page.goto("/whatiatetoday");
     const food = "E2E persisted meal";
     await addMealEntry(page, food);
 
     const storedEntries = await page.evaluate((key) => {
       const value = window.localStorage.getItem(key);
-      return value ? (JSON.parse(value) as Record<string, Array<{ food: string }>>) : {};
+      return value
+        ? (JSON.parse(value) as Record<string, Array<{ food: string }>>)
+        : {};
     }, mealStorageKey);
-    expect(Object.values(storedEntries).flat().map((entry) => entry.food)).toContain(food);
+    expect(
+      Object.values(storedEntries)
+        .flat()
+        .map((entry) => entry.food),
+    ).toContain(food);
 
     await page.reload();
-    await expect(page.locator('[data-testid="meal-entry"]').filter({ hasText: food })).toBeVisible();
-    const displayedFoods = await page.locator('[data-testid="meal-entry"]').evaluateAll((entries) =>
-      entries.map((entry) => entry.getAttribute("data-food")),
-    );
+    await expect(
+      page.locator('[data-testid="meal-entry"]').filter({ hasText: food }),
+    ).toBeVisible();
+    const displayedFoods = await page
+      .locator('[data-testid="meal-entry"]')
+      .evaluateAll((entries) =>
+        entries.map((entry) => entry.getAttribute("data-food")),
+      );
     expect(displayedFoods).toContain(food);
   });
 
@@ -255,14 +327,23 @@ test.describe("whatIatetoday journal", () => {
     const image = page.getByTestId("meal-poster-image");
     await expect(preview).toBeVisible();
     await expect(image).toHaveAttribute("src", /^blob:/);
+    await expect(image).toHaveAttribute("width", "1080");
+    await expect(image).toHaveAttribute("height", "1350");
     await expect
-      .poll(() => image.evaluate((element: HTMLImageElement) => element.complete && element.naturalWidth > 0))
+      .poll(() =>
+        image.evaluate(
+          (element: HTMLImageElement) =>
+            element.complete && element.naturalWidth > 0,
+        ),
+      )
       .toBe(true);
 
     const downloadPromise = page.waitForEvent("download");
     await page.getByTestId("meal-poster-download").click();
     const download = await downloadPromise;
-    expect(download.suggestedFilename()).toMatch(/^oreathalf-\d{4}-\d{2}-\d{2}-\d+x\d+\.png$/);
+    expect(download.suggestedFilename()).toMatch(
+      /^oreathalf-\d{4}-\d{2}-\d{2}-\d+x\d+\.png$/,
+    );
     const downloadedFile = await download.path();
     expect(downloadedFile).not.toBeNull();
     const contents = await readFile(downloadedFile!);
@@ -274,18 +355,66 @@ test.describe("whatIatetoday journal", () => {
 });
 
 test.describe("Random page", () => {
-  test("generates a value for all four keyword categories", async ({ page }) => {
+  test("shows the matching title style and copies and saves generated keywords", async ({
+    page,
+  }) => {
+    await page.goto("/random");
+    const title = page.getByRole("heading", {
+      level: 1,
+      name: "랜덤 키워드 생성기",
+    });
+    await expect(title).toHaveClass(/sunflower-bold/);
+    await expect(title).toHaveClass(/sm:text-6xl/);
+    await expect(page.getByText("RANDOM KEYWORD GENERATOR")).toBeVisible();
+
+    await page.getByTestId("random-generate").click();
+    await page
+      .context()
+      .grantPermissions(["clipboard-read", "clipboard-write"]);
+    await page.getByRole("button", { name: "키워드 텍스트 복사" }).click();
+    const copiedText = await page.evaluate(() =>
+      navigator.clipboard.readText(),
+    );
+    expect(copiedText.split("\n")).toHaveLength(4);
+    await expect(page.getByRole("status")).toHaveText("키워드를 복사했습니다.");
+
+    const downloadPromise = page.waitForEvent("download");
+    await page.getByRole("button", { name: "이미지로 저장" }).click();
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toBe("oreathalf-random-keywords.png");
+    const downloadedFile = await download.path();
+    expect(downloadedFile).not.toBeNull();
+    const contents = await readFile(downloadedFile!);
+    expect(contents.length).toBeGreaterThan(100);
+    expect(contents.subarray(0, 8)).toEqual(
+      Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]),
+    );
+    await expect(page.getByRole("status")).toHaveText(
+      "키워드 이미지를 저장했습니다.",
+    );
+  });
+
+  test("generates a value for all four keyword categories", async ({
+    page,
+  }) => {
     await page.goto("/random");
     await page.getByTestId("random-generate").click();
 
-    for (const category of ["noun", "verbAdjectiveAdverb", "style", "purpose"]) {
+    for (const category of [
+      "noun",
+      "verbAdjectiveAdverb",
+      "style",
+      "purpose",
+    ]) {
       const result = page.getByTestId(`keyword-result-${category}`);
       await expect(result).toBeVisible();
       await expect(result).not.toBeEmpty();
     }
   });
 
-  test("selected noun group controls generated noun output", async ({ page }) => {
+  test("selected noun group controls generated noun output", async ({
+    page,
+  }) => {
     await page.goto("/random");
     await page.getByTestId("keyword-settings-toggle").click();
     await page.getByTestId("keyword-tab-noun").click();
@@ -293,7 +422,9 @@ test.describe("Random page", () => {
 
     const groups = page.locator('[data-testid^="keyword-group-noun-"]');
     const allowedGroup = await groups.evaluateAll((elements) => {
-      const match = elements.find((element) => element.getAttribute("data-keywords"));
+      const match = elements.find((element) =>
+        element.getAttribute("data-keywords"),
+      );
       return match
         ? {
             testId: match.getAttribute("data-testid"),
@@ -309,7 +440,9 @@ test.describe("Random page", () => {
     await page.getByTestId("keyword-settings-toggle").click();
     await page.getByTestId("random-generate").click();
 
-    const generatedNoun = await page.getByTestId("keyword-result-noun").innerText();
+    const generatedNoun = await page
+      .getByTestId("keyword-result-noun")
+      .innerText();
     expect(allowedGroup!.keywords).toContain(generatedNoun);
   });
 });

@@ -33,7 +33,7 @@ export function KeywordSetting({
   const activeCategory = keywords[activeTab];
 
   return (
-    <section className="w-full max-w-4xl mx-auto mt-8 pb-20">
+    <section className="mx-auto mt-8 w-full max-w-4xl px-4 pb-20 sm:px-0">
       <button
         type="button"
         className="flex items-center gap-2 font-bold"
@@ -47,7 +47,7 @@ export function KeywordSetting({
 
       {isOpen && (
         <div className="mt-4">
-          <div className="flex border-b border-black/20" role="tablist">
+          <div className="flex overflow-x-auto border-b border-black/20" role="tablist">
             {tabs.map(([key, label]) => (
               <button
                 key={key}
@@ -55,7 +55,7 @@ export function KeywordSetting({
                 role="tab"
                 data-testid={`keyword-tab-${key}`}
                 aria-selected={activeTab === key}
-                className={`px-4 py-2 ${activeTab === key ? "font-bold border-b-2 border-black" : ""}`}
+                className={`whitespace-nowrap px-2 py-2 text-sm sm:px-4 sm:text-base ${activeTab === key ? "font-bold border-b-2 border-black" : ""}`}
                 onClick={() => setActiveTab(key)}
               >
                 {label}
@@ -138,7 +138,7 @@ export function KeywordSetting({
               );
             })}
 
-            <p className="py-4 text-sm text-neutral-500">
+            <p className="py-4 text-sm text-neutral-500 text-center">
               해당 데이터는 제가 작성한 키워드를 바탕으로 Gemini로 확장 및
               정제한 자료입니다.
             </p>
