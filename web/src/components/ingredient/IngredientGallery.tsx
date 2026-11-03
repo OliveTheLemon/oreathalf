@@ -7,13 +7,8 @@ import {
   IngredientImageGrid,
 } from "@/components/ingredient/IngredientImageGrid+Button";
 
-const filterCount = 4;
-
 export function IngredientGallery({ group }: { group: IngredientImageGroup }) {
   const [filterIndex, setFilterIndex] = useState(0);
-  const handleFilterClick = () => {
-    setFilterIndex((currentIndex) => (currentIndex + 1) % filterCount);
-  };
 
   return (
     <>
@@ -24,12 +19,10 @@ export function IngredientGallery({ group }: { group: IngredientImageGroup }) {
       </div>
 
       <IngredientImageGrid group={group} filterIndex={filterIndex} />
-      <div className="fixed bottom-6 right-6 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-lg">
-        <IngredientFilterButton
-          filterIndex={filterIndex}
-          onClick={handleFilterClick}
-        />
-      </div>
+      <IngredientFilterButton
+        filterIndex={filterIndex}
+        onSelect={setFilterIndex}
+      />
     </>
   );
 }
