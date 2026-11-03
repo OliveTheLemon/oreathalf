@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import SideMenuController from "@/components/sidemenu/SideMenuController";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export function generateMetadata(): Metadata {
   return {
@@ -25,10 +26,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <Analytics />
         <SideMenuController />
         {children}
-        {/* <div className="pb-12"></div> */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
