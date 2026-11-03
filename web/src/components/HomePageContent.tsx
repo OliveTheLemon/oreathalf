@@ -201,7 +201,7 @@ export function HomePageContent({
           <br />
         </p>
         <p className="text-xl leading-relaxed md:text-2xl">
-          완벽한 식단이 버거운 당신을 위한, '아니면.....절반만 먹기!'
+          완벽한 식단이 버거운 당신을 위한, &apos;아니면.....절반만 먹기!&apos;
         </p>
         <p className="border-b border-neutral-500">
           <br />

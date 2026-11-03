@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import Image from "next/image";
 import {
   createMealPoster,
   downloadMealPoster,
@@ -398,11 +399,14 @@ export function WhatIAteToday() {
           aria-modal="true"
           aria-label="식단 영수증 미리보기"
         >
-          <img
+          <Image
             src={receiptPreview.url}
+            width={Number(receiptPreview.imageSize.split("x")[0])}
+            height={Number(receiptPreview.imageSize.split("x")[1])}
+            unoptimized
             data-testid="meal-poster-image"
             alt="오늘의 식단 영수증"
-            className="receipt-print-animation max-h-[72vh] max-w-[min(82vw,440px)] object-contain shadow-2xl"
+            className="receipt-print-animation h-auto max-h-[72vh] w-auto max-w-[min(82vw,440px)] object-contain shadow-2xl"
           />
           <div className="flex flex-wrap justify-center gap-3">
             <button
