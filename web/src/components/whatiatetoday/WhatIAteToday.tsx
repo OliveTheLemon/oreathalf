@@ -116,7 +116,11 @@ export function WhatIAteToday() {
     setReceiptPreview(null);
     setImageMessage("");
     try {
-      const imageBlob = await createMealPoster(selectedDate, entries, imageSize);
+      const imageBlob = await createMealPoster(
+        selectedDate,
+        entries,
+        imageSize,
+      );
       setReceiptPreview({
         url: URL.createObjectURL(imageBlob),
         blob: imageBlob,
@@ -193,14 +197,7 @@ export function WhatIAteToday() {
   };
 
   return (
-    <main className="min-h-screen bg-background text-foreground pt-[50px] md:pt-[100px]">
-      <header className="flex items-center justify-between border-b border-black/15 px-5 py-4 sm:px-10">
-        <div></div>
-        <span className="text-xs uppercase tracking-[0.12em] text-black/55">
-          food journal / 01
-        </span>
-      </header>
-
+    <main className="min-h-screen bg-background text-foreground pt-[30px] md:pt-[50px]">
       <div className="mx-auto max-w-5xl px-5 pb-20 pt-10 sm:px-10 sm:pt-16">
         <div className="flex flex-wrap items-end justify-between gap-6 border-b-2 border-black pb-7">
           <div>
