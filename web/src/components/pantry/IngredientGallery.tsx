@@ -5,7 +5,7 @@ import type { IngredientImageGroup } from "@/sanity/queries";
 import {
   IngredientFilterButton,
   IngredientImageGrid,
-} from "@/components/ingredient/IngredientImageGrid+Button";
+} from "@/components/pantry/IngredientImageGrid+Button";
 
 export function IngredientGallery({ group }: { group: IngredientImageGroup }) {
   const [filterIndex, setFilterIndex] = useState(0);

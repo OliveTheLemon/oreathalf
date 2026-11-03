@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-const routes = ["/", "/about", "/random", "/whatiatetoday", "/ingredient/2"];
+const routes = ["/", "/about", "/random", "/whatiatetoday", "/pantry/2"];
 const applicationOrigin = new URL(
   process.env.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:3000",
 ).origin;
@@ -113,10 +113,10 @@ test("mobile home gallery opens an ingredient page", async ({ page }) => {
   const popupClose = page.getByTestId("home-popup-close");
   if (await popupClose.isVisible()) await popupClose.click();
 
-  const firstIngredient = page.locator('main a[href^="/ingredient/"]').first();
+  const firstIngredient = page.locator('main a[href^="/pantry/"]').first();
   await expect(firstIngredient).toBeVisible();
   await firstIngredient.click();
-  await expect(page).toHaveURL(/\/ingredient\//);
+  await expect(page).toHaveURL(/\/pantry\//);
   await expect(page.getByTestId("ingredient-filter-toggle")).toBeVisible();
 });
 
@@ -175,11 +175,11 @@ test("mobile meal journal can add an entry", async ({ page }) => {
 
 test("mobile ingredient filter can be changed", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/ingredient/2");
+  await page.goto("/pantry/2");
 
   const filter = page.getByTestId("ingredient-filter-toggle");
-  const initialLabel = await filter.getAttribute("aria-label");
   await expect(filter).toBeVisible();
   await filter.click();
-  await expect(filter).not.toHaveAttribute("aria-label", initialLabel ?? "");
+  await page.getByTestId("ingredient-filter-option-dish").click();
+  await expect(filter).toHaveAttribute("data-filter-state", "dish");
 });

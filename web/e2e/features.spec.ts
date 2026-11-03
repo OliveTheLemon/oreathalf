@@ -97,13 +97,13 @@ test.describe("Home page", () => {
     await goToHome(page);
     await closeHomePopup(page);
 
-    const ingredientLink = page.locator('main a[href^="/ingredient/"]').first();
+    const ingredientLink = page.locator('main a[href^="/pantry/"]').first();
     await expect(ingredientLink).toBeVisible();
     const destination = await ingredientLink.getAttribute("href");
     const expectedName = await ingredientLink.getAttribute(
       "data-ingredient-name",
     );
-    expect(destination).toMatch(/^\/ingredient\/\d+$/);
+    expect(destination).toMatch(/^\/pantry\/\d+$/);
     expect(expectedName).toBeTruthy();
 
     await ingredientLink.click();
@@ -148,7 +148,7 @@ test.describe("Ingredient page", () => {
     page,
   }) => {
     const expectedName = String.fromCodePoint(0xc544, 0xce68);
-    const response = await page.goto("/ingredient/2");
+    const response = await page.goto("/pantry/2");
     expect(response?.status()).toBe(200);
 
     const heading = page.getByRole("heading", { level: 1 });
@@ -162,7 +162,7 @@ test.describe("Ingredient page", () => {
   test("expanded filter menu selects each category and highlights the active option", async ({
     page,
   }) => {
-    await page.goto("/ingredient/2");
+    await page.goto("/pantry/2");
 
     const filter = page.getByTestId("ingredient-filter-toggle");
     const grid = page.getByTestId("ingredient-image-grid");
@@ -203,7 +203,7 @@ test.describe("Ingredient page", () => {
   });
 
   test("external-link images show the link icon", async ({ page }) => {
-    await page.goto("/ingredient/2");
+    await page.goto("/pantry/2");
     const linkedImages = page.locator(
       '[data-testid="ingredient-image-grid"] a[href^="http"]',
     );

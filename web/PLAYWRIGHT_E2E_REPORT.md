@@ -9,7 +9,7 @@ Run on 2026-11-02 with the local Next.js development server and Chromium.
 | Page | Route | Implementation notes |
 | --- | --- | --- |
 | Home | `/` | `HomePageContent` loads ingredient groups and the popup image from the configured Sanity dataset. `next/image` serves the remote Sanity images. The popup's hide-for-today choice is stored in `localStorage`, keyed by the popup image URL, until the next 23:00 KST. |
-| Ingredient detail | `/ingredient/[ingredientNumber]` (`/ingredient/2` in these tests) | The server queries existing `ingrePhotograph` documents through `getIngredientGroupById`. The client filters images by categories `0`, `1`, and `2`, with the all-images state cycling before them. |
+| Ingredient detail | `/pantry/[ingredientNumber]` (`/pantry/2` in these tests) | The server queries existing `ingrePhotograph` documents through `getIngredientGroupById`. The client filters images by categories `0`, `1`, and `2`, with the all-images state available from the floating filter menu. |
 | About | `/about` | `AboutExperience` owns the vertically scrollable page. `AboutContent` contains horizontal scroll panels and background images hosted by Unsplash. |
 | Food journal | `/whatiatetoday` | Add, edit, and delete operations update browser `localStorage` under `oreathalf-meal-journal-v1`. Poster generation draws to a canvas, creates a PNG blob, and downloads it through a temporary object URL. |
 | Random keywords | `/random` | Keyword source files are read locally. Noun, verb/adjective/adverb, and style can be filtered by group; purpose is not selectable. Empty selections show a dialog instead of choosing an undefined value. |
@@ -62,7 +62,7 @@ The full run completed with **27 passed, 0 failed**. This includes the 12 featur
 | random | Generate keywords | PASS | Noun, verb/adjective/adverb, style, and purpose results are populated. |
 | random | Exclude groups | PASS | With all noun groups disabled except one, generated noun belongs to the selected group's keyword set. |
 
-Common checks run for `/`, `/about`, `/random`, `/whatiatetoday`, and `/ingredient/2`:
+Common checks run for `/`, `/about`, `/random`, `/whatiatetoday`, and `/pantry/2`:
 
 - HTTP status and final pathname are checked for each expected route.
 - Application and external HTTP errors are collected and asserted separately.
