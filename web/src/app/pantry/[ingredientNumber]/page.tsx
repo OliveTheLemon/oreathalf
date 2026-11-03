@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import { IngredientDetailContent } from "@/components/ingredient/IngredientDetailContent";
-import { IngredientGallery } from "../../../components/ingredient/IngredientGallery";
+import { IngredientDetailContent } from "@/components/pantry/IngredientDetailContent";
+import { IngredientGallery } from "../../../components/pantry/IngredientGallery";
 import { getIngredientGroupById } from "@/sanity/queries";
 
 export default async function IngredientPage({

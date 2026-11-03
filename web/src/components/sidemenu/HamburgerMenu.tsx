@@ -16,7 +16,7 @@ export default function HamburgerMenu({ isOpen, onClose }: HamburgerMenuProps) {
   const navigateToRandomIngredient = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     const ingredientNumber = Math.floor(Math.random() * 25) + 2;
-    router.push(`/ingredient/${ingredientNumber}`);
+    router.push(`/pantry/${ingredientNumber}`);
     onClose();
   };
 
@@ -54,8 +54,8 @@ export default function HamburgerMenu({ isOpen, onClose }: HamburgerMenuProps) {
         </button>
         <MenuItem title="Home" href="/" onSelect={closeMenu} />
         <MenuItem
-          title="Ingredient"
-          href="/ingredient/2"
+          title="Pantry/[n]"
+          href="/pantry/2"
           onSelect={navigateToRandomIngredient}
         />
         <MenuItem title="About" href="/about" onSelect={closeMenu} />
