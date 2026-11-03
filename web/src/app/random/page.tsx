@@ -75,6 +75,9 @@ export default async function RandomKeywordPage() {
         <h1 className="text-3xl font-bold mb-4 text-center">
           랜덤 키워드 생성기
         </h1>
+        <p className="text-center text-sm text-neutral-500 mt-4">
+          포스터 만들기 연습을 위한 랜덤 키워드 생성기 입니다.
+        </p>
         <RandomKeywordGenerator keywords={keywords} />
       </div>
     </>

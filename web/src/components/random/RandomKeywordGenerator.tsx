@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { KeywordSetting } from "@/components/random/KeywordSetting";
 import { TitleKeywordOutput } from "@/components/random/TitleKeywordOutput";
+import { saveGeneratedImage as downloadGeneratedImage } from "@/components/random/saveGeneratedImage";
 
 export interface KeywordSubgroup {
   title: string;
@@ -102,6 +103,33 @@ export function RandomKeywordGenerator({
     purpose: "",
   });
   const [showSelectionModal, setShowSelectionModal] = useState(false);
+  const [actionMessage, setActionMessage] = useState("");
+
+  const generatedText = outputs
+    .filter(({ key }) => selected[key])
+    .map(({ key, title }) => `${title}: ${selected[key]}`)
+    .join("\n");
+
+  const copyGeneratedText = async () => {
+    if (!generatedText) return;
+
+    try {
+      await navigator.clipboard.writeText(generatedText);
+      setActionMessage("키워드를 복사했습니다.");
+    } catch {
+      setActionMessage("복사하지 못했습니다. 브라우저 권한을 확인해 주세요.");
+    }
+  };
+
+  const handleSaveGeneratedImage = () => {
+    if (!generatedText) return;
+
+    if (!downloadGeneratedImage(generatedText)) {
+      setActionMessage("이미지를 저장하지 못했습니다.");
+      return;
+    }
+    setActionMessage("키워드 이미지를 저장했습니다.");
+  };
 
   const getAvailableKeywords = (key: KeywordKey) =>
     key === "purpose"
@@ -198,7 +226,7 @@ export function RandomKeywordGenerator({
             />
           ))}
         </div>
-        <div className="flex gap-2 mt-4">
+        <div className="mt-4 flex flex-wrap justify-center gap-2">
           <button
             type="button"
             className="bg-white text-black py-2 px-4 rounded"
@@ -215,9 +243,31 @@ export function RandomKeywordGenerator({
             만들기
           </button>
         </div>
+        <div className="mt-3 flex flex-wrap justify-center gap-2 text-xs">
+          <button
+            type="button"
+            className="rounded bg-neutral-300 px-4 py-2 text-black disabled:cursor-not-allowed disabled:opacity-40"
+            onClick={copyGeneratedText}
+            disabled={!generatedText}
+          >
+            키워드 텍스트 복사
+          </button>
+          <button
+            type="button"
+            className="rounded bg-neutral-300 px-4 py-2 text-black disabled:cursor-not-allowed disabled:opacity-40"
+            onClick={handleSaveGeneratedImage}
+            disabled={!generatedText}
+          >
+            이미지로 저장
+          </button>
+        </div>
+        {actionMessage && (
+          <p className="mt-2 text-sm text-neutral-600" role="status">
+            {actionMessage}
+          </p>
+        )}
       </div>
       <p className="text-center text-sm text-neutral-500 mt-4">
-        포스터 만들기 연습을 위한 랜덤 키워드 생성기 입니다.
         <br /> [만들기]버튼을 누르면 각 키워드가 생성되고, 개별로 새로고침도
         가능합니다.
         <br /> 아래 설정에서 포함/제외하고 싶은 주제도 선택할 수 있습니다.
