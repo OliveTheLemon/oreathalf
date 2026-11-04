@@ -10,19 +10,11 @@ import {
   type ImageSize,
   type MealType,
 } from "@/components/whatiatetoday/mealPoster";
-
-type MealEntry = {
-  id: string;
-  meal: MealType;
-  time: string;
-  food: string;
-  note: string;
-  eatHalf: boolean;
-};
-
-type MealDraft = Omit<MealEntry, "id">;
-
-const storageKey = "oreathalf-meal-journal-v1";
+import {
+  useMealJournal,
+  type MealDraft,
+  type MealEntry,
+} from "@/components/whatiatetoday/useMealJournal";
 
 function getLocalDateKey(date: Date) {
   const year = date.getFullYear();
@@ -63,10 +55,6 @@ function createEmptyDraft(meal: MealType): MealDraft {
 
 export function WhatIAteToday() {
   const [selectedDate, setSelectedDate] = useState("");
-  const [entriesByDate, setEntriesByDate] = useState<
-    Record<string, MealEntry[]>
-  >({});
-  const [isReady, setIsReady] = useState(false);
   const [draft, setDraft] = useState<MealDraft | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [imageSize, setImageSize] = useState<ImageSize>("1080x1350");
@@ -78,39 +66,33 @@ export function WhatIAteToday() {
     imageSize: ImageSize;
   } | null>(null);
   const [imageMessage, setImageMessage] = useState("");
+  const [journalMessage, setJournalMessage] = useState("");
+  const [email, setEmail] = useState("");
+  const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false);
+  const [isSendingMagicLink, setIsSendingMagicLink] = useState(false);
+  const journal = useMealJournal(selectedDate);
 
   useEffect(() => {
     setSelectedDate(getLocalDateKey(new Date()));
-    try {
-      const savedEntries = window.localStorage.getItem(storageKey);
-      if (savedEntries) {
-        const parsedEntries = JSON.parse(savedEntries) as Record<
-          string,
-          MealEntry[]
-        >;
-        if (parsedEntries && typeof parsedEntries === "object") {
-          setEntriesByDate(parsedEntries);
-        }
-      }
-    } catch {
-      window.localStorage.removeItem(storageKey);
-    }
-    setIsReady(true);
   }, []);
 
   useEffect(() => {
-    if (isReady) {
-      window.localStorage.setItem(storageKey, JSON.stringify(entriesByDate));
-    }
-  }, [entriesByDate, isReady]);
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("auth") !== "error") return;
+
+    setIsAuthDialogOpen(true);
+    setJournalMessage("로그인 링크가 만료되었거나 이미 사용되었습니다. 새 링크를 요청해 주세요.");
+    url.searchParams.delete("auth");
+    window.history.replaceState(null, "", url.toString());
+  }, []);
 
   useEffect(() => {
     if (!receiptPreview) return;
     return () => URL.revokeObjectURL(receiptPreview.url);
   }, [receiptPreview]);
 
-  const entries = entriesByDate[selectedDate] ?? [];
-  const todayKey = isReady ? getLocalDateKey(new Date()) : "";
+  const entries = journal.entries;
+  const todayKey = selectedDate ? getLocalDateKey(new Date()) : "";
 
   const createImage = async () => {
     setIsGeneratingImage(true);
@@ -163,38 +145,68 @@ export function WhatIAteToday() {
     });
   };
 
-  const saveEntry = (event: FormEvent<HTMLFormElement>) => {
+  const saveEntry = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!draft || !draft.food.trim()) return;
 
-    setEntriesByDate((current) => {
-      const currentEntries = current[selectedDate] ?? [];
-      const nextEntry = {
-        ...draft,
-        food: draft.food.trim(),
-        note: draft.note.trim(),
-      };
-      const nextEntries = editingId
-        ? currentEntries.map((entry) =>
-            entry.id === editingId
-              ? { ...entry, ...nextEntry, eatHalf: draft.eatHalf }
-              : entry,
-          )
-        : [...currentEntries, { ...nextEntry, id: crypto.randomUUID() }];
+    const nextEntry: MealEntry = {
+      ...draft,
+      id: editingId ?? crypto.randomUUID(),
+      food: draft.food.trim(),
+      note: draft.note.trim(),
+    };
 
-      return { ...current, [selectedDate]: nextEntries };
-    });
-    setDraft(null);
-    setEditingId(null);
+    try {
+      await journal.saveEntry(selectedDate, nextEntry);
+      setJournalMessage("");
+      setDraft(null);
+      setEditingId(null);
+    } catch (error) {
+      setJournalMessage(
+        error instanceof Error ? error.message : "기록을 저장하지 못했습니다.",
+      );
+    }
   };
 
-  const deleteEntry = (entryId: string) => {
-    setEntriesByDate((current) => ({
-      ...current,
-      [selectedDate]: (current[selectedDate] ?? []).filter(
-        (entry) => entry.id !== entryId,
-      ),
-    }));
+  const deleteEntry = async (entryId: string) => {
+    try {
+      await journal.deleteEntry(selectedDate, entryId);
+      setJournalMessage("");
+    } catch (error) {
+      setJournalMessage(
+        error instanceof Error ? error.message : "기록을 삭제하지 못했습니다.",
+      );
+    }
+  };
+
+  const sendMagicLink = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSendingMagicLink(true);
+    setJournalMessage("");
+
+    try {
+      await journal.sendMagicLink(email);
+      setJournalMessage(
+        "로그인 링크를 보냈습니다. 기록을 백업하려면 이 브라우저에서 이메일 링크를 열어 주세요.",
+      );
+    } catch (error) {
+      setJournalMessage(
+        error instanceof Error ? error.message : "로그인 링크를 보내지 못했습니다.",
+      );
+    } finally {
+      setIsSendingMagicLink(false);
+    }
+  };
+
+  const signOut = async () => {
+    try {
+      await journal.signOut();
+      setJournalMessage("");
+    } catch (error) {
+      setJournalMessage(
+        error instanceof Error ? error.message : "로그아웃하지 못했습니다.",
+      );
+    }
   };
 
   return (
@@ -277,7 +289,17 @@ export function WhatIAteToday() {
                   <h2 className="sunflower-bold mt-1 text-lg">{meal}</h2>
                 </div>
                 <div>
-                  {mealEntries.length === 0 ? (
+                  {journal.mode === "loading" ||
+                  journal.mode === "backing-up" ||
+                  journal.isLoadingEntries ? (
+                    <p className="py-1 text-sm text-black/45" role="status">
+                      기록을 불러오는 중이에요
+                    </p>
+                  ) : journal.isQueryError ? (
+                    <p className="py-1 text-sm text-red-700" role="alert">
+                      계정 기록을 불러오지 못했어요.
+                    </p>
+                  ) : mealEntries.length === 0 ? (
                     <p className="py-1 text-sm text-black/35">
                       아직 기록이 없어요
                     </p>
@@ -319,6 +341,7 @@ export function WhatIAteToday() {
                               type="button"
                               aria-label={`${entry.food} 삭제`}
                               onClick={() => deleteEntry(entry.id)}
+                              disabled={journal.isDeletingEntry}
                               className="underline underline-offset-4 hover:text-black"
                             >
                               삭제
@@ -332,6 +355,7 @@ export function WhatIAteToday() {
                     type="button"
                     data-testid="meal-add-entry"
                     onClick={() => openNewEntry(meal)}
+                    disabled={journal.mode === "loading" || journal.mode === "backing-up"}
                     className="mt-3 border-b border-black/40 pb-1 text-xs transition-colors hover:border-black hover:text-black/60"
                   >
                     + 기록 추가
@@ -385,11 +409,158 @@ export function WhatIAteToday() {
           </div>
         </section>
 
-        <footer className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-black/20 pt-5 text-xs text-black/50">
-          <p>기록은 이 브라우저에 저장됩니다.</p>
-          <p>{entries.length}개의 식사 기록</p>
+        <footer className="mt-8 border-t border-black/20 pt-5 text-xs text-black/55">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              {journal.mode === "account" ? (
+                <>
+                  <p>로그인된 계정에 기록을 저장하고 있습니다.</p>
+                  {journal.user?.email && (
+                    <p className="mt-1 text-black/40">{journal.user.email}</p>
+                  )}
+                </>
+              ) : journal.mode === "backing-up" ? (
+                <p role="status">현재 브라우저 기록을 계정에 백업하고 있습니다.</p>
+              ) : journal.mode === "backup-error" ? (
+                <p role="alert" className="text-red-700">
+                  백업에 실패했습니다. 기록은 이 브라우저에 남아 있습니다.
+                  {journal.backupError ? ` (${journal.backupError})` : ""}
+                </p>
+              ) : journal.mode === "loading" ? (
+                <p role="status">기록 저장 상태를 확인하고 있습니다.</p>
+              ) : (
+                <p>
+                  로그인 없이 사용할 수 있으며, 기록은 현재 브라우저에만
+                  저장됩니다. 로그인하면 기존 기록을 계정에 백업하고 다른
+                  기기에서도 사용할 수 있습니다.
+                </p>
+              )}
+            </div>
+
+            <p>{entries.length}개의 식사 기록</p>
+          </div>
+
+          <div className="mt-3 flex flex-wrap items-center gap-3">
+            {journal.mode === "account" ? (
+              <button
+                type="button"
+                onClick={signOut}
+                className="underline underline-offset-4"
+              >
+                로그아웃
+              </button>
+            ) : journal.mode === "backup-error" ? (
+              <button
+                type="button"
+                onClick={journal.retryBackup}
+                className="underline underline-offset-4"
+              >
+                백업 다시 시도
+              </button>
+            ) : journal.mode === "guest" && journal.isSupabaseConfigured ? (
+              <button
+                type="button"
+                onClick={() => setIsAuthDialogOpen(true)}
+                className="border border-black/30 px-3 py-2 text-black transition-colors hover:bg-black hover:text-white"
+              >
+                로그인하고 기록 백업
+              </button>
+            ) : journal.mode === "guest" ? (
+              <p className="text-black/40">
+                계정 백업은 Supabase 설정 후 사용할 수 있습니다.
+              </p>
+            ) : null}
+          </div>
+
+          {journalMessage && (
+            <p className="mt-3" role="status">
+              {journalMessage}
+            </p>
+          )}
         </footer>
       </div>
+
+      {isAuthDialogOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 px-4 py-8"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setIsAuthDialogOpen(false);
+            }
+          }}
+        >
+          <form
+            onSubmit={sendMagicLink}
+            className="w-full max-w-md border border-black bg-background p-6 shadow-2xl sm:p-8"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="meal-account-title"
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-xs text-black/50">BACK UP YOUR JOURNAL</p>
+                <h2
+                  id="meal-account-title"
+                  className="sunflower-bold mt-2 text-2xl"
+                >
+                  로그인하고 기록 백업
+                </h2>
+              </div>
+              <button
+                type="button"
+                aria-label="닫기"
+                onClick={() => setIsAuthDialogOpen(false)}
+                className="h-9 w-9 text-xl hover:bg-black/5"
+              >
+                ×
+              </button>
+            </div>
+
+            <p className="mt-4 text-sm leading-relaxed text-black/60">
+              이메일로 매직링크를 보내드립니다. 기존 기록을 백업하려면 링크를
+              요청한 이 브라우저에서 열어 주세요. 처음 사용하는 이메일은
+              계정이 자동으로 만들어집니다.
+            </p>
+
+            <label className="mt-6 block text-xs text-black/60">
+              이메일
+              <input
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="you@example.com"
+                className="mt-2 h-12 w-full border border-black/25 bg-white px-3 text-sm text-black outline-none placeholder:text-black/30 focus:border-black"
+              />
+            </label>
+
+            {journalMessage && (
+              <p className="mt-3 text-sm text-black/65" role="status">
+                {journalMessage}
+              </p>
+            )}
+
+            <div className="mt-6 flex justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setIsAuthDialogOpen(false)}
+                className="border border-black/25 px-5 py-3 text-sm hover:border-black"
+              >
+                취소
+              </button>
+              <button
+                type="submit"
+                disabled={isSendingMagicLink || !email.trim()}
+                className="bg-black px-5 py-3 text-sm text-white transition-colors hover:bg-black/75 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                {isSendingMagicLink ? "보내는 중..." : "매직링크 보내기"}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
 
       {receiptPreview && (
         <div
@@ -546,9 +717,14 @@ export function WhatIAteToday() {
               <button
                 type="submit"
                 data-testid="meal-save-entry"
-                className="bg-black px-6 py-3 text-sm text-white transition-colors hover:bg-black/75"
+                disabled={
+                  journal.isSavingEntry ||
+                  journal.mode === "loading" ||
+                  journal.mode === "backing-up"
+                }
+                className="bg-black px-6 py-3 text-sm text-white transition-colors hover:bg-black/75 disabled:cursor-not-allowed disabled:opacity-40"
               >
-                저장
+                {journal.isSavingEntry ? "저장 중..." : "저장"}
               </button>
             </div>
           </form>

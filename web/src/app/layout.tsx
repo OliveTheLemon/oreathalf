@@ -2,6 +2,7 @@ import * as Sentry from "@sentry/nextjs";
 import type { Metadata } from "next";
 import "./globals.css";
 import SideMenuController from "@/components/sidemenu/SideMenuController";
+import { Providers } from "@/app/providers";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -26,10 +27,12 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <SideMenuController />
-        {children}
-        <Analytics />
-        <SpeedInsights />
+        <Providers>
+          <SideMenuController />
+          {children}
+          <Analytics />
+          <SpeedInsights />
+        </Providers>
       </body>
     </html>
   );
