@@ -16,6 +16,11 @@ export function generateMetadata(): Metadata {
     other: {
       ...Sentry.getTraceData(),
     },
+    verification: {
+      other: {
+        "naver-site-verification": "92ce44ae2aed889870a2806a087359cbe9824962",
+      },
+    },
   };
 }
 

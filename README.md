@@ -60,7 +60,8 @@ or…..eat half! 를 o.eh! 로 줄였고,
 ### 🧪 whatiatetoday
 
 - 식단을 기록할 수 있습니다.
-- 데이터는 브라우저에 저장됩니다.
+- 데이터는 기본적으로 브라우저에 저장됩니다.
+- 이메일로 로그인 후 백업할 수 있습니다.
 - 기록한 내용을 영수증 형태 이미지로 미리보고, 저장할 수 있습니다.
 
 ### 🧪 random
@@ -85,20 +86,25 @@ or…..eat half! 를 o.eh! 로 줄였고,
 ## 🤖 AI 활용 리팩토링
 
 - 기획 비교하여 개선점 찾기
-- 모니터링 코드 작성(Playwright, Gihub Actions, Sentry)
+- 모니터링 코드 작성 (Playwright, Gihub Actions, Sentry)
 - 개선 후 가상 페르소나 테스트를 통해 피드백 확인
-- (예정) 상태 관리 기술 도입
-- (예정) 추가 데이터 베이스 도입
+- 상태 관리 기술 도입
+- 추가 데이터 베이스 도입
 
 ### 🪾 Branch 별 설명
 
 - renewal : 1차 완성 이후 직접 개선점을 찾아 수정
 - refactor/ai-review
-  - ai를 통해 리팩토링
+  - ai를 통한 리팩토링
   - 기획 리뷰를 통한 개선점 확인
   - 가상 페르소나를 통한 개선점 확인
   - 모니터링 및 자동화 코드 추가
   - 개선점 피드백
+- refactor/ai-state-management
+  - ai를 통한 리팩토링
+  - supabase 및 react-query 도입
+  - 식단 기록 데이터 백업 기능
+  - zustand의 경우 아직 필요한 단계가 아니라 보류
 
 <br/>
 
