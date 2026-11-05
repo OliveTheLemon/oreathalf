@@ -3,7 +3,7 @@ import { WhatIAteToday } from "@/components/whatiatetoday/WhatIAteToday";
 
 export const metadata: Metadata = {
   title: "오늘 먹은 것 | oreathalf",
-  description: "오늘의 식사를 기록하고 돌아보세요.",
+  description: "오늘의 식사를 기록하고 돌아보기",
 };
 
 export default function WhatIAteTodayPage() {

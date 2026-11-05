@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { IngredientDetailContent } from "@/components/pantry/IngredientDetailContent";
 import { IngredientGallery } from "../../../components/pantry/IngredientGallery";
 import { getIngredientGroupById } from "@/sanity/queries";
+
+export const metadata: Metadata = {
+  title: "pantry | oreathalf",
+  description: "재료별 사진 아카이브 (재료, 요리, 디자인)",
+};
 
 export default async function IngredientPage({
   params,

@@ -318,6 +318,48 @@ test.describe("whatIatetoday journal", () => {
     expect(displayedFoods).toContain(food);
   });
 
+  test("explains browser-only storage and handles a mocked magic-link request", async ({
+    page,
+  }) => {
+    await page.goto("/whatiatetoday");
+    await expect(
+      page.getByText(/로그인 없이 사용할 수 있으며, 기록은 현재 브라우저에만 저장됩니다/),
+    ).toBeVisible();
+
+    const loginButton = page.getByRole("button", {
+      name: "로그인하고 기록 백업",
+    });
+
+    if (!(await loginButton.isVisible())) {
+      await expect(
+        page.getByText("계정 백업은 Supabase 설정 후 사용할 수 있습니다."),
+      ).toBeVisible();
+      return;
+    }
+
+    await loginButton.click();
+    const dialog = page.getByRole("dialog", { name: "로그인하고 기록 백업" });
+    await expect(dialog).toBeVisible();
+    await dialog.getByLabel("이메일").fill("playwright-test@example.com");
+
+    let requestedEmail = "";
+    await page.route("**/auth/v1/otp**", async (route) => {
+      const body = route.request().postDataJSON() as { email?: string };
+      requestedEmail = body.email ?? "";
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({}),
+      });
+    });
+
+    await dialog.getByRole("button", { name: "매직링크 보내기" }).click();
+    await expect(dialog.getByRole("status")).toContainText(
+      "로그인 링크를 보냈습니다",
+    );
+    expect(requestedEmail).toBe("playwright-test@example.com");
+  });
+
   test("creates a poster image and downloads a valid PNG", async ({ page }) => {
     await page.goto("/whatiatetoday");
     await addMealEntry(page, "E2E poster meal");

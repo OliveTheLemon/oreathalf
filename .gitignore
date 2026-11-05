@@ -35,18 +35,18 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
-.gitignore
 
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
 
-# Local env files
+# Local env files and secrets
 *.local
 .env*.local
-
-opengraph-image.png
 .env*
+# Keep sanitized environment templates trackable.
+!.env.example
+!.env.*.example
 
 # upload image folder
 /uploads

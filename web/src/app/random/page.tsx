@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
@@ -5,6 +6,11 @@ import {
   type KeywordCategory,
   type KeywordGroup,
 } from "@/components/random/RandomKeywordGenerator";
+
+export const metadata: Metadata = {
+  title: "랜덤 키워드 생성기 | oreathalf",
+  description: "디자인 작업에 활용할 4가지 키워드를 만들기",
+};
 
 function readKeywords(fileName: string): KeywordCategory {
   const filePath = join(process.cwd(), "src", "assets", "keywords", fileName);

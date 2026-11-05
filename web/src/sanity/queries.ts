@@ -1,5 +1,7 @@
 import { client } from "./client";
 
+const SANITY_REVALIDATE_SECONDS = 60;
+
 export type SanityImageItem = {
   _id: string;
   title: string;
@@ -89,7 +91,7 @@ export async function getIngredientImages(ingredientNumbers: number[]) {
   }`,
     { ingredientNumbers },
     {
-      next: { revalidate: 60 },
+      next: { revalidate: SANITY_REVALIDATE_SECONDS },
     },
   );
 
@@ -111,7 +113,7 @@ export async function getImagesByIds(imageIds: string[]) {
       }
     }`,
     { imageIds },
-    { next: { revalidate: 60 } },
+    { next: { revalidate: SANITY_REVALIDATE_SECONDS } },
   );
 }
 
@@ -126,8 +128,8 @@ export async function getPopupImage() {
         alt
       }
     }`,
-    // {},
-    // { cache: "no-store" },
+    {},
+    { next: { revalidate: SANITY_REVALIDATE_SECONDS } },
   );
 }
 
@@ -150,7 +152,7 @@ export async function getIngredientGroupById(
       }
     }`,
     { ingredientNumber: normalizedIngredientNumber },
-    // { cache: "no-store" },
+    { next: { revalidate: SANITY_REVALIDATE_SECONDS } },
   );
 
   const groups = buildIngredientGroups(images);

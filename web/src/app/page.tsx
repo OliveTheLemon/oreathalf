@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   getImagesByIds,
   getIngredientImages,
@@ -5,6 +6,12 @@ import {
   type IngredientHoverImageSelection,
 } from "@/sanity/queries";
 import { HomePageContent } from "@/components/HomePageContent";
+
+export const metadata: Metadata = {
+  title: "Home | oreathalf",
+  description:
+    "완벽한 식단이 버거운 당신을 위한, &apos;아니면.....절반만 먹기!&apos;",
+};
 
 const carouselIngredientNumbers = [2, 3, 4, 5, 6, 17, 18, 19, 26];
 const homeIngredientOrder = [
